@@ -9,6 +9,6 @@ import java.util.List;
 @Mapper
 public interface TripMapper {
 
-    @Select("SELECT id, price FROM public.trips")
+    @Select("SELECT id, price FROM trips")
     List<TripDTO> findAll();
 }

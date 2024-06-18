@@ -16,8 +16,8 @@ public class MapperConfig {
     @Bean
     public DataSource dataSource() {
         return DataSourceBuilder.create()
-                .url("jdbc:postgresql://localhost:5432/tripfinderdb")
-                .driverClassName("org.postgresql.Driver")
+                .url("jdbc:h2:mem:test;MODE=PostgreSQL;INIT=RUNSCRIPT FROM 'src/main/resources/schema.sql'")
+                .driverClassName("org.h2.Driver")
                 .username("myuser")
                 .password("1234")
                 .build();
