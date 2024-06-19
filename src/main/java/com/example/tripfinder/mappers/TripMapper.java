@@ -9,6 +9,15 @@ import java.util.List;
 @Mapper
 public interface TripMapper {
 
-    @Select("SELECT id, price FROM trips")
-    List<TripDTO> findAll();
+    @Select(
+            "SELECT id, price, ((#{maxPrice}-price) * #{priceImportance}) AS score " +
+                    "FROM trips " +
+                    "WHERE price <= #{maxPrice} " +
+                    "ORDER BY score DESC " +
+                    "LIMIT #{limit}"
+    )
+    List<TripDTO> findAll(
+            float maxPrice,
+            float priceImportance,
+            int limit);
 }

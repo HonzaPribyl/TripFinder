@@ -8,4 +8,5 @@ import lombok.Data;
 public class TripDTO {
     private Long id;
     private float price;
+    private int score;
 }
