@@ -1,7 +1,8 @@
 package com.example.tripfinder.controllers;
 
-import com.example.tripfinder.mappers.TripMapper;
 import com.example.tripfinder.model.TripDTO;
+import com.example.tripfinder.services.TripService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,21 +10,20 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 public class TripController {
 
-    private final TripMapper tripMapper;
-
-    public TripController(TripMapper tripMapper) {
-        this.tripMapper = tripMapper;
-    }
+    private final TripService tripService;
 
     @GetMapping("/search")
     public List<TripDTO> search(
             @RequestParam float maxPrice,
             @RequestParam float priceImp,
-            @RequestParam int limit
-    ) {
-        return tripMapper.findAll(maxPrice, priceImp, limit);
+            @RequestParam int limit,
+            @RequestParam String from,
+            @RequestParam String to
+            ) {
+        return tripService.search(maxPrice, priceImp, limit, from, to);
     }
 
 }

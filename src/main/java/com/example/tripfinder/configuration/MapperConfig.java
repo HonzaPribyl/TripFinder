@@ -18,8 +18,6 @@ public class MapperConfig {
         return DataSourceBuilder.create()
                 .url("jdbc:h2:mem:test;MODE=PostgreSQL;INIT=RUNSCRIPT FROM 'src/main/resources/schema.sql'")
                 .driverClassName("org.h2.Driver")
-                .username("myuser")
-                .password("1234")
                 .build();
     }
 
