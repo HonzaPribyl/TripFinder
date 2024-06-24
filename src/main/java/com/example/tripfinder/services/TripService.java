@@ -4,14 +4,12 @@ import com.example.tripfinder.mappers.TripMapper;
 import com.example.tripfinder.model.TripDTO;
 import jakarta.annotation.Nonnull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RequiredArgsConstructor
-@Service
 public class TripService {
     private static DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
