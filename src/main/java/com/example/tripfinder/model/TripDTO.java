@@ -10,6 +10,8 @@ import java.time.LocalDate;
 public class TripDTO {
     private Long id;
     private float price;
+    private String hotel;
+    private String beachDist;
     private LocalDate dateFrom;
     private LocalDate dateTo;
     private int score;
