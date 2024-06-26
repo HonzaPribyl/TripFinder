@@ -18,7 +18,13 @@ public interface TripMapper {
             "bd.name AS beachDistance, " +
             "t.date_from AS dateFrom, " +
             "t.date_to AS dateTo, " +
-            "((#{maxPrice}-t.price) * #{priceImportance}) AS score " +
+            "((#{maxPrice}-t.price) * #{priceImportance} " +
+            "+ CASE " +
+                    "WHEN bd.id = 1 THEN 90 " +
+                    "WHEN bd.id = 2 THEN 75 " +
+                    "WHEN bd.id = 3 THEN 60 " +
+                    "WHEN bd.id = 4 THEN 40 " +
+            "END) AS score " +
             "FROM trips t " +
             "JOIN hotels hot ON t.hotel = hot.id " +
             "JOIN beach_distance bd ON hot.beach_dist = bd.id " +
