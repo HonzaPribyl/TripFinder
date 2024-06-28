@@ -20,10 +20,11 @@ public class TripController {
             @RequestParam float maxPrice,
             @RequestParam float priceImp,
             @RequestParam int limit,
+            @RequestParam String beachDistImp,
             @RequestParam String from,
             @RequestParam String to
             ) {
-        return tripService.search(maxPrice, priceImp, limit, from, to);
+        return tripService.search(maxPrice, priceImp, limit, beachDistImp, from, to);
     }
 
 }

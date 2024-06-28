@@ -25,7 +25,7 @@ public interface TripMapper {
                     "WHEN bd.id = 2 THEN 75 " +
                     "WHEN bd.id = 3 THEN 60 " +
                     "WHEN bd.id = 4 THEN 40 " +
-            "END AS beachDistScore " +
+            "END * CAST(#{beachDistImp} AS numeric) AS beachDistScore " +
             "FROM trips t " +
             "JOIN hotels hot ON t.hotel = hot.id " +
             "JOIN beach_distance bd ON hot.beach_dist = bd.id " +
@@ -42,7 +42,7 @@ public interface TripMapper {
             "dateTo, " +
             "priceScore, " +
             "beachDistScore, " +
-            "(priceScore + beachDistScore) AS totalScore " +
+            "(priceScore + beachDistScore) AS totalScore, " +
             "FROM cte " +
             "ORDER BY totalScore DESC " +
             "LIMIT #{limit}"
@@ -50,6 +50,7 @@ public interface TripMapper {
     List<TripDTO> searchTrips(
             float maxPrice,
             float priceImportance,
+            float beachDistImp,
             int limit,
             LocalDate from,
             LocalDate to);

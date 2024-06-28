@@ -14,7 +14,7 @@ public class TripDTO {
     private String beachDist;
     private LocalDate dateFrom;
     private LocalDate dateTo;
-    private int priceScore;
-    private int beachDistScore;
-    private int totalScore;
+    private float priceScore;
+    private float beachDistScore;
+    private float totalScore;
 }
