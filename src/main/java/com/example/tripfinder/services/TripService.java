@@ -26,8 +26,9 @@ public class TripService {
     public List<TripDTO> search(
             float maxPrice,
             float priceImp,
-            int limit,
             @Nonnull final String beachDistImp,
+            int persons,
+            int limit,
             @Nonnull final String from,
             @Nonnull final String to
     ) {
@@ -45,6 +46,7 @@ public class TripService {
                 maxPrice,
                 priceImp,
                 beachDistImpCoeff,
+                persons,
                 limit,
                 dateFrom,
                 dateTo

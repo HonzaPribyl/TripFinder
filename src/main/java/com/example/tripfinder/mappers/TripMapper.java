@@ -30,6 +30,7 @@ public interface TripMapper {
             "JOIN hotels hot ON t.hotel = hot.id " +
             "JOIN beach_distance bd ON hot.beach_dist = bd.id " +
             "WHERE price <= #{maxPrice} " +
+            "AND persons >= #{persons} " +
             "AND date_from > #{from} " +
             "AND date_to < #{to} " +
             ") " +
@@ -51,6 +52,7 @@ public interface TripMapper {
             float maxPrice,
             float priceImportance,
             float beachDistImp,
+            int persons,
             int limit,
             LocalDate from,
             LocalDate to);

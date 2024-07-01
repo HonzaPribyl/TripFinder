@@ -19,12 +19,13 @@ public class TripController {
     public List<TripDTO> search(
             @RequestParam float maxPrice,
             @RequestParam float priceImp,
-            @RequestParam int limit,
             @RequestParam String beachDistImp,
+            @RequestParam int persons,
+            @RequestParam int limit,
             @RequestParam String from,
             @RequestParam String to
             ) {
-        return tripService.search(maxPrice, priceImp, limit, beachDistImp, from, to);
+        return tripService.search(maxPrice, priceImp, beachDistImp, persons, limit, from, to);
     }
 
 }

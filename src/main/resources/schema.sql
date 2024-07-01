@@ -12,11 +12,12 @@ CREATE TABLE hotels (
 );
 
 CREATE TABLE trips (
-                       id SERIAL PRIMARY KEY,
-                       price FLOAT8 NOT NULL,
-                       hotel INT NOT NULL REFERENCES hotels(id),
-                       date_from DATE NOT NULL,
-                       date_to DATE NOT NULL
+    id SERIAL PRIMARY KEY,
+    price FLOAT8 NOT NULL,
+    hotel INT NOT NULL REFERENCES hotels(id),
+    persons INT NOT NULL,
+    date_from DATE NOT NULL,
+    date_to DATE NOT NULL
 );
 
 INSERT INTO hotels (name, beach_dist)
@@ -26,10 +27,10 @@ VALUES
     ('Golden Star', 3),
     ('Divan Cave Hotel', 4);
 
-INSERT INTO trips (price, hotel, date_from, date_to) VALUES(18000.0, 1,'2025-6-6', '2025-6-16');
-INSERT INTO trips (price, hotel, date_from, date_to) VALUES(20000.0, 2,'2025-6-17', '2025-6-27');
-INSERT INTO trips (price, hotel, date_from, date_to) VALUES(50000.0, 3,'2025-6-28', '2025-7-8');
-INSERT INTO trips (price, hotel, date_from, date_to) VALUES(35000.0, 4,'2025-7-9', '2025-7-19');
-INSERT INTO trips (price, hotel, date_from, date_to) VALUES(26000.0, 2,'2025-7-20', '2025-7-30');
-INSERT INTO trips (price, hotel, date_from, date_to) VALUES(29000.0, 3,'2025-7-31', '2025-8-10');
+INSERT INTO trips (price, hotel, persons, date_from, date_to) VALUES(18000.0, 1, 5, '2025-6-6', '2025-6-16');
+INSERT INTO trips (price, hotel, persons, date_from, date_to) VALUES(20000.0, 2, 4, '2025-6-17', '2025-6-27');
+INSERT INTO trips (price, hotel, persons, date_from, date_to) VALUES(50000.0, 3, 3, '2025-6-28', '2025-7-8');
+INSERT INTO trips (price, hotel, persons, date_from, date_to) VALUES(35000.0, 4, 4, '2025-7-9', '2025-7-19');
+INSERT INTO trips (price, hotel, persons, date_from, date_to) VALUES(26000.0, 2, 3, '2025-7-20', '2025-7-30');
+INSERT INTO trips (price, hotel, persons, date_from, date_to) VALUES(29000.0, 3, 5, '2025-7-31', '2025-8-10');
 
