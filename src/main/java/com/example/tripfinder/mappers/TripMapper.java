@@ -16,10 +16,12 @@ public interface TripMapper {
             "t.id AS id, " +
             "t.price AS price, " +
             "hot.name AS hotel, " +
+            "hot.stars AS stars, " +
             "bd.name AS beachDistance, " +
             "t.date_from AS dateFrom, " +
             "t.date_to AS dateTo, " +
             "(#{maxPrice}-t.price) * #{priceImportance} AS priceScore, " +
+            "hot.stars * 20 * #{starsImp} AS starsScore, " +
             "CASE " +
                     "WHEN bd.id = 1 THEN 90 " +
                     "WHEN bd.id = 2 THEN 75 " +
@@ -38,12 +40,14 @@ public interface TripMapper {
             "id, " +
             "price, " +
             "hotel, " +
+            "stars, " +
             "beachDistance, " +
             "dateFrom, " +
             "dateTo, " +
             "priceScore, " +
+            "starsScore, " +
             "beachDistScore, " +
-            "(priceScore + beachDistScore) AS totalScore, " +
+            "(priceScore + starsScore + beachDistScore) AS totalScore, " +
             "FROM cte " +
             "ORDER BY totalScore DESC " +
             "LIMIT #{limit}"
@@ -51,6 +55,7 @@ public interface TripMapper {
     List<TripDTO> searchTrips(
             float maxPrice,
             float priceImportance,
+            float starsImp,
             float beachDistImp,
             int persons,
             int limit,

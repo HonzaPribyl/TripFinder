@@ -26,12 +26,20 @@ public class TripService {
     public List<TripDTO> search(
             float maxPrice,
             float priceImp,
+            @Nonnull final String starsImp,
             @Nonnull final String beachDistImp,
             int persons,
             int limit,
             @Nonnull final String from,
             @Nonnull final String to
     ) {
+        float starsImpCoeff = switch (starsImp) {
+            case IMPORTANCE_LOW -> COEFFICIENT_LOW_IMP;
+            case IMPORTANCE_MEDIUM -> COEFFICIENT_MEDIUM_IMP;
+            case IMPORTANCE_HIGH -> COEFFICIENT_HIGH_IMP;
+            default -> 1;
+        };
+
         float beachDistImpCoeff = switch (beachDistImp) {
             case IMPORTANCE_LOW -> COEFFICIENT_LOW_IMP;
             case IMPORTANCE_MEDIUM -> COEFFICIENT_MEDIUM_IMP;
@@ -45,6 +53,7 @@ public class TripService {
         return tripMapper.searchTrips(
                 maxPrice,
                 priceImp,
+                starsImpCoeff,
                 beachDistImpCoeff,
                 persons,
                 limit,

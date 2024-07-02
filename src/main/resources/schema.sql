@@ -8,6 +8,7 @@ INSERT INTO beach_distance (name) VALUES ('Přímo u pláže'), ('Do 5 min'), ('
 CREATE TABLE hotels (
     id SERIAL PRIMARY KEY,
     name VARCHAR NOT NULL,
+    stars INT NOT NULL,
     beach_dist INT NOT NULL REFERENCES beach_distance(id)
 );
 
@@ -20,12 +21,12 @@ CREATE TABLE trips (
     date_to DATE NOT NULL
 );
 
-INSERT INTO hotels (name, beach_dist)
+INSERT INTO hotels (name, stars, beach_dist)
 VALUES
-    ('Hotel Blue Fish', 1),
-    ('Antal', 2),
-    ('Golden Star', 3),
-    ('Divan Cave Hotel', 4);
+    ('Hotel Blue Fish', 4, 1),
+    ('Antal', 4, 2),
+    ('Golden Star', 5, 3),
+    ('Divan Cave Hotel', 4, 4);
 
 INSERT INTO trips (price, hotel, persons, date_from, date_to) VALUES(18000.0, 1, 5, '2025-6-6', '2025-6-16');
 INSERT INTO trips (price, hotel, persons, date_from, date_to) VALUES(20000.0, 2, 4, '2025-6-17', '2025-6-27');
