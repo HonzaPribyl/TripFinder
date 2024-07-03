@@ -20,13 +20,33 @@ public class TripController {
             @RequestParam float maxPrice,
             @RequestParam float priceImp,
             @RequestParam String starsImp,
+            @RequestParam String allInclusivePref,
+            @RequestParam String fullBoardPref,
+            @RequestParam String halfBoardPref,
+            @RequestParam String breakfastPref,
+            @RequestParam String noFoodPref,
+            @RequestParam String foodImp,
             @RequestParam String beachDistImp,
             @RequestParam int persons,
             @RequestParam int limit,
             @RequestParam String from,
             @RequestParam String to
             ) {
-        return tripService.search(maxPrice, priceImp, starsImp, beachDistImp, persons, limit, from, to);
+        return tripService.search(
+                maxPrice,
+                priceImp,
+                starsImp,
+                allInclusivePref,
+                fullBoardPref,
+                halfBoardPref,
+                breakfastPref,
+                noFoodPref,
+                foodImp,
+                beachDistImp,
+                persons,
+                limit,
+                from,
+                to);
     }
 
 }

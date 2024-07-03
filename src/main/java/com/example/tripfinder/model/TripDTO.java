@@ -12,11 +12,13 @@ public class TripDTO {
     private float price;
     private String hotel;
     private int stars;
+    private String foodPackage;
     private String beachDist;
     private LocalDate dateFrom;
     private LocalDate dateTo;
     private float priceScore;
     private float starsScore;
+    private float foodScore;
     private float beachDistScore;
     private float totalScore;
 }
