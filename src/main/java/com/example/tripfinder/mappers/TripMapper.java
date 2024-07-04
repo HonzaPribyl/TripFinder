@@ -21,7 +21,7 @@ public interface TripMapper {
             "bd.name AS beachDistance, " +
             "t.date_from AS dateFrom, " +
             "t.date_to AS dateTo, " +
-            "(#{maxPrice}-t.price) * #{priceImportance} AS priceScore, " +
+            "(#{maxPrice}-t.price) * 0.005 * #{priceImportance} AS priceScore, " +
             "hot.stars * 20 * #{starsImp} AS starsScore, " +
             "CASE " +
                     "WHEN fp.id = 1 THEN #{allInclusiveValue} " +

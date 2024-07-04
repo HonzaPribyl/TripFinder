@@ -18,7 +18,7 @@ public class TripController {
     @GetMapping("/search")
     public List<TripDTO> search(
             @RequestParam float maxPrice,
-            @RequestParam float priceImp,
+            @RequestParam String priceImp,
             @RequestParam String starsImp,
             @RequestParam String allInclusivePref,
             @RequestParam String fullBoardPref,

@@ -35,7 +35,7 @@ public class TripService {
 
     public List<TripDTO> search(
             float maxPrice,
-            float priceImp,
+            @Nonnull final String priceImp,
             @Nonnull final String starsImp,
             @Nonnull final String allInclusivePref,
             @Nonnull final String fullBoardPref,
@@ -49,6 +49,8 @@ public class TripService {
             @Nonnull final String from,
             @Nonnull final String to
     ) {
+
+        float priceImpCoeff = impCoeff(priceImp);
 
         float starsImpCoeff = impCoeff(starsImp);
 
@@ -67,7 +69,7 @@ public class TripService {
 
         return tripMapper.searchTrips(
                 maxPrice,
-                priceImp,
+                priceImpCoeff,
                 starsImpCoeff,
                 allInclusiveValue,
                 fullBoardValue,
