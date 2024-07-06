@@ -43,6 +43,7 @@ public class TripService {
             @Nonnull final String breakfastPref,
             @Nonnull final String noFoodPref,
             @Nonnull final String foodImp,
+            @Nonnull final String ratingImp,
             @Nonnull final String beachDistImp,
             int persons,
             int limit,
@@ -62,6 +63,8 @@ public class TripService {
         float breakfastValue = foodImp(breakfastPref);
         float noFoodValue = foodImp(noFoodPref);
 
+        float ratingCoeff = impCoeff(ratingImp);
+
         float foodImpCoeff = impCoeff(foodImp);
 
         final LocalDate dateFrom = LocalDate.parse(from, DATE_TIME_FORMATTER);
@@ -77,6 +80,7 @@ public class TripService {
                 breakfastValue,
                 noFoodValue,
                 foodImpCoeff,
+                ratingCoeff,
                 beachDistImpCoeff,
                 persons,
                 limit,

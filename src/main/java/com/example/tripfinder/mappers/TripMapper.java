@@ -19,6 +19,7 @@ public interface TripMapper {
             "hot.stars AS stars, " +
             "fp.name AS foodPackage, " +
             "bd.name AS beachDistance, " +
+            "AVG(r.rating) AS averageRating, " +
             "t.date_from AS dateFrom, " +
             "t.date_to AS dateTo, " +
             "(#{maxPrice}-t.price) * 0.005 * #{priceImportance} AS priceScore, " +
@@ -30,6 +31,7 @@ public interface TripMapper {
                     "WHEN fp.id = 4 THEN #{breakfastValue} " +
                     "WHEN fp.id = 5 THEN #{noFoodValue} " +
             "END * CAST(#{foodImp} AS numeric) AS foodScore, " +
+            "AVG(r.rating) * 10 * CAST(#{ratingCoeff} AS numeric) AS ratingScore, " +
             "CASE " +
                     "WHEN bd.id = 1 THEN 90 " +
                     "WHEN bd.id = 2 THEN 75 " +
@@ -40,10 +42,12 @@ public interface TripMapper {
             "JOIN hotels hot ON t.hotel = hot.id " +
             "JOIN food_packages fp ON t.food_package = fp.id " +
             "JOIN beach_distance bd ON hot.beach_dist = bd.id " +
+            "LEFT JOIN reviews r ON hot.id = r.hotel " +
             "WHERE price <= #{maxPrice} " +
             "AND persons >= #{persons} " +
             "AND date_from > #{from} " +
             "AND date_to < #{to} " +
+            "GROUP BY t.id " +
             ") " +
             "SELECT " +
             "id, " +
@@ -52,13 +56,15 @@ public interface TripMapper {
             "stars, " +
             "foodPackage, " +
             "beachDistance, " +
+            "averageRating, " +
             "dateFrom, " +
             "dateTo, " +
             "priceScore, " +
             "starsScore, " +
             "foodScore, " +
+            "ratingScore, " +
             "beachDistScore, " +
-            "(priceScore + starsScore + foodScore + beachDistScore) AS totalScore " +
+            "(priceScore + starsScore + foodScore + ratingScore + beachDistScore) AS totalScore " +
             "FROM cte " +
             "ORDER BY totalScore DESC " +
             "LIMIT #{limit}"
@@ -72,6 +78,7 @@ public interface TripMapper {
             float halfBoardValue,
             float breakfastValue,
             float noFoodValue,
+            float ratingCoeff,
             float foodImp,
             float beachDistImp,
             int persons,
