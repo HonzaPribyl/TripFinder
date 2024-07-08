@@ -13,6 +13,7 @@ public class TripDTO {
     private String hotel;
     private int stars;
     private String foodPackage;
+    private String airport;
     private String beachDist;
     private float averageRating;
     private LocalDate dateFrom;

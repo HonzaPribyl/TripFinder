@@ -19,11 +19,32 @@ CREATE TABLE food_packages (
 
 INSERT INTO food_packages (name) VALUES ('All inclusive'), ('Plná penze'), ('Polopenze'), ('Snídaně'), ('Bez stravy');
 
+CREATE TABLE airports (
+    id SERIAL PRIMARY KEY,
+    iata VARCHAR NOT NULL,
+    name VARCHAR NOT NULL
+);
+
+INSERT INTO airports (iata, name)
+VALUES
+    ('PRG', 'Praha, Letiště Václava Havla'), ('BRQ', 'Brno, Tuřany'),
+    ('OSR', 'Ostrava, Letiště Leoše Janáčka'), ('PED', 'Pardubice'),
+    ('KLV', 'Karlovy Vary'), ('JCL', 'České Budějovice'), ('VIE', 'Vídeň, Schwechat'),
+    ('BTS', 'Bratislava, Letiště Milana Rastislava Štefánika'), ('MUC', 'Mnichov'),
+    ('DRS', 'Drážďany'), ('LNZ', 'Linec'), ('FRA', 'Frankfurt'), ('BER', 'Berlín'),
+    ('SLD', 'Sliač'), ('TAT', 'Poprad'), ('KSC', 'Košice'), ('PZY', 'Piešťany'),
+    ('ILZ', 'Žilina'), ('NUE', 'Norimberk'), ('DUS', 'Düsseldorf'), ('ERF', 'Erfurt'),
+    ('LEJ', 'Lipsko'), ('KTW', 'Katovice'), ('SZG', 'Salzburg'), ('STR', 'Stuttgart'),
+    ('SXF', 'Berlín-Schönefeld'), ('TXL', 'Berlín-Tegel'), ('BUD', 'Budapešť'),
+    ('KRK', 'Krakov'), ('WAW', 'Varšava');
+
+
 CREATE TABLE trips (
     id SERIAL PRIMARY KEY,
     price FLOAT8 NOT NULL,
     hotel INT NOT NULL REFERENCES hotels(id),
     food_package INT NOT NULL REFERENCES food_packages(id),
+    airport INT NOT NULL REFERENCES airports(id),
     persons INT NOT NULL,
     date_from DATE NOT NULL,
     date_to DATE NOT NULL
@@ -48,10 +69,12 @@ VALUES
 (3, 7), (3, 6),
 (4, 2), (4, 6), (4, 7);
 
-INSERT INTO trips (price, hotel, food_package, persons, date_from, date_to) VALUES(18000.0, 1, 3, 5, '2025-6-6', '2025-6-16');
-INSERT INTO trips (price, hotel, food_package, persons, date_from, date_to) VALUES(20000.0, 2, 4, 4, '2025-6-17', '2025-6-27');
-INSERT INTO trips (price, hotel, food_package, persons, date_from, date_to) VALUES(50000.0, 3, 1, 3, '2025-6-28', '2025-7-8');
-INSERT INTO trips (price, hotel, food_package, persons, date_from, date_to) VALUES(35000.0, 4, 2, 4, '2025-7-9', '2025-7-19');
-INSERT INTO trips (price, hotel, food_package, persons, date_from, date_to) VALUES(26000.0, 2, 3, 3, '2025-7-20', '2025-7-30');
-INSERT INTO trips (price, hotel, food_package, persons, date_from, date_to) VALUES(29000.0, 3, 2, 5, '2025-7-31', '2025-8-10');
+INSERT INTO trips (price, hotel, food_package, airport, persons, date_from, date_to)
+VALUES
+    (18000.0, 1, 3, 7, 5, '2025-6-6', '2025-6-16'),
+    (20000.0, 2, 4, 1, 4, '2025-6-17', '2025-6-27'),
+    (20000.0, 2, 4, 1, 4, '2025-6-17', '2025-6-27'),
+    (35000.0, 4, 2, 2, 4, '2025-7-9', '2025-7-19'),
+    (26000.0, 2, 3, 7, 3, '2025-7-20', '2025-7-30'),
+    (29000.0, 3, 2, 3, 5, '2025-7-31', '2025-8-10');
 

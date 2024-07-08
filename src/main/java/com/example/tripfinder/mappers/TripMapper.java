@@ -17,6 +17,7 @@ public interface TripMapper {
             "t.price AS price, " +
             "hot.name AS hotel, " +
             "hot.stars AS stars, " +
+            "a.name || ' (' || a.iata || ')' AS airport, " +
             "fp.name AS foodPackage, " +
             "bd.name AS beachDistance, " +
             "AVG(r.rating) AS averageRating, " +
@@ -41,6 +42,7 @@ public interface TripMapper {
             "FROM trips t " +
             "JOIN hotels hot ON t.hotel = hot.id " +
             "JOIN food_packages fp ON t.food_package = fp.id " +
+            "JOIN airports a ON t.airport = a.id " +
             "JOIN beach_distance bd ON hot.beach_dist = bd.id " +
             "LEFT JOIN reviews r ON hot.id = r.hotel " +
             "WHERE price <= #{maxPrice} " +
@@ -55,6 +57,7 @@ public interface TripMapper {
             "hotel, " +
             "stars, " +
             "foodPackage, " +
+            "airport, " +
             "beachDistance, " +
             "averageRating, " +
             "dateFrom, " +
