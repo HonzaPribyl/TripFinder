@@ -38,6 +38,11 @@ VALUES
     ('SXF', 'Berlín-Schönefeld'), ('TXL', 'Berlín-Tegel'), ('BUD', 'Budapešť'),
     ('KRK', 'Krakov'), ('WAW', 'Varšava');
 
+CREATE TABLE airport_prefs (
+    airport INT NOT NULL REFERENCES airports(id),
+    high_pref BOOLEAN NOT NULL
+);
+
 
 CREATE TABLE trips (
     id SERIAL PRIMARY KEY,

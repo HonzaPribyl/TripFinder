@@ -22,6 +22,7 @@ public class TripDTO {
     private float starsScore;
     private float foodScore;
     private float ratingScore;
+    private float airportScore;
     private float beachDistScore;
     private float totalScore;
 }

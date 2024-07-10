@@ -1,5 +1,6 @@
 package com.example.tripfinder.configuration;
 
+import com.example.tripfinder.mappers.AirportMapper;
 import com.example.tripfinder.mappers.TripMapper;
 import com.example.tripfinder.services.TripService;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -12,7 +13,7 @@ import org.mybatis.spring.mapper.MapperFactoryBean;
 import javax.sql.DataSource;
 
 @Configuration
-public class TripMapperConfig {
+public class TripFinderConfig {
 
     @Bean
     public DataSource dataSource() {
@@ -37,8 +38,15 @@ public class TripMapperConfig {
     }
 
     @Bean
-    public TripService tripService(TripMapper tripMapper) {
-        return new TripService(tripMapper);
+    public MapperFactoryBean<AirportMapper> airportMapper(SqlSessionFactory sqlSessionFactory) {
+        MapperFactoryBean<AirportMapper> mapperFactoryBean = new MapperFactoryBean<>(AirportMapper.class);
+        mapperFactoryBean.setSqlSessionFactory(sqlSessionFactory);
+        return mapperFactoryBean;
+    }
+
+    @Bean
+    public TripService tripService(TripMapper tripMapper, AirportMapper airportMapper) {
+        return new TripService(tripMapper, airportMapper);
     }
 
 }

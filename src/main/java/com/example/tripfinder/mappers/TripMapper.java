@@ -34,6 +34,11 @@ public interface TripMapper {
             "END * CAST(#{foodImp} AS numeric) AS foodScore, " +
             "AVG(r.rating) * 10 * CAST(#{ratingCoeff} AS numeric) AS ratingScore, " +
             "CASE " +
+                    "WHEN t.airport = ANY(SELECT airport FROM airport_prefs WHERE high_pref IS TRUE) THEN 50 " +
+                    "WHEN t.airport = ANY(SELECT airport FROM airport_prefs WHERE high_pref IS NOT TRUE) THEN 30 " +
+                    "ELSE 0 " +
+            "END * CAST(#{airportCoeff} AS numeric) AS airportScore, " +
+            "CASE " +
                     "WHEN bd.id = 1 THEN 90 " +
                     "WHEN bd.id = 2 THEN 75 " +
                     "WHEN bd.id = 3 THEN 60 " +
@@ -66,8 +71,9 @@ public interface TripMapper {
             "starsScore, " +
             "foodScore, " +
             "ratingScore, " +
+            "airportScore, " +
             "beachDistScore, " +
-            "(priceScore + starsScore + foodScore + ratingScore + beachDistScore) AS totalScore " +
+            "(priceScore + starsScore + foodScore + ratingScore + airportScore + beachDistScore) AS totalScore " +
             "FROM cte " +
             "ORDER BY totalScore DESC " +
             "LIMIT #{limit}"
@@ -82,6 +88,7 @@ public interface TripMapper {
             float breakfastValue,
             float noFoodValue,
             float ratingCoeff,
+            float airportCoeff,
             float foodImp,
             float beachDistImp,
             int persons,

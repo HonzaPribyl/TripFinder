@@ -1,5 +1,6 @@
 package com.example.tripfinder.services;
 
+import com.example.tripfinder.mappers.AirportMapper;
 import com.example.tripfinder.mappers.TripMapper;
 import com.example.tripfinder.model.TripDTO;
 import jakarta.annotation.Nonnull;
@@ -32,6 +33,7 @@ public class TripService {
     private static final float HIGH_FOOD_PREF = 80;
 
     private final TripMapper tripMapper;
+    private final AirportMapper airportMapper;
 
     public List<TripDTO> search(
             float maxPrice,
@@ -42,8 +44,11 @@ public class TripService {
             @Nonnull final String halfBoardPref,
             @Nonnull final String breakfastPref,
             @Nonnull final String noFoodPref,
+            @Nonnull List<Long> highPrefAirports,
+            @Nonnull List<Long> prefAirports,
             @Nonnull final String foodImp,
             @Nonnull final String ratingImp,
+            @Nonnull final String airportImp,
             @Nonnull final String beachDistImp,
             int persons,
             int limit,
@@ -67,8 +72,12 @@ public class TripService {
 
         float foodImpCoeff = impCoeff(foodImp);
 
+        float airportCoeff = impCoeff(airportImp);
+
         final LocalDate dateFrom = LocalDate.parse(from, DATE_TIME_FORMATTER);
         final LocalDate dateTo = LocalDate.parse(to, DATE_TIME_FORMATTER);
+
+        reinsertAirportPrefs(highPrefAirports, prefAirports);
 
         return tripMapper.searchTrips(
                 maxPrice,
@@ -81,6 +90,7 @@ public class TripService {
                 noFoodValue,
                 foodImpCoeff,
                 ratingCoeff,
+                airportCoeff,
                 beachDistImpCoeff,
                 persons,
                 limit,
@@ -106,5 +116,14 @@ public class TripService {
             case PREF_HIGH -> HIGH_FOOD_PREF;
             default -> 50;
         };
+    }
+
+    private void reinsertAirportPrefs(
+            @Nonnull List<Long> highPrefAirports,
+            @Nonnull List<Long> prefAirports
+    ) {
+        airportMapper.clearAirports();
+        highPrefAirports.forEach(l -> airportMapper.addAirportPref(l, true));
+        prefAirports.forEach(l -> airportMapper.addAirportPref(l, false));
     }
 }
