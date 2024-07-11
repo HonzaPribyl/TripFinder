@@ -34,7 +34,9 @@ public class TripController {
             @RequestParam int persons,
             @RequestParam int limit,
             @RequestParam String from,
-            @RequestParam String to
+            @RequestParam String to,
+            @RequestParam int minDays,
+            @RequestParam int maxDays
             ) {
         return tripService.search(
                 maxPrice,
@@ -54,7 +56,9 @@ public class TripController {
                 persons,
                 limit,
                 from,
-                to);
+                to,
+                minDays,
+                maxDays);
     }
 
 }

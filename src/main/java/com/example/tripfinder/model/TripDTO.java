@@ -18,6 +18,7 @@ public class TripDTO {
     private float averageRating;
     private LocalDate dateFrom;
     private LocalDate dateTo;
+    private int days;
     private float priceScore;
     private float starsScore;
     private float foodScore;

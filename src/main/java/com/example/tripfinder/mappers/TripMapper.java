@@ -23,6 +23,7 @@ public interface TripMapper {
             "AVG(r.rating) AS averageRating, " +
             "t.date_from AS dateFrom, " +
             "t.date_to AS dateTo, " +
+            "t.date_to - t.date_from AS days, " +
             "(#{maxPrice}-t.price) * 0.005 * #{priceImportance} AS priceScore, " +
             "hot.stars * 20 * #{starsImp} AS starsScore, " +
             "CASE " +
@@ -43,7 +44,7 @@ public interface TripMapper {
                     "WHEN bd.id = 2 THEN 75 " +
                     "WHEN bd.id = 3 THEN 60 " +
                     "WHEN bd.id = 4 THEN 40 " +
-            "END * CAST(#{beachDistImp} AS numeric) AS beachDistScore " +
+            "END * CAST(#{beachDistImp} AS numeric) AS beachDistScore, " +
             "FROM trips t " +
             "JOIN hotels hot ON t.hotel = hot.id " +
             "JOIN food_packages fp ON t.food_package = fp.id " +
@@ -67,6 +68,7 @@ public interface TripMapper {
             "averageRating, " +
             "dateFrom, " +
             "dateTo, " +
+            "days, " +
             "priceScore, " +
             "starsScore, " +
             "foodScore, " +
@@ -75,6 +77,8 @@ public interface TripMapper {
             "beachDistScore, " +
             "(priceScore + starsScore + foodScore + ratingScore + airportScore + beachDistScore) AS totalScore " +
             "FROM cte " +
+            "WHERE days >= #{minDays} " +
+            "AND days <= #{maxDays} " +
             "ORDER BY totalScore DESC " +
             "LIMIT #{limit}"
     )
@@ -94,5 +98,7 @@ public interface TripMapper {
             int persons,
             int limit,
             LocalDate from,
-            LocalDate to);
+            LocalDate to,
+            int minDays,
+            int maxDays);
 }

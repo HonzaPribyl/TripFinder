@@ -53,7 +53,9 @@ public class TripService {
             int persons,
             int limit,
             @Nonnull final String from,
-            @Nonnull final String to
+            @Nonnull final String to,
+            int minDays,
+            int maxDays
     ) {
 
         float priceImpCoeff = impCoeff(priceImp);
@@ -95,7 +97,9 @@ public class TripService {
                 persons,
                 limit,
                 dateFrom,
-                dateTo
+                dateTo,
+                minDays,
+                maxDays
         );
     }
 
