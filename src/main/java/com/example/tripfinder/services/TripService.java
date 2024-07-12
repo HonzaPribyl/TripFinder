@@ -1,6 +1,7 @@
 package com.example.tripfinder.services;
 
 import com.example.tripfinder.mappers.AirportMapper;
+import com.example.tripfinder.mappers.LocationMapper;
 import com.example.tripfinder.mappers.TripMapper;
 import com.example.tripfinder.model.TripDTO;
 import jakarta.annotation.Nonnull;
@@ -34,6 +35,7 @@ public class TripService {
 
     private final TripMapper tripMapper;
     private final AirportMapper airportMapper;
+    private final LocationMapper locationMapper;
 
     public List<TripDTO> search(
             float maxPrice,
@@ -46,6 +48,9 @@ public class TripService {
             @Nonnull final String noFoodPref,
             @Nonnull List<Long> highPrefAirports,
             @Nonnull List<Long> prefAirports,
+            @Nonnull List<Long> highPrefLocs,
+            @Nonnull List<Long> prefLocs,
+            @Nonnull final String locImp,
             @Nonnull final String foodImp,
             @Nonnull final String ratingImp,
             @Nonnull final String airportImp,
@@ -59,6 +64,8 @@ public class TripService {
     ) {
 
         float priceImpCoeff = impCoeff(priceImp);
+
+        float locImpCoeff = impCoeff(locImp);
 
         float starsImpCoeff = impCoeff(starsImp);
 
@@ -81,9 +88,12 @@ public class TripService {
 
         reinsertAirportPrefs(highPrefAirports, prefAirports);
 
+        reinsertLocationPrefs(highPrefLocs, prefLocs);
+
         return tripMapper.searchTrips(
                 maxPrice,
                 priceImpCoeff,
+                locImpCoeff,
                 starsImpCoeff,
                 allInclusiveValue,
                 fullBoardValue,
@@ -129,5 +139,14 @@ public class TripService {
         airportMapper.clearAirports();
         highPrefAirports.forEach(l -> airportMapper.addAirportPref(l, true));
         prefAirports.forEach(l -> airportMapper.addAirportPref(l, false));
+    }
+
+    private void reinsertLocationPrefs(
+            @Nonnull List<Long> highPrefLocs,
+            @Nonnull List<Long> prefLocs
+    ) {
+        locationMapper.clearLocations();
+        highPrefLocs.forEach(l -> locationMapper.addLocationPref(l, true));
+        prefLocs.forEach(l -> locationMapper.addLocationPref(l, false));
     }
 }

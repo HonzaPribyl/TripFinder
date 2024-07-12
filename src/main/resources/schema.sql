@@ -1,3 +1,15 @@
+CREATE TABLE locations (
+                           id SERIAL PRIMARY KEY,
+                           name VARCHAR NOT NULL
+);
+
+INSERT INTO locations (name) VALUES ('Řecko'), ('Turecko'), ('Chorvatsko');
+
+CREATE TABLE location_prefs (
+                                location INT NOT NULL REFERENCES locations(id),
+                                high_pref BOOLEAN NOT NULL
+);
+
 CREATE TABLE beach_distance (
     id SERIAL PRIMARY KEY,
     name VARCHAR NOT NULL
@@ -9,6 +21,7 @@ CREATE TABLE hotels (
     id SERIAL PRIMARY KEY,
     name VARCHAR NOT NULL,
     stars INT NOT NULL,
+    location INT NOT NULL REFERENCES locations(id),
     beach_dist INT NOT NULL REFERENCES beach_distance(id)
 );
 
@@ -43,7 +56,6 @@ CREATE TABLE airport_prefs (
     high_pref BOOLEAN NOT NULL
 );
 
-
 CREATE TABLE trips (
     id SERIAL PRIMARY KEY,
     price FLOAT8 NOT NULL,
@@ -55,12 +67,12 @@ CREATE TABLE trips (
     date_to DATE NOT NULL
 );
 
-INSERT INTO hotels (name, stars, beach_dist)
+INSERT INTO hotels (name, stars, location, beach_dist)
 VALUES
-    ('Hotel Blue Fish', 4, 1),
-    ('Antal', 4, 2),
-    ('Golden Star', 5, 3),
-    ('Divan Cave Hotel', 4, 4);
+    ('Hotel Blue Fish', 4, 1, 1),
+    ('Antal', 4, 2, 2),
+    ('Golden Star', 5, 2, 3),
+    ('Divan Cave Hotel', 4, 3, 4);
 
 CREATE TABLE reviews (
     hotel INT NOT NULL REFERENCES hotels(id),

@@ -15,6 +15,7 @@ public interface TripMapper {
             "SELECT " +
             "t.id AS id, " +
             "t.price AS price, " +
+            "l.name AS location, " +
             "hot.name AS hotel, " +
             "hot.stars AS stars, " +
             "a.name || ' (' || a.iata || ')' AS airport, " +
@@ -40,6 +41,11 @@ public interface TripMapper {
                     "ELSE 0 " +
             "END * CAST(#{airportCoeff} AS numeric) AS airportScore, " +
             "CASE " +
+                    "WHEN hot.location = ANY(SELECT location FROM location_prefs WHERE high_pref IS TRUE) THEN 80 " +
+                    "WHEN hot.location = ANY(SELECT location FROM location_prefs WHERE high_pref IS NOT TRUE) THEN 50 " +
+                    "ELSE 0 " +
+            "END * CAST(#{locCoeff} AS numeric) AS locationScore, " +
+            "CASE " +
                     "WHEN bd.id = 1 THEN 90 " +
                     "WHEN bd.id = 2 THEN 75 " +
                     "WHEN bd.id = 3 THEN 60 " +
@@ -49,6 +55,7 @@ public interface TripMapper {
             "JOIN hotels hot ON t.hotel = hot.id " +
             "JOIN food_packages fp ON t.food_package = fp.id " +
             "JOIN airports a ON t.airport = a.id " +
+            "JOIN locations l ON hot.location = l.id " +
             "JOIN beach_distance bd ON hot.beach_dist = bd.id " +
             "LEFT JOIN reviews r ON hot.id = r.hotel " +
             "WHERE price <= #{maxPrice} " +
@@ -60,6 +67,7 @@ public interface TripMapper {
             "SELECT " +
             "id, " +
             "price, " +
+            "location, " +
             "hotel, " +
             "stars, " +
             "foodPackage, " +
@@ -70,12 +78,14 @@ public interface TripMapper {
             "dateTo, " +
             "days, " +
             "priceScore, " +
+            "locationScore, " +
             "starsScore, " +
             "foodScore, " +
             "ratingScore, " +
             "airportScore, " +
             "beachDistScore, " +
-            "(priceScore + starsScore + foodScore + ratingScore + airportScore + beachDistScore) AS totalScore " +
+            "(priceScore + locationScore + starsScore + foodScore" +
+                    " + ratingScore + airportScore + beachDistScore) AS totalScore " +
             "FROM cte " +
             "WHERE days >= #{minDays} " +
             "AND days <= #{maxDays} " +
@@ -85,6 +95,7 @@ public interface TripMapper {
     List<TripDTO> searchTrips(
             float maxPrice,
             float priceImportance,
+            float locCoeff,
             float starsImp,
             float allInclusiveValue,
             float fullBoardValue,
