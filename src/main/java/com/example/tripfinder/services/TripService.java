@@ -5,10 +5,12 @@ import com.example.tripfinder.mappers.LocationMapper;
 import com.example.tripfinder.mappers.TripMapper;
 import com.example.tripfinder.model.TripDTO;
 import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -46,10 +48,10 @@ public class TripService {
             @Nonnull final String halfBoardPref,
             @Nonnull final String breakfastPref,
             @Nonnull final String noFoodPref,
-            @Nonnull List<Long> highPrefAirports,
-            @Nonnull List<Long> prefAirports,
-            @Nonnull List<Long> highPrefLocs,
-            @Nonnull List<Long> prefLocs,
+            @Nullable List<Long> highPrefAirports,
+            @Nullable List<Long> prefAirports,
+            @Nullable List<Long> highPrefLocs,
+            @Nullable List<Long> prefLocs,
             @Nonnull final String locImp,
             @Nonnull final String foodImp,
             @Nonnull final String ratingImp,
@@ -86,8 +88,20 @@ public class TripService {
         final LocalDate dateFrom = LocalDate.parse(from, DATE_TIME_FORMATTER);
         final LocalDate dateTo = LocalDate.parse(to, DATE_TIME_FORMATTER);
 
+        if (highPrefAirports == null) {
+            highPrefAirports = Collections.emptyList();
+        }
+        if (prefAirports == null) {
+            prefAirports = Collections.emptyList();
+        }
         reinsertAirportPrefs(highPrefAirports, prefAirports);
 
+        if (highPrefLocs == null) {
+            highPrefLocs = Collections.emptyList();
+        }
+        if (prefLocs == null) {
+            prefLocs = Collections.emptyList();
+        }
         reinsertLocationPrefs(highPrefLocs, prefLocs);
 
         return tripMapper.searchTrips(
