@@ -57,6 +57,9 @@ public class TripService {
             @Nonnull final String ratingImp,
             @Nonnull final String airportImp,
             @Nonnull final String beachDistImp,
+            @Nonnull final String familyImp,
+            @Nonnull final String wifiImp,
+            @Nonnull final String poolImp,
             int persons,
             int limit,
             @Nonnull final String from,
@@ -72,6 +75,10 @@ public class TripService {
         float starsImpCoeff = impCoeff(starsImp);
 
         float beachDistImpCoeff = impCoeff(beachDistImp);
+
+        float familyImpCoeff = impCoeff(familyImp);
+        float wifiImpCoeff = impCoeff(wifiImp);
+        float poolImpCoeff = impCoeff(poolImp);
 
         float allInclusiveValue = foodImp(allInclusivePref);
         float fullBoardValue = foodImp(fullBoardPref);
@@ -118,6 +125,9 @@ public class TripService {
                 ratingCoeff,
                 airportCoeff,
                 beachDistImpCoeff,
+                familyImpCoeff,
+                wifiImpCoeff,
+                poolImpCoeff,
                 persons,
                 limit,
                 dateFrom,

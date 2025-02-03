@@ -16,6 +16,9 @@ public class TripDTO {
     private String foodPackage;
     private String airport;
     private String beachDist;
+    private boolean familyFriendly;
+    private boolean internet;
+    private boolean swimmingPool;
     private float averageRating;
     private LocalDate dateFrom;
     private LocalDate dateTo;
@@ -27,5 +30,8 @@ public class TripDTO {
     private float ratingScore;
     private float airportScore;
     private float beachDistScore;
+    private float familyFriendlyScore;
+    private float internetScore;
+    private float swimmingPoolScore;
     private float totalScore;
 }

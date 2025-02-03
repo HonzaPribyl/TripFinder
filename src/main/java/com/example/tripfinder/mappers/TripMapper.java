@@ -21,6 +21,9 @@ public interface TripMapper {
             "a.name || ' (' || a.iata || ')' AS airport, " +
             "fp.name AS foodPackage, " +
             "bd.name AS beachDistance, " +
+            "hot.family_friendly AS family_friendly, " +
+            "hot.wifi AS wifi, " +
+            "hot.swimming_pool AS swimming_pool, " +
             "AVG(r.rating) AS averageRating, " +
             "t.date_from AS dateFrom, " +
             "t.date_to AS dateTo, " +
@@ -51,6 +54,18 @@ public interface TripMapper {
                     "WHEN bd.id = 3 THEN 60 " +
                     "WHEN bd.id = 4 THEN 40 " +
             "END * CAST(#{beachDistImp} AS numeric) AS beachDistScore, " +
+            "CASE " +
+                    "WHEN hot.family_friendly = true THEN 60 " +
+                    "ELSE 0 " +
+            "END * CAST(#{familyImp} AS numeric) AS familyScore, " +
+            "CASE " +
+                    "WHEN hot.wifi = true THEN 60 " +
+                    "ELSE 0 " +
+            "END * CAST(#{wifiImp} AS numeric) AS wifiScore, " +
+            "CASE " +
+                    "WHEN hot.swimming_pool = true THEN 60 " +
+                    "ELSE 0 " +
+            "END * CAST(#{poolImp} AS numeric) AS swimmingPoolScore, " +
             "FROM trips t " +
             "JOIN hotels hot ON t.hotel = hot.id " +
             "JOIN food_packages fp ON t.food_package = fp.id " +
@@ -73,6 +88,9 @@ public interface TripMapper {
             "foodPackage, " +
             "airport, " +
             "beachDistance, " +
+            "family_friendly, " +
+            "wifi, " +
+            "swimming_pool, " +
             "averageRating, " +
             "dateFrom, " +
             "dateTo, " +
@@ -84,8 +102,12 @@ public interface TripMapper {
             "ratingScore, " +
             "airportScore, " +
             "beachDistScore, " +
+            "familyScore, " +
+            "wifiScore, " +
+            "swimmingPoolScore, " +
             "(priceScore + locationScore + starsScore + foodScore" +
-                    " + ratingScore + airportScore + beachDistScore) AS totalScore " +
+                    " + ratingScore + airportScore + beachDistScore + familyScore" +
+                    " + wifiScore + swimmingPoolScore) AS totalScore " +
             "FROM cte " +
             "WHERE days >= #{minDays} " +
             "AND days <= #{maxDays} " +
@@ -106,6 +128,9 @@ public interface TripMapper {
             float airportCoeff,
             float foodImp,
             float beachDistImp,
+            float familyImp,
+            float wifiImp,
+            float poolImp,
             int persons,
             int limit,
             LocalDate from,
