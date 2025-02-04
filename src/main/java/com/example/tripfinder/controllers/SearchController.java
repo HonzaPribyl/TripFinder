@@ -1,6 +1,7 @@
 package com.example.tripfinder.controllers;
 
 import com.example.tripfinder.services.AirportService;
+import com.example.tripfinder.services.HotelService;
 import com.example.tripfinder.services.LocationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -13,11 +14,19 @@ public class SearchController {
 
     private final AirportService airportService;
     private final LocationService locationService;
+    private final HotelService hotelService;
 
     @GetMapping("/searchForm")
     public String searchForm(Model model) {
         model.addAttribute("airports", airportService.getAirports());
         model.addAttribute("locations", locationService.getLocations());
         return "searchForm";
+    }
+
+    @GetMapping("/searchHotelSpecificForm")
+    public String searchHotSpecForm(Model model) {
+        model.addAttribute("hotels", hotelService.getHotels());
+        model.addAttribute("airports", airportService.getAirports());
+        return "searchFormHotelSpecific";
     }
 }

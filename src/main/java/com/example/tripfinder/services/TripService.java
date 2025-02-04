@@ -3,6 +3,7 @@ package com.example.tripfinder.services;
 import com.example.tripfinder.mappers.AirportMapper;
 import com.example.tripfinder.mappers.LocationMapper;
 import com.example.tripfinder.mappers.TripMapper;
+import com.example.tripfinder.model.TripByHotelDTO;
 import com.example.tripfinder.model.TripDTO;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
@@ -134,6 +135,69 @@ public class TripService {
                 dateTo,
                 minDays,
                 maxDays
+        );
+    }
+
+    public List<TripByHotelDTO> searchByHotel(
+            float maxPrice,
+            @Nonnull final String priceImp,
+            @Nonnull final String allInclusivePref,
+            @Nonnull final String fullBoardPref,
+            @Nonnull final String halfBoardPref,
+            @Nonnull final String breakfastPref,
+            @Nonnull final String noFoodPref,
+            @Nullable List<Long> highPrefAirports,
+            @Nullable List<Long> prefAirports,
+            @Nonnull final String foodImp,
+            @Nonnull final String airportImp,
+            int persons,
+            int limit,
+            @Nonnull final String from,
+            @Nonnull final String to,
+            int minDays,
+            int maxDays,
+            Long hotel
+    ) {
+        float priceImpCoeff = impCoeff(priceImp);
+
+        float allInclusiveValue = foodImp(allInclusivePref);
+        float fullBoardValue = foodImp(fullBoardPref);
+        float halfBoardValue = foodImp(halfBoardPref);
+        float breakfastValue = foodImp(breakfastPref);
+        float noFoodValue = foodImp(noFoodPref);
+
+        float foodImpCoeff = impCoeff(foodImp);
+
+        float airportCoeff = impCoeff(airportImp);
+
+        final LocalDate dateFrom = LocalDate.parse(from, DATE_TIME_FORMATTER);
+        final LocalDate dateTo = LocalDate.parse(to, DATE_TIME_FORMATTER);
+
+        if (highPrefAirports == null) {
+            highPrefAirports = Collections.emptyList();
+        }
+        if (prefAirports == null) {
+            prefAirports = Collections.emptyList();
+        }
+        reinsertAirportPrefs(highPrefAirports, prefAirports);
+
+        return tripMapper.searchTripsByHotel(
+                maxPrice,
+                priceImpCoeff,
+                allInclusiveValue,
+                fullBoardValue,
+                halfBoardValue,
+                breakfastValue,
+                noFoodValue,
+                airportCoeff,
+                foodImpCoeff,
+                persons,
+                limit,
+                dateFrom,
+                dateTo,
+                minDays,
+                maxDays,
+                hotel
         );
     }
 

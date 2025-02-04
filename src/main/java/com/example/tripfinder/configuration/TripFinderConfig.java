@@ -1,9 +1,11 @@
 package com.example.tripfinder.configuration;
 
 import com.example.tripfinder.mappers.AirportMapper;
+import com.example.tripfinder.mappers.HotelMapper;
 import com.example.tripfinder.mappers.LocationMapper;
 import com.example.tripfinder.mappers.TripMapper;
 import com.example.tripfinder.services.AirportService;
+import com.example.tripfinder.services.HotelService;
 import com.example.tripfinder.services.LocationService;
 import com.example.tripfinder.services.TripService;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -55,6 +57,13 @@ public class TripFinderConfig {
     }
 
     @Bean
+    public MapperFactoryBean<HotelMapper> hotelMapper(SqlSessionFactory sqlSessionFactory) {
+        MapperFactoryBean<HotelMapper> mapperFactoryBean = new MapperFactoryBean<>(HotelMapper.class);
+        mapperFactoryBean.setSqlSessionFactory(sqlSessionFactory);
+        return mapperFactoryBean;
+    }
+
+    @Bean
     public TripService tripService(
             TripMapper tripMapper,
             AirportMapper airportMapper,
@@ -74,6 +83,13 @@ public class TripFinderConfig {
             LocationMapper locationMapper
     ) {
         return new LocationService(locationMapper);
+    }
+
+    @Bean
+    public HotelService hotelService(
+            HotelMapper hotelMapper
+    ) {
+        return new HotelService(hotelMapper);
     }
 
 }

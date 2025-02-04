@@ -1,5 +1,6 @@
 package com.example.tripfinder.mappers;
 
+import com.example.tripfinder.model.TripByHotelDTO;
 import com.example.tripfinder.model.TripDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -24,7 +25,7 @@ public interface TripMapper {
             "hot.family_friendly AS family_friendly, " +
             "hot.wifi AS wifi, " +
             "hot.swimming_pool AS swimming_pool, " +
-            "AVG(r.rating) AS averageRating, " +
+            "COALESCE(AVG(r.rating),0) AS averageRating, " +
             "t.date_from AS dateFrom, " +
             "t.date_to AS dateTo, " +
             "t.date_to - t.date_from AS days, " +
@@ -37,7 +38,7 @@ public interface TripMapper {
                     "WHEN fp.id = 4 THEN #{breakfastValue} " +
                     "WHEN fp.id = 5 THEN #{noFoodValue} " +
             "END * CAST(#{foodImp} AS numeric) AS foodScore, " +
-            "AVG(r.rating) * 10 * CAST(#{ratingCoeff} AS numeric) AS ratingScore, " +
+            "COALESCE(AVG(r.rating),0) * 10 * CAST(#{ratingCoeff} AS numeric) AS ratingScore, " +
             "CASE " +
                     "WHEN t.airport = ANY(SELECT airport FROM airport_prefs WHERE high_pref IS TRUE) THEN 50 " +
                     "WHEN t.airport = ANY(SELECT airport FROM airport_prefs WHERE high_pref IS NOT TRUE) THEN 30 " +
@@ -137,4 +138,93 @@ public interface TripMapper {
             LocalDate to,
             int minDays,
             int maxDays);
+
+    @Select(
+            "WITH cte AS (" +
+                    "SELECT " +
+                    "t.id AS id, " +
+                    "t.price AS price, " +
+                    "l.name AS location, " +
+                    "hot.name AS hotel, " +
+                    "hot.stars AS stars, " +
+                    "a.name || ' (' || a.iata || ')' AS airport, " +
+                    "fp.name AS foodPackage, " +
+                    "bd.name AS beachDistance, " +
+                    "hot.family_friendly AS family_friendly, " +
+                    "hot.wifi AS wifi, " +
+                    "hot.swimming_pool AS swimming_pool, " +
+                    "COALESCE(AVG(r.rating),0) AS averageRating, " +
+                    "t.date_from AS dateFrom, " +
+                    "t.date_to AS dateTo, " +
+                    "t.date_to - t.date_from AS days, " +
+                    "(#{maxPrice}-t.price) * 0.005 * #{priceImportance} AS priceScore, " +
+                    "CASE " +
+                    "WHEN fp.id = 1 THEN #{allInclusiveValue} " +
+                    "WHEN fp.id = 2 THEN #{fullBoardValue} " +
+                    "WHEN fp.id = 3 THEN #{halfBoardValue} " +
+                    "WHEN fp.id = 4 THEN #{breakfastValue} " +
+                    "WHEN fp.id = 5 THEN #{noFoodValue} " +
+                    "END * CAST(#{foodImp} AS numeric) AS foodScore, " +
+                    "CASE " +
+                    "WHEN t.airport = ANY(SELECT airport FROM airport_prefs WHERE high_pref IS TRUE) THEN 50 " +
+                    "WHEN t.airport = ANY(SELECT airport FROM airport_prefs WHERE high_pref IS NOT TRUE) THEN 30 " +
+                    "ELSE 0 " +
+                    "END * CAST(#{airportCoeff} AS numeric) AS airportScore, " +
+                    "FROM trips t " +
+                    "JOIN hotels hot ON t.hotel = hot.id " +
+                    "JOIN food_packages fp ON t.food_package = fp.id " +
+                    "JOIN airports a ON t.airport = a.id " +
+                    "JOIN locations l ON hot.location = l.id " +
+                    "JOIN beach_distance bd ON hot.beach_dist = bd.id " +
+                    "LEFT JOIN reviews r ON hot.id = r.hotel " +
+                    "WHERE price <= #{maxPrice} " +
+                    "AND persons >= #{persons} " +
+                    "AND date_from > #{from} " +
+                    "AND date_to < #{to} " +
+                    "AND hot.id = #{hotel} " +
+                    "GROUP BY t.id " +
+                    ") " +
+                    "SELECT " +
+                    "id, " +
+                    "price, " +
+                    "location, " +
+                    "hotel, " +
+                    "stars, " +
+                    "foodPackage, " +
+                    "airport, " +
+                    "beachDistance, " +
+                    "family_friendly, " +
+                    "wifi, " +
+                    "swimming_pool, " +
+                    "averageRating, " +
+                    "dateFrom, " +
+                    "dateTo, " +
+                    "days, " +
+                    "priceScore, " +
+                    "foodScore, " +
+                    "airportScore, " +
+                    "(priceScore + foodScore + airportScore) AS totalScore " +
+                    "FROM cte " +
+                    "WHERE days >= #{minDays} " +
+                    "AND days <= #{maxDays} " +
+                    "ORDER BY totalScore DESC " +
+                    "LIMIT #{limit}"
+    )
+    List<TripByHotelDTO> searchTripsByHotel(
+            float maxPrice,
+            float priceImportance,
+            float allInclusiveValue,
+            float fullBoardValue,
+            float halfBoardValue,
+            float breakfastValue,
+            float noFoodValue,
+            float airportCoeff,
+            float foodImp,
+            int persons,
+            int limit,
+            LocalDate from,
+            LocalDate to,
+            int minDays,
+            int maxDays,
+            Long hotel);
 }
