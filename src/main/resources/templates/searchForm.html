@@ -93,6 +93,12 @@
         <label th:for="${'location-' + location.id}" th:text="${location.name}"></label>
     </div>
     <br><br>
+    <label>Pouze vybrané lokace:</label>
+    <select th:name="filterLocs">
+        <option value="true">Ano</option>
+        <option selected="selected" value="false">Ne</option>
+    </select>
+    <br><br>
     <label>Důležitost destinace:</label>
     <select th:name="locImp">
         <option value="il">Nízká</option>

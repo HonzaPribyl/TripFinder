@@ -112,6 +112,7 @@ public interface TripMapper {
             "FROM cte " +
             "WHERE days >= #{minDays} " +
             "AND days <= #{maxDays} " +
+            "AND NOT #{locFilter} OR locationScore > 0 " +
             "ORDER BY totalScore DESC " +
             "LIMIT #{limit}"
     )
@@ -137,7 +138,8 @@ public interface TripMapper {
             LocalDate from,
             LocalDate to,
             int minDays,
-            int maxDays);
+            int maxDays,
+            boolean locFilter);
 
     @Select(
             "WITH cte AS (" +

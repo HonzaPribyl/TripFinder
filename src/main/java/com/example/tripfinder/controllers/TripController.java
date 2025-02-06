@@ -44,7 +44,8 @@ public class TripController {
             @RequestParam String from,
             @RequestParam String to,
             @RequestParam int minDays,
-            @RequestParam int maxDays
+            @RequestParam int maxDays,
+            @RequestParam boolean filterLocs
             ) {
         return tripService.search(
                 maxPrice,
@@ -72,7 +73,8 @@ public class TripController {
                 from,
                 to,
                 minDays,
-                maxDays);
+                maxDays,
+                filterLocs);
     }
 
     @GetMapping("/searchByHotel")
