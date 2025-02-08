@@ -67,7 +67,8 @@ public class TripService {
             @Nonnull final String to,
             int minDays,
             int maxDays,
-            boolean filterLocs
+            boolean filterLocs,
+            boolean hotelDistinct
     ) {
 
         float priceImpCoeff = impCoeff(priceImp);
@@ -136,7 +137,8 @@ public class TripService {
                 dateTo,
                 minDays,
                 maxDays,
-                filterLocs
+                filterLocs,
+                hotelDistinct
         );
     }
 

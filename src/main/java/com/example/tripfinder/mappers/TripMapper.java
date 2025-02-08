@@ -80,7 +80,7 @@ public interface TripMapper {
             "AND date_to < #{to} " +
             "GROUP BY t.id " +
             ") " +
-            "SELECT " +
+            "SELECT DISTINCT ON (CASE WHEN #{hotelDistinct} THEN hotel ELSE id::TEXT END) " +
             "id, " +
             "price, " +
             "location, " +
@@ -139,7 +139,8 @@ public interface TripMapper {
             LocalDate to,
             int minDays,
             int maxDays,
-            boolean locFilter);
+            boolean locFilter,
+            boolean hotelDistinct);
 
     @Select(
             "WITH cte AS (" +

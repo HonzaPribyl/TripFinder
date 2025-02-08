@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -45,7 +44,8 @@ public class TripController {
             @RequestParam String to,
             @RequestParam int minDays,
             @RequestParam int maxDays,
-            @RequestParam boolean filterLocs
+            @RequestParam boolean filterLocs,
+            @RequestParam boolean hotelDistinct
             ) {
         return tripService.search(
                 maxPrice,
@@ -74,7 +74,8 @@ public class TripController {
                 to,
                 minDays,
                 maxDays,
-                filterLocs);
+                filterLocs,
+                hotelDistinct);
     }
 
     @GetMapping("/searchByHotel")

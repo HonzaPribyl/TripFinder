@@ -198,6 +198,12 @@
             value="16"
             required/>
     <br><br>
+    <label>Pouze jeden výsledek pro hotel:</label>
+    <select th:name="hotelDistinct">
+        <option selected="selected" value="true">Ano</option>
+        <option value="false">Ne</option>
+    </select>
+    <br><br>
     <button type="submit">Hledat</button>
 </form>
 
