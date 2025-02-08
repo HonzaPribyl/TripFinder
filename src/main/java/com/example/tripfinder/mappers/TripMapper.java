@@ -78,6 +78,9 @@ public interface TripMapper {
             "AND persons >= #{persons} " +
             "AND date_from > #{from} " +
             "AND date_to < #{to} " +
+            "AND NOT #{familyFilter} OR family_friendly = true " +
+            "AND NOT #{wifiFilter} OR wifi = true " +
+            "AND NOT #{poolFilter} OR swimming_pool = true " +
             "GROUP BY t.id " +
             ") " +
             "SELECT DISTINCT ON (CASE WHEN #{hotelDistinct} THEN hotel ELSE id::TEXT END) " +
@@ -140,6 +143,9 @@ public interface TripMapper {
             int minDays,
             int maxDays,
             boolean locFilter,
+            boolean familyFilter,
+            boolean wifiFilter,
+            boolean poolFilter,
             boolean hotelDistinct);
 
     @Select(

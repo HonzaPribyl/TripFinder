@@ -22,6 +22,7 @@ public class TripService {
     private static final String IMPORTANCE_MEDIUM = "im";
     private static final String IMPORTANCE_HIGH = "ih";
     private static final String IMPORTANCE_NONE = "in";
+    private static final String IMPORTANCE_NECESSARY = "inc";
 
     private static final float COEFFICIENT_LOW_IMP = 0.75f;
     private static final float COEFFICIENT_MEDIUM_IMP = 1;
@@ -79,8 +80,13 @@ public class TripService {
 
         float beachDistImpCoeff = impCoeff(beachDistImp);
 
+        boolean familyFilter = sortAccessory(familyImp);
         float familyImpCoeff = impCoeff(familyImp);
+
+        boolean wifiFilter = sortAccessory(wifiImp);
         float wifiImpCoeff = impCoeff(wifiImp);
+
+        boolean poolFilter = sortAccessory(poolImp);
         float poolImpCoeff = impCoeff(poolImp);
 
         float allInclusiveValue = foodImp(allInclusivePref);
@@ -138,6 +144,9 @@ public class TripService {
                 minDays,
                 maxDays,
                 filterLocs,
+                familyFilter,
+                wifiFilter,
+                poolFilter,
                 hotelDistinct
         );
     }
@@ -203,6 +212,13 @@ public class TripService {
                 maxDays,
                 hotel
         );
+    }
+
+    private boolean sortAccessory(@Nonnull String param) {
+        return switch (param) {
+            case IMPORTANCE_NECESSARY -> true;
+            default -> false;
+        };
     }
 
     private float impCoeff(@Nonnull String param) {
