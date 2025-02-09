@@ -76,6 +76,11 @@
         <option value="hp">Vysoká</option>
     </select>
     <br>
+    <label>Maximální vzdálenost pláže:</label>
+    <select th:name="minBeachDist">
+        <option th:each="beach_dist:${beach_dists}" th:value="${beach_dist.id}" th:text="${beach_dist.name}"></option>
+    </select>
+    <br>
     <label>Letiště vysoká preference</label>
     <div th:each="airport : ${airports}">
         <input type="checkbox" th:name="highPrefAirports" th:value="${airport.id}" th:id="${'airport-' + airport.id}">

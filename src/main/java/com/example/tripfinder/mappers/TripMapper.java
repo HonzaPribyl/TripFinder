@@ -79,6 +79,7 @@ public interface TripMapper {
             "AND persons >= #{persons} " +
             "AND date_from > #{from} " +
             "AND date_to < #{to} " +
+            "AND hot.beach_dist <= #{minBeachDist} " +
             "AND (NOT #{familyFilter} OR family_friendly = true) " +
             "AND (NOT #{wifiFilter} OR wifi = true) " +
             "AND (NOT #{poolFilter} OR swimming_pool = true) " +
@@ -135,6 +136,7 @@ public interface TripMapper {
             float airportCoeff,
             float foodImp,
             float beachDistImp,
+            Long minBeachDist,
             float familyImp,
             float wifiImp,
             float poolImp,

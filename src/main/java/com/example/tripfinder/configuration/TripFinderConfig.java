@@ -1,13 +1,7 @@
 package com.example.tripfinder.configuration;
 
-import com.example.tripfinder.mappers.AirportMapper;
-import com.example.tripfinder.mappers.HotelMapper;
-import com.example.tripfinder.mappers.LocationMapper;
-import com.example.tripfinder.mappers.TripMapper;
-import com.example.tripfinder.services.AirportService;
-import com.example.tripfinder.services.HotelService;
-import com.example.tripfinder.services.LocationService;
-import com.example.tripfinder.services.TripService;
+import com.example.tripfinder.mappers.*;
+import com.example.tripfinder.services.*;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -64,6 +58,13 @@ public class TripFinderConfig {
     }
 
     @Bean
+    public MapperFactoryBean<BeachDistMapper> beachDistMapper(SqlSessionFactory sqlSessionFactory) {
+        MapperFactoryBean<BeachDistMapper> mapperFactoryBean = new MapperFactoryBean<>(BeachDistMapper.class);
+        mapperFactoryBean.setSqlSessionFactory(sqlSessionFactory);
+        return mapperFactoryBean;
+    }
+
+    @Bean
     public TripService tripService(
             TripMapper tripMapper,
             AirportMapper airportMapper,
@@ -90,6 +91,13 @@ public class TripFinderConfig {
             HotelMapper hotelMapper
     ) {
         return new HotelService(hotelMapper);
+    }
+
+    @Bean
+    public BeachDistService beachDistService(
+            BeachDistMapper beachDistMapper
+    ) {
+        return new BeachDistService(beachDistMapper);
     }
 
 }
