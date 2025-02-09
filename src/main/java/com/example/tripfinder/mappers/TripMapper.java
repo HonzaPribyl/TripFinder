@@ -79,6 +79,7 @@ public interface TripMapper {
             "AND persons >= #{persons} " +
             "AND date_from > #{from} " +
             "AND date_to < #{to} " +
+            "AND hot.stars >= #{minStars} " +
             "AND hot.beach_dist <= #{minBeachDist} " +
             "AND (NOT #{familyFilter} OR family_friendly = true) " +
             "AND (NOT #{wifiFilter} OR wifi = true) " +
@@ -128,6 +129,7 @@ public interface TripMapper {
             float priceImportance,
             float locCoeff,
             float starsImp,
+            int minStars,
             float allInclusiveValue,
             float fullBoardValue,
             float halfBoardValue,
