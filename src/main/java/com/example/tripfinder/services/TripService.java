@@ -51,6 +51,7 @@ public class TripService {
             @Nonnull final String halfBoardPref,
             @Nonnull final String breakfastPref,
             @Nonnull final String noFoodPref,
+            @Nonnull final String minFoodPref,
             @Nullable List<Long> highPrefAirports,
             @Nullable List<Long> prefAirports,
             @Nullable List<Long> highPrefLocs,
@@ -96,6 +97,7 @@ public class TripService {
         float halfBoardValue = foodImp(halfBoardPref);
         float breakfastValue = foodImp(breakfastPref);
         float noFoodValue = foodImp(noFoodPref);
+        float minFoodValue = foodImp(minFoodPref);
 
         float ratingCoeff = impCoeff(ratingImp);
 
@@ -133,6 +135,7 @@ public class TripService {
                 halfBoardValue,
                 breakfastValue,
                 noFoodValue,
+                minFoodValue,
                 foodImpCoeff,
                 ratingCoeff,
                 airportCoeff,

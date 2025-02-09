@@ -117,6 +117,7 @@ public interface TripMapper {
             "FROM cte " +
             "WHERE days >= #{minDays} " +
             "AND days <= #{maxDays} " +
+            "AND foodScore >= #{minFoodValue} " +
             "AND (NOT #{locFilter} OR locationScore > 0) " +
             "ORDER BY totalScore DESC " +
             "LIMIT #{limit}"
@@ -132,6 +133,7 @@ public interface TripMapper {
             float halfBoardValue,
             float breakfastValue,
             float noFoodValue,
+            float minFoodValue,
             float ratingCoeff,
             float airportCoeff,
             float foodImp,

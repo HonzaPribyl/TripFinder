@@ -76,6 +76,13 @@
         <option value="hp">Vysoká</option>
     </select>
     <br>
+    <label>Minimální preference stravy:</label>
+    <select th:name="minFoodPref">
+        <option value="lp">Nízká</option>
+        <option selected="selected" value="mp">Střední</option>
+        <option value="hp">Vysoká</option>
+    </select>
+    <br><br>
     <label>Maximální vzdálenost pláže:</label>
     <select th:name="minBeachDist">
         <option th:each="beach_dist:${beach_dists}" th:value="${beach_dist.id}" th:text="${beach_dist.name}"></option>
