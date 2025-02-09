@@ -75,12 +75,13 @@ public interface TripMapper {
             "JOIN beach_distance bd ON hot.beach_dist = bd.id " +
             "LEFT JOIN reviews r ON hot.id = r.hotel " +
             "WHERE price <= #{maxPrice} " +
+            "AND price >= #{minPrice} " +
             "AND persons >= #{persons} " +
             "AND date_from > #{from} " +
             "AND date_to < #{to} " +
-            "AND NOT #{familyFilter} OR family_friendly = true " +
-            "AND NOT #{wifiFilter} OR wifi = true " +
-            "AND NOT #{poolFilter} OR swimming_pool = true " +
+            "AND (NOT #{familyFilter} OR family_friendly = true) " +
+            "AND (NOT #{wifiFilter} OR wifi = true) " +
+            "AND (NOT #{poolFilter} OR swimming_pool = true) " +
             "GROUP BY t.id " +
             ") " +
             "SELECT DISTINCT ON (CASE WHEN #{hotelDistinct} THEN hotel ELSE id::TEXT END) " +
@@ -115,12 +116,13 @@ public interface TripMapper {
             "FROM cte " +
             "WHERE days >= #{minDays} " +
             "AND days <= #{maxDays} " +
-            "AND NOT #{locFilter} OR locationScore > 0 " +
+            "AND (NOT #{locFilter} OR locationScore > 0) " +
             "ORDER BY totalScore DESC " +
             "LIMIT #{limit}"
     )
     List<TripDTO> searchTrips(
             float maxPrice,
+            float minPrice,
             float priceImportance,
             float locCoeff,
             float starsImp,

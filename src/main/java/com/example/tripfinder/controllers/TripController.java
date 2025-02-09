@@ -19,6 +19,7 @@ public class TripController {
     @GetMapping("/search")
     public List<TripDTO> search(
             @RequestParam float maxPrice,
+            @RequestParam float minPrice,
             @RequestParam String priceImp,
             @RequestParam String starsImp,
             @RequestParam String allInclusivePref,
@@ -49,6 +50,7 @@ public class TripController {
             ) {
         return tripService.search(
                 maxPrice,
+                minPrice,
                 priceImp,
                 starsImp,
                 allInclusivePref,

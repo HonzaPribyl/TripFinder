@@ -43,6 +43,7 @@ public class TripService {
 
     public List<TripDTO> search(
             float maxPrice,
+            float minPrice,
             @Nonnull final String priceImp,
             @Nonnull final String starsImp,
             @Nonnull final String allInclusivePref,
@@ -122,6 +123,7 @@ public class TripService {
 
         return tripMapper.searchTrips(
                 maxPrice,
+                minPrice,
                 priceImpCoeff,
                 locImpCoeff,
                 starsImpCoeff,
