@@ -8,32 +8,42 @@ import net.sourceforge.jFuzzyLogic.rule.Variable;
 public class FuzzClass {
     public static void main(String[] args) throws Exception {
         // Load from 'FCL' file
-        String fileName = "src/main/resources/fcl/tipper.fcl";
-        FIS fis = FIS.load(fileName,true);
+        String fileNameHotelEq = "src/main/resources/fcl/hotel_equipment.fcl";
+        String fileNameHotel = "src/main/resources/fcl/hotel.fcl";
+        FIS fisEq = FIS.load(fileNameHotelEq,true);
+        FIS fisHot = FIS.load(fileNameHotel,true);
 
-        FunctionBlock functionBlock = fis.getFunctionBlock("tipper");
+        FunctionBlock functionBlockEq = fisEq.getFunctionBlock("hotel_equipment");
+        FunctionBlock functionBlockHotel = fisHot.getFunctionBlock("hotel");
 
         // Error while loading?
-        if( fis == null ) {
-            System.err.println("Can't load file: '" + fileName + "'");
+        if( fisEq == null ) {
+            System.err.println("Can't load file: '" + fileNameHotelEq + "'");
             return;
         }
 
         // Show
-        JFuzzyChart.get().chart(functionBlock);
+        JFuzzyChart.get().chart(functionBlockEq);
 
         // Set inputs
-        fis.setVariable("service", 3);
-        fis.setVariable("food", 7);
+        fisEq.setVariable("family_friendly", 1);
+        fisEq.setVariable("wifi", 1);
+        fisEq.setVariable("swimming_pool", 1);
 
         // Evaluate
-        fis.evaluate();
+        fisEq.evaluate();
 
         // Show output variable's chart
-        Variable tip = functionBlock.getVariable("tip");
-//        JFuzzyChart.get().chart(tip, tip.getDefuzzifier(), true);
+        Variable equipment = functionBlockEq.getVariable("equipment");
+        JFuzzyChart.get().chart(equipment, equipment.getDefuzzifier(), true);
 
-        // Print ruleSet
-        System.out.println(fis);
+        fisHot.setVariable("stars", 5);
+        fisHot.setVariable("equipment", fisEq.getVariable("equipment").getValue());
+
+        fisHot.evaluate();
+
+        Variable hotel = functionBlockHotel.getVariable("hotel");
+        JFuzzyChart.get().chart(hotel, hotel.getDefuzzifier(), true);
+
     }
 }

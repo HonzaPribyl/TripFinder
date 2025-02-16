@@ -1,0 +1,68 @@
+FUNCTION_BLOCK hotel
+
+VAR_INPUT
+	stars : REAL;
+	equipment : REAL;
+END_VAR
+
+VAR_OUTPUT
+	hotel : REAL;
+END_VAR
+
+FUZZIFY stars
+	TERM one := (0, 0) (1, 1) (2, 0);
+	TERM two := (1, 0) (2, 1) (3, 0);
+	TERM three := (2, 0) (3, 1) (4, 0);
+	TERM four := (3, 0) (4, 1) (5, 0);
+	TERM five := (4, 0) (5, 1) (6, 0);
+END_FUZZIFY
+
+FUZZIFY equipment
+	TERM no := (0,0) (5,1) (10,0);
+	TERM small := (10,0) (15,1) (20,0);
+	TERM great := (20,0) (25,1) (30,0);
+	TERM excellent := (30,0) (35,1) (40,0);
+END_FUZZIFY
+
+DEFUZZIFY hotel
+    TERM bad := (0,0) (5,1) (10,1) (15,0);
+	TERM poor := (5,0) (10,1) (15,1) (20,0);
+	TERM average := (10,0) (15,1) (20,1) (25,0);
+	TERM good := (15,0) (20,1) (25,1) (30,0);
+	TERM excellent := (20,0) (25,1) (30,1) (35,0);
+	METHOD : COG;
+	DEFAULT := 0;
+END_DEFUZZIFY
+
+RULEBLOCK No1
+    AND : MIN;
+    ACT : MIN;
+    ACCU : MAX;
+
+    RULE 1  : IF stars IS one AND equipment IS no THEN hotel IS bad;
+    RULE 2  : IF stars IS one AND equipment IS small THEN hotel IS poor;
+    RULE 3  : IF stars IS one AND equipment IS great THEN hotel IS average;
+    RULE 4  : IF stars IS one AND equipment IS excellent THEN hotel IS good;
+
+    RULE 5  : IF stars IS two AND equipment IS no THEN hotel IS bad;
+    RULE 6  : IF stars IS two AND equipment IS small THEN hotel IS poor;
+    RULE 7  : IF stars IS two AND equipment IS great THEN hotel IS average;
+    RULE 8  : IF stars IS two AND equipment IS excellent THEN hotel IS good;
+
+    RULE 9  : IF stars IS three AND equipment IS no THEN hotel IS poor;
+    RULE 10 : IF stars IS three AND equipment IS small THEN hotel IS average;
+    RULE 11 : IF stars IS three AND equipment IS great THEN hotel IS good;
+    RULE 12 : IF stars IS three AND equipment IS excellent THEN hotel IS excellent;
+
+    RULE 13 : IF stars IS four AND equipment IS no THEN hotel IS poor;
+    RULE 14 : IF stars IS four AND equipment IS small THEN hotel IS average;
+    RULE 15 : IF stars IS four AND equipment IS great THEN hotel IS good;
+    RULE 16 : IF stars IS four AND equipment IS excellent THEN hotel IS excellent;
+
+    RULE 17 : IF stars IS five AND equipment IS no THEN hotel IS average;
+    RULE 18 : IF stars IS five AND equipment IS small THEN hotel IS good;
+    RULE 19 : IF stars IS five AND equipment IS great THEN hotel IS excellent;
+    RULE 20 : IF stars IS five AND equipment IS excellent THEN hotel IS excellent;
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK
