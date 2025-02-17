@@ -10,11 +10,14 @@ public class FuzzClass {
         // Load from 'FCL' file
         String fileNameHotelEq = "src/main/resources/fcl/hotel_equipment.fcl";
         String fileNameHotel = "src/main/resources/fcl/hotel.fcl";
+        String fileNameLocation = "src/main/resources/fcl/location.fcl";
         FIS fisEq = FIS.load(fileNameHotelEq,true);
         FIS fisHot = FIS.load(fileNameHotel,true);
+        FIS fisLoc = FIS.load(fileNameLocation,true);
 
         FunctionBlock functionBlockEq = fisEq.getFunctionBlock("hotel_equipment");
         FunctionBlock functionBlockHotel = fisHot.getFunctionBlock("hotel");
+        FunctionBlock functionBlockLocation = fisLoc.getFunctionBlock("location");
 
         // Error while loading?
         if( fisEq == null ) {
@@ -44,6 +47,14 @@ public class FuzzClass {
 
         Variable hotel = functionBlockHotel.getVariable("hotel");
         JFuzzyChart.get().chart(hotel, hotel.getDefuzzifier(), true);
+
+        fisLoc.setVariable("location_preference", 1);
+        fisLoc.setVariable("beach_distance", 5);
+
+        fisLoc.evaluate();
+
+        Variable location = functionBlockLocation.getVariable("location_attributes");
+        JFuzzyChart.get().chart(location, location.getDefuzzifier(), true);
 
     }
 }
