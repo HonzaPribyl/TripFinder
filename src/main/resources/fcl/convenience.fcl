@@ -1,0 +1,54 @@
+FUNCTION_BLOCK convenience
+
+VAR_INPUT
+	airport_preference : REAL;
+	food_package_preference : REAL;
+END_VAR
+
+VAR_OUTPUT
+	convenience : REAL;
+END_VAR
+
+FUZZIFY airport_preference
+	TERM highly_preferred := (0, 0) (1, 1) (2, 0);
+	TERM preferred := (1, 0) (2, 1) (3, 0);
+	TERM no_preference := (2, 0) (3, 1) (4, 0);
+END_FUZZIFY
+
+FUZZIFY food_package_preference
+	TERM high_preference := (0, 0) (1, 1) (2, 0);
+	TERM medium_preference := (1, 0) (2, 1) (3, 0);
+	TERM low_preference := (2, 0) (3, 1) (4, 0);
+END_FUZZIFY
+
+DEFUZZIFY convenience
+    TERM bad := (0,0) (5,1) (10,1) (15,0);
+	TERM poor := (5,0) (10,1) (15,1) (20,0);
+	TERM average := (10,0) (15,1) (20,1) (25,0);
+	TERM good := (15,0) (20,1) (25,1) (30,0);
+	TERM excellent := (20,0) (25,1) (30,1) (35,0);
+	METHOD : COG;
+	DEFAULT := 0;
+END_DEFUZZIFY
+
+RULEBLOCK No1
+    AND : MIN;
+    ACT : MIN;
+    ACCU : MAX;
+
+    RULE 1  : IF airport_preference IS highly_preferred AND food_package_preference IS high_preference THEN convenience IS excellent;
+    RULE 2  : IF airport_preference IS highly_preferred AND food_package_preference IS medium_preference THEN convenience IS good;
+    RULE 3  : IF airport_preference IS highly_preferred AND food_package_preference IS low_preference THEN convenience IS average;
+
+    RULE 4  : IF airport_preference IS preferred AND food_package_preference IS high_preference THEN convenience IS good;
+    RULE 5  : IF airport_preference IS preferred AND food_package_preference IS medium_preference THEN convenience IS average;
+    RULE 6  : IF airport_preference IS preferred AND food_package_preference IS low_preference THEN convenience IS poor;
+
+    RULE 7  : IF airport_preference IS no_preference AND food_package_preference IS high_preference THEN convenience IS average;
+    RULE 8  : IF airport_preference IS no_preference AND food_package_preference IS medium_preference THEN convenience IS poor;
+    RULE 9  : IF airport_preference IS no_preference AND food_package_preference IS low_preference THEN convenience IS bad;
+
+END_RULEBLOCK
+
+
+END_FUNCTION_BLOCK
