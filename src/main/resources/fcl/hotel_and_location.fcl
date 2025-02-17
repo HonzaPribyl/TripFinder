@@ -1,0 +1,77 @@
+FUNCTION_BLOCK hotel_and_location
+
+VAR_INPUT
+	hotel : REAL;
+	location_attributes : REAL;
+END_VAR
+
+VAR_OUTPUT
+	hotel_and_location : REAL;
+END_VAR
+
+FUZZIFY hotel
+    TERM bad := (0,0) (5,1) (10,1) (15,0);
+	TERM poor := (5,0) (10,1) (15,1) (20,0);
+	TERM average := (10,0) (15,1) (20,1) (25,0);
+	TERM good := (15,0) (20,1) (25,1) (30,0);
+	TERM excellent := (20,0) (25,1) (30,1) (35,0);
+END_FUZZIFY
+
+FUZZIFY location_attributes
+    TERM very_unsatisfying := (0,0) (5,1) (10,1) (15,0);
+	TERM unsatisfying := (5,0) (10,1) (15,1) (20,0);
+	TERM average := (10,0) (15,1) (20,1) (25,0);
+	TERM satisfying := (15,0) (20,1) (25,1) (30,0);
+	TERM very_satisfying := (20,0) (25,1) (30,1) (35,0);
+END_FUZZIFY
+
+DEFUZZIFY hotel_and_location
+    TERM very_unsatisfying := (0,0) (5,1) (10,1) (15,0);
+	TERM unsatisfying := (5,0) (10,1) (15,1) (20,0);
+	TERM rather_unsatisfying := (10,0) (15,1) (20,1) (25,0);
+	TERM average := (10,0) (15,1) (20,1) (25,0);
+	TERM rather_satisfying := (15,0) (20,1) (25,1) (30,0);
+	TERM satisfying := (25,0) (30,1) (35,1) (40,0);
+	TERM very_satisfying := (30,0) (35,1) (40,1) (45,0);
+	METHOD : COG;
+    DEFAULT := 0;
+END_DEFUZZIFY
+
+RULEBLOCK No1
+    AND : MIN;
+    ACT : MIN;
+    ACCU : MAX;
+
+    RULE 1  : IF hotel IS bad AND location_attributes IS very_unsatisfying THEN hotel_and_location IS very_unsatisfying;
+    RULE 2  : IF hotel IS bad AND location_attributes IS unsatisfying THEN hotel_and_location IS very_unsatisfying;
+    RULE 3  : IF hotel IS bad AND location_attributes IS average THEN hotel_and_location IS unsatisfying;
+    RULE 4  : IF hotel IS bad AND location_attributes IS satisfying THEN hotel_and_location IS rather_unsatisfying;
+    RULE 5  : IF hotel IS bad AND location_attributes IS very_satisfying THEN hotel_and_location IS average;
+
+    RULE 6  : IF hotel IS poor AND location_attributes IS very_unsatisfying THEN hotel_and_location IS very_unsatisfying;
+    RULE 7  : IF hotel IS poor AND location_attributes IS unsatisfying THEN hotel_and_location IS unsatisfying;
+    RULE 8  : IF hotel IS poor AND location_attributes IS average THEN hotel_and_location IS rather_unsatisfying;
+    RULE 9  : IF hotel IS poor AND location_attributes IS satisfying THEN hotel_and_location IS average;
+    RULE 10 : IF hotel IS poor AND location_attributes IS very_satisfying THEN hotel_and_location IS rather_satisfying;
+
+    RULE 11 : IF hotel IS average AND location_attributes IS very_unsatisfying THEN hotel_and_location IS unsatisfying;
+    RULE 12 : IF hotel IS average AND location_attributes IS unsatisfying THEN hotel_and_location IS rather_unsatisfying;
+    RULE 13 : IF hotel IS average AND location_attributes IS average THEN hotel_and_location IS average;
+    RULE 14 : IF hotel IS average AND location_attributes IS satisfying THEN hotel_and_location IS rather_satisfying;
+    RULE 15 : IF hotel IS average AND location_attributes IS very_satisfying THEN hotel_and_location IS satisfying;
+
+    RULE 16 : IF hotel IS good AND location_attributes IS very_unsatisfying THEN hotel_and_location IS rather_unsatisfying;
+    RULE 17 : IF hotel IS good AND location_attributes IS unsatisfying THEN hotel_and_location IS average;
+    RULE 18 : IF hotel IS good AND location_attributes IS average THEN hotel_and_location IS rather_satisfying;
+    RULE 19 : IF hotel IS good AND location_attributes IS satisfying THEN hotel_and_location IS satisfying;
+    RULE 20 : IF hotel IS good AND location_attributes IS very_satisfying THEN hotel_and_location IS very_satisfying;
+
+    RULE 21 : IF hotel IS excellent AND location_attributes IS very_unsatisfying THEN hotel_and_location IS average;
+    RULE 22 : IF hotel IS excellent AND location_attributes IS unsatisfying THEN hotel_and_location IS rather_satisfying;
+    RULE 23 : IF hotel IS excellent AND location_attributes IS average THEN hotel_and_location IS satisfying;
+    RULE 24 : IF hotel IS excellent AND location_attributes IS satisfying THEN hotel_and_location IS very_satisfying;
+    RULE 25 : IF hotel IS excellent AND location_attributes IS very_satisfying THEN hotel_and_location IS very_satisfying;
+
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK
