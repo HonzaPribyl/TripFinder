@@ -1,0 +1,109 @@
+FUNCTION_BLOCK trip
+
+VAR_INPUT
+	hotel_and_location : REAL;
+	journey : REAL;
+END_VAR
+
+VAR_OUTPUT
+    trip : REAL;
+END_VAR
+
+FUZZIFY hotel_and_location
+    TERM very_unsatisfying := (0,0) (5,1) (10,1) (15,0);
+	TERM unsatisfying := (5,0) (10,1) (15,1) (20,0);
+	TERM rather_unsatisfying := (10,0) (15,1) (20,1) (25,0);
+	TERM average := (10,0) (15,1) (20,1) (25,0);
+	TERM rather_satisfying := (15,0) (20,1) (25,1) (30,0);
+	TERM satisfying := (25,0) (30,1) (35,1) (40,0);
+	TERM very_satisfying := (30,0) (35,1) (40,1) (45,0);
+END_FUZZIFY
+
+FUZZIFY journey
+    TERM very_unsatisfying := (0,0) (5,1) (10,1) (15,0);
+	TERM unsatisfying := (5,0) (10,1) (15,1) (20,0);
+	TERM rather_unsatisfying := (10,0) (15,1) (20,1) (25,0);
+	TERM average := (10,0) (15,1) (20,1) (25,0);
+	TERM rather_satisfying := (15,0) (20,1) (25,1) (30,0);
+	TERM satisfying := (25,0) (30,1) (35,1) (40,0);
+	TERM very_satisfying := (30,0) (35,1) (40,1) (45,0);
+END_FUZZIFY
+
+DEFUZZIFY trip
+    TERM very_unsatisfying := (0,0) (5,1) (10,1) (15,0);
+	TERM unsatisfying := (5,0) (10,1) (15,1) (20,0);
+	TERM rather_unsatisfying := (10,0) (15,1) (20,1) (25,0);
+	TERM average := (10,0) (15,1) (20,1) (25,0);
+	TERM rather_satisfying := (15,0) (20,1) (25,1) (30,0);
+	TERM satisfying := (25,0) (30,1) (35,1) (40,0);
+	TERM very_satisfying := (30,0) (35,1) (40,1) (45,0);
+	TERM extremely_satisfying := (35,0) (40,1) (45,1) (50,0);
+	METHOD : COG;
+    DEFAULT := 0;
+END_DEFUZZIFY
+
+RULEBLOCK No1
+    AND : MIN;
+    ACT : MIN;
+    ACCU : MAX;
+
+    RULE 1  : IF hotel_and_location IS very_satisfying AND journey IS very_satisfying THEN trip IS extremely_satisfying;
+    RULE 2  : IF hotel_and_location IS very_satisfying AND journey IS satisfying THEN trip IS very_satisfying;
+    RULE 3  : IF hotel_and_location IS very_satisfying AND journey IS rather_satisfying THEN trip IS satisfying;
+    RULE 4  : IF hotel_and_location IS very_satisfying AND journey IS average THEN trip IS rather_satisfying;
+    RULE 5  : IF hotel_and_location IS very_satisfying AND journey IS rather_unsatisfying THEN trip IS average;
+    RULE 6  : IF hotel_and_location IS very_satisfying AND journey IS unsatisfying THEN trip IS rather_unsatisfying;
+    RULE 7  : IF hotel_and_location IS very_satisfying AND journey IS very_unsatisfying THEN trip IS unsatisfying;
+
+    RULE 8  : IF hotel_and_location IS satisfying AND journey IS very_satisfying THEN trip IS very_satisfying;
+    RULE 9  : IF hotel_and_location IS satisfying AND journey IS satisfying THEN trip IS very_satisfying;
+    RULE 10 : IF hotel_and_location IS satisfying AND journey IS rather_satisfying THEN trip IS satisfying;
+    RULE 11 : IF hotel_and_location IS satisfying AND journey IS average THEN trip IS rather_satisfying;
+    RULE 12 : IF hotel_and_location IS satisfying AND journey IS rather_unsatisfying THEN trip IS average;
+    RULE 13 : IF hotel_and_location IS satisfying AND journey IS unsatisfying THEN trip IS rather_unsatisfying;
+    RULE 14 : IF hotel_and_location IS satisfying AND journey IS very_unsatisfying THEN trip IS unsatisfying;
+
+    RULE 15 : IF hotel_and_location IS rather_satisfying AND journey IS very_satisfying THEN trip IS satisfying;
+    RULE 16 : IF hotel_and_location IS rather_satisfying AND journey IS satisfying THEN trip IS satisfying;
+    RULE 17 : IF hotel_and_location IS rather_satisfying AND journey IS rather_satisfying THEN trip IS rather_satisfying;
+    RULE 18 : IF hotel_and_location IS rather_satisfying AND journey IS average THEN trip IS average;
+    RULE 19 : IF hotel_and_location IS rather_satisfying AND journey IS rather_unsatisfying THEN trip IS rather_unsatisfying;
+    RULE 20 : IF hotel_and_location IS rather_satisfying AND journey IS unsatisfying THEN trip IS unsatisfying;
+    RULE 21 : IF hotel_and_location IS rather_satisfying AND journey IS very_unsatisfying THEN trip IS very_unsatisfying;
+
+    RULE 22 : IF hotel_and_location IS average AND journey IS very_satisfying THEN trip IS rather_satisfying;
+    RULE 23 : IF hotel_and_location IS average AND journey IS satisfying THEN trip IS rather_satisfying;
+    RULE 24 : IF hotel_and_location IS average AND journey IS rather_satisfying THEN trip IS average;
+    RULE 25 : IF hotel_and_location IS average AND journey IS average THEN trip IS average;
+    RULE 26 : IF hotel_and_location IS average AND journey IS rather_unsatisfying THEN trip IS rather_unsatisfying;
+    RULE 27 : IF hotel_and_location IS average AND journey IS unsatisfying THEN trip IS unsatisfying;
+    RULE 28 : IF hotel_and_location IS average AND journey IS very_unsatisfying THEN trip IS very_unsatisfying;
+
+    RULE 29 : IF hotel_and_location IS rather_unsatisfying AND journey IS very_satisfying THEN trip IS rather_satisfying;
+    RULE 30 : IF hotel_and_location IS rather_unsatisfying AND journey IS satisfying THEN trip IS average;
+    RULE 31 : IF hotel_and_location IS rather_unsatisfying AND journey IS rather_satisfying THEN trip IS average;
+    RULE 32 : IF hotel_and_location IS rather_unsatisfying AND journey IS average THEN trip IS rather_unsatisfying;
+    RULE 33 : IF hotel_and_location IS rather_unsatisfying AND journey IS rather_unsatisfying THEN trip IS unsatisfying;
+    RULE 34 : IF hotel_and_location IS rather_unsatisfying AND journey IS unsatisfying THEN trip IS very_unsatisfying;
+    RULE 35 : IF hotel_and_location IS rather_unsatisfying AND journey IS very_unsatisfying THEN trip IS very_unsatisfying;
+
+    RULE 36 : IF hotel_and_location IS unsatisfying AND journey IS very_satisfying THEN trip IS average;
+    RULE 37 : IF hotel_and_location IS unsatisfying AND journey IS satisfying THEN trip IS rather_unsatisfying;
+    RULE 38 : IF hotel_and_location IS unsatisfying AND journey IS rather_satisfying THEN trip IS unsatisfying;
+    RULE 39 : IF hotel_and_location IS unsatisfying AND journey IS average THEN trip IS unsatisfying;
+    RULE 40 : IF hotel_and_location IS unsatisfying AND journey IS rather_unsatisfying THEN trip IS very_unsatisfying;
+    RULE 41 : IF hotel_and_location IS unsatisfying AND journey IS unsatisfying THEN trip IS very_unsatisfying;
+    RULE 42 : IF hotel_and_location IS unsatisfying AND journey IS very_unsatisfying THEN trip IS very_unsatisfying;
+
+    RULE 43 : IF hotel_and_location IS very_unsatisfying AND journey IS very_satisfying THEN trip IS rather_unsatisfying;
+    RULE 44 : IF hotel_and_location IS very_unsatisfying AND journey IS satisfying THEN trip IS unsatisfying;
+    RULE 45 : IF hotel_and_location IS very_unsatisfying AND journey IS rather_satisfying THEN trip IS unsatisfying;
+    RULE 46 : IF hotel_and_location IS very_unsatisfying AND journey IS average THEN trip IS very_unsatisfying;
+    RULE 47 : IF hotel_and_location IS very_unsatisfying AND journey IS rather_unsatisfying THEN trip IS very_unsatisfying;
+    RULE 48 : IF hotel_and_location IS very_unsatisfying AND journey IS unsatisfying THEN trip IS very_unsatisfying;
+    RULE 49 : IF hotel_and_location IS very_unsatisfying AND journey IS very_unsatisfying THEN trip IS very_unsatisfying;
+
+END_RULEBLOCK
+
+
+END_FUNCTION_BLOCK

@@ -14,12 +14,14 @@ public class FuzzClass {
         String fileNameHotAndLoc = "src/main/resources/fcl/hotel_and_location.fcl";
         String fileNameConvenience = "src/main/resources/fcl/convenience.fcl";
         String fileNameJourney = "src/main/resources/fcl/journey.fcl";
+        String fileNameTrip = "src/main/resources/fcl/trip.fcl";
         FIS fisEq = FIS.load(fileNameHotelEq,true);
         FIS fisHot = FIS.load(fileNameHotel,true);
         FIS fisLoc = FIS.load(fileNameLocation,true);
         FIS fisHotAndLoc = FIS.load(fileNameHotAndLoc,true);
         FIS fisConvenience = FIS.load(fileNameConvenience,true);
         FIS fisJourney = FIS.load(fileNameJourney,true);
+        FIS fisTrip = FIS.load(fileNameTrip,true);
 
         FunctionBlock functionBlockEq = fisEq.getFunctionBlock("hotel_equipment");
         FunctionBlock functionBlockHotel = fisHot.getFunctionBlock("hotel");
@@ -27,6 +29,7 @@ public class FuzzClass {
         FunctionBlock functionBlockHotelAndLocation = fisHotAndLoc.getFunctionBlock("hotel_and_location");
         FunctionBlock functionBlockConvenience = fisConvenience.getFunctionBlock("convenience");
         FunctionBlock functionJourney = fisJourney.getFunctionBlock("journey");
+        FunctionBlock functionTrip = fisTrip.getFunctionBlock("trip");
 
         // Error while loading?
         if( fisEq == null ) {
@@ -88,6 +91,14 @@ public class FuzzClass {
 
         Variable journey = functionJourney.getVariable("journey");
         JFuzzyChart.get().chart(journey, journey.getDefuzzifier(), true);
+
+        fisTrip.setVariable("journey", fisJourney.getVariable("journey").getValue());
+        fisTrip.setVariable("hotel_and_location", fisHotAndLoc.getVariable("hotel_and_location").getValue());
+
+        fisTrip.evaluate();
+
+        Variable trip = functionTrip.getVariable("trip");
+        JFuzzyChart.get().chart(trip, trip.getDefuzzifier(), true);
 
     }
 }
