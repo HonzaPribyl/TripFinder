@@ -100,4 +100,7 @@ public class TripFinderConfig {
         return new BeachDistService(beachDistMapper);
     }
 
+    @Bean
+    public JFuzzService jFuzzService() {return new JFuzzService();}
+
 }
