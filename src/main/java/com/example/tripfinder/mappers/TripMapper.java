@@ -274,4 +274,38 @@ public interface TripMapper {
             "WHERE t.id = #{id} " +
             "GROUP BY t.id")
     TripPureDTO getPureTripById(Long id);
+
+    @Select("SELECT " +
+            "t.id AS id, " +
+            "t.price AS price, " +
+            "l.name AS location, " +
+            "l.id AS locationId, " +
+            "hot.name AS hotel, " +
+            "hot.stars AS stars, " +
+            "fp.name AS foodPackage, " +
+            "a.name || ' (' || a.iata || ')' AS airport, " +
+            "a.id AS airportId, " +
+            "bd.name AS beachDistance, " +
+            "hot.family_friendly AS family_friendly, " +
+            "hot.wifi AS wifi, " +
+            "hot.swimming_pool AS swimming_pool, " +
+            "COALESCE(AVG(r.rating),0) AS averageRating, " +
+            "t.date_from AS dateFrom, " +
+            "t.date_to AS dateTo, " +
+            "t.date_to - t.date_from AS days, " +
+            "FROM trips t " +
+            "JOIN hotels hot ON t.hotel = hot.id " +
+            "JOIN food_packages fp ON t.food_package = fp.id " +
+            "JOIN airports a ON t.airport = a.id " +
+            "JOIN locations l ON hot.location = l.id " +
+            "JOIN beach_distance bd ON hot.beach_dist = bd.id " +
+            "LEFT JOIN reviews r ON hot.id = r.hotel " +
+            "WHERE date_from > #{from} " +
+            "AND date_to < #{to} " +
+            "GROUP BY t.id")
+    List<TripPureDTO> getPureTrips(
+            LocalDate from,
+            LocalDate to
+    );
+
 }
