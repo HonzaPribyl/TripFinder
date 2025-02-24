@@ -103,4 +103,11 @@ public class TripFinderConfig {
     @Bean
     public JFuzzService jFuzzService() {return new JFuzzService();}
 
+    @Bean
+    public FuzzySearchService fuzzySearchService(
+            JFuzzService jFuzzService,
+            TripMapper tripMapper) {
+        return new FuzzySearchService(jFuzzService, tripMapper);
+    }
+
 }
