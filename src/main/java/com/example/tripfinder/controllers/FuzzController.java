@@ -30,9 +30,22 @@ public class FuzzController {
 
     @GetMapping("/searchFuzz")
     public List<TripFuzzyDTO> searchFuzz(
+            @RequestParam float maxPrice,
+            @RequestParam float minPrice,
             @RequestParam String from,
-            @RequestParam String to
+            @RequestParam String to,
+            @RequestParam(required = false) final List<Long> highPrefAirports,
+            @RequestParam(required = false) final List<Long> prefAirports,
+            @RequestParam(required = false) final List<Long> highPrefLocs,
+            @RequestParam(required = false) final List<Long> prefLocs,
+            @RequestParam Integer allInclusivePref,
+            @RequestParam Integer fullBoardPref,
+            @RequestParam Integer halfBoardPref,
+            @RequestParam Integer breakfastPref,
+            @RequestParam Integer noFoodPref
     ) {
-        return fuzzySearchService.searchFuzzyTrips(from, to);
+        return fuzzySearchService.searchFuzzyTrips(
+                minPrice, maxPrice, from, to, highPrefLocs, prefLocs, highPrefAirports, prefAirports,
+                allInclusivePref, fullBoardPref, halfBoardPref, breakfastPref, noFoodPref);
     }
 }

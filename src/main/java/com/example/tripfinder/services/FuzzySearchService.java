@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -50,11 +51,28 @@ public class FuzzySearchService {
     }
 
     public List<TripFuzzyDTO> searchFuzzyTrips(
+            float maxPrice,
+            float minPrice,
             String from,
-            String to
+            String to,
+            List<Long> highPrefLocs,
+            List<Long> prefLocs,
+            List<Long> highPrefAirports,
+            List<Long> prefAirports,
+            Integer allInclusivePref,
+            Integer fullBoardPref,
+            Integer halfBoardPref,
+            Integer breakfastPref,
+            Integer noFoodPref
     ) {
         final LocalDate dateFrom = LocalDate.parse(from, DATE_TIME_FORMATTER);
         final LocalDate dateTo = LocalDate.parse(to, DATE_TIME_FORMATTER);
+        if (highPrefLocs == null) highPrefLocs = new ArrayList<>();
+        if (prefLocs == null) prefLocs = new ArrayList<>();
+        if (highPrefAirports == null) highPrefAirports = new ArrayList<>();
+        if (prefAirports == null) prefAirports = new ArrayList<>();
+        Map<String, Integer> foodPackageMap = createFoodPackagesMap(
+                allInclusivePref, fullBoardPref, halfBoardPref, breakfastPref, noFoodPref);
         List<TripPureDTO> pureTrips = tripMapper.getPureTrips(dateFrom, dateTo);
         List<TripFuzzyDTO> trips = new ArrayList<>();
         for (TripPureDTO pureTrip : pureTrips) {
@@ -63,16 +81,47 @@ public class FuzzySearchService {
                     EQUIPMENT_MAP.get(pureTrip.isInternet()),
                     EQUIPMENT_MAP.get(pureTrip.isSwimmingPool()),
                     pureTrip.getStars(),
-                    1,
+                    determinePref(pureTrip.getLocationId(), highPrefLocs, prefLocs),
                     BEACH_DIST_MAP.get(pureTrip.getBeachDist()),
-                    1,
-                    1,
-                    1,
+                    determinePref(pureTrip.getAirportId(), highPrefAirports, prefAirports),
+                    foodPackageMap.get(pureTrip.getFoodPackage()),
+                    calculatePriceValue(minPrice, maxPrice, pureTrip.getPrice()),
                     false
             );
             trips.add(new TripFuzzyDTO(pureTrip, fuzzEvaluation));
         }
+        trips.sort(Comparator.comparingDouble(TripFuzzyDTO::getTripScore).reversed());
         return trips;
+    }
+
+    private Integer determinePref(
+            Long id,
+            List<Long> highPref,
+            List<Long> pref
+    ) {
+        if (highPref.contains(id)) return 1;
+        if (pref.contains(id)) return 2;
+        return 3;
+    }
+
+    private Map<String, Integer> createFoodPackagesMap(
+            Integer allInclusivePref,
+            Integer fullBoardPref,
+            Integer halfBoardPref,
+            Integer breakfastPref,
+            Integer noFoodPref
+    ) {
+        return Map.of(
+                "All inclusive", allInclusivePref,
+                "Plná penze", fullBoardPref,
+                "Polopenze", halfBoardPref,
+                "Snídaně", breakfastPref,
+                "Bez stravy", noFoodPref
+        );
+    }
+
+    private float calculatePriceValue(float minPrice, float maxPrice, float price) {
+        return 1 + 4 * (price - minPrice) / (maxPrice - minPrice);
     }
 
 }
