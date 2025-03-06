@@ -30,14 +30,14 @@ FUZZIFY journey
 END_FUZZIFY
 
 DEFUZZIFY trip
-    TERM very_unsatisfying := (0,0) (5,1) (10,1) (15,0);
-	TERM unsatisfying := (5,0) (10,1) (15,1) (20,0);
-	TERM rather_unsatisfying := (10,0) (15,1) (20,1) (25,0);
-	TERM average := (10,0) (15,1) (20,1) (25,0);
-	TERM rather_satisfying := (15,0) (20,1) (25,1) (30,0);
-	TERM satisfying := (20,0) (25,1) (30,1) (35,0);
-	TERM very_satisfying := (25,0) (30,1) (35,1) (40,0);
-	TERM extremely_satisfying := (30,0) (35,1) (40,1) (45,0);
+    TERM very_unsatisfying := (0,1) (30,1) (35,0);
+	TERM unsatisfying := (30,0) (35,1) (40,1) (45,0);
+	TERM rather_unsatisfying := (40,0) (45,1) (50,1) (55,0);
+	TERM average := (50,0) (55,1) (60,1) (65,0);
+	TERM rather_satisfying := (60,0) (65,1) (70,1) (75,0);
+	TERM satisfying := (70,0) (75,1) (80,1) (85,0);
+	TERM very_satisfying := (80,0) (85,1) (90,1) (95,0);
+	TERM extremely_satisfying := (90,0) (95,1) (100,1);
 	METHOD : COG;
     DEFAULT := 0;
 END_DEFUZZIFY
