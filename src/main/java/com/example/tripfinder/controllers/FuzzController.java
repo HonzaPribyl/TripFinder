@@ -45,7 +45,7 @@ public class FuzzController {
             @RequestParam Integer noFoodPref
     ) {
         return fuzzySearchService.searchFuzzyTrips(
-                minPrice, maxPrice, from, to, highPrefLocs, prefLocs, highPrefAirports, prefAirports,
+                maxPrice, minPrice, from, to, highPrefLocs, prefLocs, highPrefAirports, prefAirports,
                 allInclusivePref, fullBoardPref, halfBoardPref, breakfastPref, noFoodPref);
     }
 }

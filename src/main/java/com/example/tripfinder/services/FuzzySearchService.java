@@ -121,7 +121,7 @@ public class FuzzySearchService {
     }
 
     private float calculatePriceValue(float minPrice, float maxPrice, float price) {
-        return 1 + 4 * (price - minPrice) / (maxPrice - minPrice);
+        return 6 * (price - minPrice) / (maxPrice - minPrice);
     }
 
 }
