@@ -23,11 +23,11 @@ FUZZIFY beach_distance
 END_FUZZIFY
 
 DEFUZZIFY location_attributes
-    TERM very_unsatisfying := (0,0) (5,1) (10,1) (15,0);
-	TERM unsatisfying := (5,0) (10,1) (15,1) (20,0);
-	TERM average := (10,0) (15,1) (20,1) (25,0);
-	TERM satisfying := (15,0) (20,1) (25,1) (30,0);
-	TERM very_satisfying := (20,0) (25,1) (30,1) (35,0);
+    TERM very_unsatisfying := (0,1) (10,1) (15,0);
+	TERM unsatisfying := (10,0) (15,1) (25,1) (30,0);
+	TERM average := (25,0) (30,1) (40,1) (45,0);
+	TERM satisfying := (40,0) (45,1) (55,1) (60,0);
+	TERM very_satisfying := (55,0) (60,1) (70,1);
 	METHOD : COG;
 	DEFAULT := 0;
 END_DEFUZZIFY

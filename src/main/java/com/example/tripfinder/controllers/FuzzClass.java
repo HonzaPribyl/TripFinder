@@ -11,7 +11,7 @@ public class FuzzClass {
 
     public static void main(String[] args) throws Exception {
         JFuzzService jFuzzService = new JFuzzService();
-        TripFuzzEvaluationDTO tripFuzzEvaluation = jFuzzService.evaluate(1, 1, 1, 5, 1, 1, 1, 1, 1, false);
+        TripFuzzEvaluationDTO tripFuzzEvaluation = jFuzzService.evaluate(1, 1, 1, 5, 1, 1, 1, 1, 1, true);
         System.out.println(tripFuzzEvaluation);
     }
 }
