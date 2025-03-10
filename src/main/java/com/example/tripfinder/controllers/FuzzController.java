@@ -34,6 +34,9 @@ public class FuzzController {
             @RequestParam float minPrice,
             @RequestParam String from,
             @RequestParam String to,
+            @RequestParam int minDays,
+            @RequestParam int maxDays,
+            @RequestParam int persons,
             @RequestParam(required = false) final List<Long> highPrefAirports,
             @RequestParam(required = false) final List<Long> prefAirports,
             @RequestParam(required = false) final List<Long> highPrefLocs,
@@ -45,7 +48,7 @@ public class FuzzController {
             @RequestParam Integer noFoodPref
     ) {
         return fuzzySearchService.searchFuzzyTrips(
-                maxPrice, minPrice, from, to, highPrefLocs, prefLocs, highPrefAirports, prefAirports,
+                maxPrice, minPrice, from, to, minDays, maxDays, persons, highPrefLocs, prefLocs, highPrefAirports, prefAirports,
                 allInclusivePref, fullBoardPref, halfBoardPref, breakfastPref, noFoodPref);
     }
 }

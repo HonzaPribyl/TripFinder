@@ -302,10 +302,19 @@ public interface TripMapper {
             "LEFT JOIN reviews r ON hot.id = r.hotel " +
             "WHERE date_from > #{from} " +
             "AND date_to < #{to} " +
+            "AND (date_to - date_from) BETWEEN #{minDays} AND #{maxDays} " +
+            "AND persons >= #{persons} " +
+            "AND price <= #{maxPrice} " +
+            "AND price >= #{minPrice} " +
             "GROUP BY t.id")
     List<TripPureDTO> getPureTrips(
             LocalDate from,
-            LocalDate to
+            LocalDate to,
+            int minDays,
+            int maxDays,
+            float maxPrice,
+            float minPrice,
+            int persons
     );
 
 }

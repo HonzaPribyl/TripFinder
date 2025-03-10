@@ -55,6 +55,9 @@ public class FuzzySearchService {
             float minPrice,
             String from,
             String to,
+            int minDays,
+            int maxDays,
+            int persons,
             List<Long> highPrefLocs,
             List<Long> prefLocs,
             List<Long> highPrefAirports,
@@ -73,7 +76,7 @@ public class FuzzySearchService {
         if (prefAirports == null) prefAirports = new ArrayList<>();
         Map<String, Integer> foodPackageMap = createFoodPackagesMap(
                 allInclusivePref, fullBoardPref, halfBoardPref, breakfastPref, noFoodPref);
-        List<TripPureDTO> pureTrips = tripMapper.getPureTrips(dateFrom, dateTo);
+        List<TripPureDTO> pureTrips = tripMapper.getPureTrips(dateFrom, dateTo, minDays, maxDays, maxPrice, minPrice, persons);
         List<TripFuzzyDTO> trips = new ArrayList<>();
         for (TripPureDTO pureTrip : pureTrips) {
             TripFuzzEvaluationDTO fuzzEvaluation = jFuzzService.evaluate(
