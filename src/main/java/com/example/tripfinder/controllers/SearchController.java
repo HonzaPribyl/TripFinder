@@ -36,6 +36,9 @@ public class SearchController {
     public String searchFuzzyForm(Model model) {
         model.addAttribute("airports", airportService.getAirports());
         model.addAttribute("locations", locationService.getLocations());
+        List<BeachDistDTO> beachDists = beachDistService.getBeachDistances();
+        beachDists.sort(Comparator.comparingLong(BeachDistDTO::getId).reversed());
+        model.addAttribute("beach_dists", beachDists);
         return "searchFormFuzzy";
     }
 

@@ -94,6 +94,38 @@
     <label>Nejpozdější datum:</label>
     <input type="date" th:name="to" value="2025-09-30"/>
     <br><br>
+    <label>Minimální počet hvězdiček:</label>
+    <select th:name="minStars">
+        <option selected="selected" value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+    </select>
+    <br><br>
+    <label>Maximální vzdálenost pláže:</label>
+    <select th:name="minBeachDist">
+        <option th:each="beach_dist:${beach_dists}" th:value="${beach_dist.id}" th:text="${beach_dist.name}"></option>
+    </select>
+    <br><br>
+    <label>Pouze hotely vhodné pro rodiny:</label>
+    <select th:name="familyFilter">
+        <option value="true">Ano</option>
+        <option selected="selected" value="false">Ne</option>
+    </select>
+    <br><br>
+    <label>Pouze hotely s internetem:</label>
+    <select th:name="wifiFilter">
+        <option value="true">Ano</option>
+        <option selected="selected" value="false">Ne</option>
+    </select>
+    <br><br>
+    <label>Pouze hotely s bazénem:</label>
+    <select th:name="poolFilter">
+        <option value="true">Ano</option>
+        <option selected="selected" value="false">Ne</option>
+    </select>
+    <br><br>
     <label>Minimum dní:</label>
     <input
             type="text"

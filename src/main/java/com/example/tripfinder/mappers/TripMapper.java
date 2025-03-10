@@ -306,6 +306,11 @@ public interface TripMapper {
             "AND persons >= #{persons} " +
             "AND price <= #{maxPrice} " +
             "AND price >= #{minPrice} " +
+            "AND hot.stars >= #{minStars} " +
+            "AND hot.beach_dist <= #{minBeachDist} " +
+            "AND (NOT #{familyFilter} OR family_friendly = true) " +
+            "AND (NOT #{wifiFilter} OR wifi = true) " +
+            "AND (NOT #{poolFilter} OR swimming_pool = true) " +
             "GROUP BY t.id")
     List<TripPureDTO> getPureTrips(
             LocalDate from,
@@ -314,7 +319,12 @@ public interface TripMapper {
             int maxDays,
             float maxPrice,
             float minPrice,
-            int persons
+            int persons,
+            int minStars,
+            int minBeachDist,
+            boolean familyFilter,
+            boolean wifiFilter,
+            boolean poolFilter
     );
 
 }

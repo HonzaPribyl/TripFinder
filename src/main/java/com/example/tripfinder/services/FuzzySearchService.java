@@ -66,7 +66,12 @@ public class FuzzySearchService {
             Integer fullBoardPref,
             Integer halfBoardPref,
             Integer breakfastPref,
-            Integer noFoodPref
+            Integer noFoodPref,
+            Integer minStars,
+            Integer minBeachDist,
+            Boolean familyFilter,
+            Boolean wifiFilter,
+            Boolean poolFilter
     ) {
         final LocalDate dateFrom = LocalDate.parse(from, DATE_TIME_FORMATTER);
         final LocalDate dateTo = LocalDate.parse(to, DATE_TIME_FORMATTER);
@@ -76,7 +81,19 @@ public class FuzzySearchService {
         if (prefAirports == null) prefAirports = new ArrayList<>();
         Map<String, Integer> foodPackageMap = createFoodPackagesMap(
                 allInclusivePref, fullBoardPref, halfBoardPref, breakfastPref, noFoodPref);
-        List<TripPureDTO> pureTrips = tripMapper.getPureTrips(dateFrom, dateTo, minDays, maxDays, maxPrice, minPrice, persons);
+        List<TripPureDTO> pureTrips = tripMapper.getPureTrips(
+                dateFrom,
+                dateTo,
+                minDays,
+                maxDays,
+                maxPrice,
+                minPrice,
+                persons,
+                minStars,
+                minBeachDist,
+                familyFilter,
+                wifiFilter,
+                poolFilter);
         List<TripFuzzyDTO> trips = new ArrayList<>();
         for (TripPureDTO pureTrip : pureTrips) {
             TripFuzzEvaluationDTO fuzzEvaluation = jFuzzService.evaluate(

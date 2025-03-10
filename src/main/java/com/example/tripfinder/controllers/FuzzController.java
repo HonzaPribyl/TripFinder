@@ -45,10 +45,34 @@ public class FuzzController {
             @RequestParam Integer fullBoardPref,
             @RequestParam Integer halfBoardPref,
             @RequestParam Integer breakfastPref,
-            @RequestParam Integer noFoodPref
+            @RequestParam Integer noFoodPref,
+            @RequestParam Integer minStars,
+            @RequestParam Integer minBeachDist,
+            @RequestParam Boolean familyFilter,
+            @RequestParam Boolean wifiFilter,
+            @RequestParam Boolean poolFilter
     ) {
         return fuzzySearchService.searchFuzzyTrips(
-                maxPrice, minPrice, from, to, minDays, maxDays, persons, highPrefLocs, prefLocs, highPrefAirports, prefAirports,
-                allInclusivePref, fullBoardPref, halfBoardPref, breakfastPref, noFoodPref);
+                maxPrice,
+                minPrice,
+                from,
+                to,
+                minDays,
+                maxDays,
+                persons,
+                highPrefLocs,
+                prefLocs,
+                highPrefAirports,
+                prefAirports,
+                allInclusivePref,
+                fullBoardPref,
+                halfBoardPref,
+                breakfastPref,
+                noFoodPref,
+                minStars,
+                minBeachDist,
+                familyFilter,
+                wifiFilter,
+                poolFilter);
     }
 }
