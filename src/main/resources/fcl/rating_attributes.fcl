@@ -1,0 +1,75 @@
+FUNCTION_BLOCK rating_attributes
+
+VAR_INPUT
+	stars : REAL;
+	rating : REAL;
+END_VAR
+
+VAR_OUTPUT
+	rating_attributes : REAL;
+END_VAR
+
+FUZZIFY stars
+	TERM one := (0, 0) (1, 1) (2, 0);
+	TERM two := (1, 0) (2, 1) (3, 0);
+	TERM three := (2, 0) (3, 1) (4, 0);
+	TERM four := (3, 0) (4, 1) (5, 0);
+	TERM five := (4, 0) (5, 1) (6, 0);
+END_FUZZIFY
+
+FUZZIFY rating
+	TERM bad := (0,1) (25,0);
+    TERM poor := (0,0) (25,1) (50,0);
+    TERM average := (25,0) (50,1) (75,0);
+    TERM good := (50,0) (75,1) (100,0);
+    TERM excellent := (75,0) (100,1);
+END_FUZZIFY
+
+DEFUZZIFY rating_attributes
+    TERM bad := (0,1) (10,1) (15,0);
+	TERM poor := (10,0) (15,1) (25,1) (30,0);
+	TERM average := (25,0) (30,1) (40,1) (45,0);
+	TERM good := (40,0) (45,1) (55,1) (60,0);
+	TERM excellent := (55,0) (60,1) (70,1);
+	METHOD : COG;
+	DEFAULT := 0;
+END_DEFUZZIFY
+
+RULEBLOCK No1
+    AND : MIN;
+    ACT : MIN;
+    ACCU : MAX;
+
+    RULE 1  : IF stars IS one AND rating IS bad THEN rating_attributes IS bad;
+    RULE 2  : IF stars IS one AND rating IS poor THEN rating_attributes IS bad;
+    RULE 3  : IF stars IS one AND rating IS average THEN rating_attributes IS poor;
+    RULE 4  : IF stars IS one AND rating IS good THEN rating_attributes IS poor;
+    RULE 5  : IF stars IS one AND rating IS excellent THEN rating_attributes IS average;
+
+    RULE 6  : IF stars IS two AND rating IS bad THEN rating_attributes IS bad;
+    RULE 7  : IF stars IS two AND rating IS poor THEN rating_attributes IS poor;
+    RULE 8  : IF stars IS two AND rating IS average THEN rating_attributes IS average;
+    RULE 9  : IF stars IS two AND rating IS good THEN rating_attributes IS average;
+    RULE 10 : IF stars IS two AND rating IS excellent THEN rating_attributes IS good;
+
+    RULE 11 : IF stars IS three AND rating IS bad THEN rating_attributes IS poor;
+    RULE 12 : IF stars IS three AND rating IS poor THEN rating_attributes IS average;
+    RULE 13 : IF stars IS three AND rating IS average THEN rating_attributes IS average;
+    RULE 14 : IF stars IS three AND rating IS good THEN rating_attributes IS good;
+    RULE 15 : IF stars IS three AND rating IS excellent THEN rating_attributes IS good;
+
+    RULE 16 : IF stars IS four AND rating IS bad THEN rating_attributes IS poor;
+    RULE 17 : IF stars IS four AND rating IS poor THEN rating_attributes IS average;
+    RULE 18 : IF stars IS four AND rating IS average THEN rating_attributes IS good;
+    RULE 19 : IF stars IS four AND rating IS good THEN rating_attributes IS good;
+    RULE 20 : IF stars IS four AND rating IS excellent THEN rating_attributes IS excellent;
+
+    RULE 21 : IF stars IS five AND rating IS bad THEN rating_attributes IS average;
+    RULE 22 : IF stars IS five AND rating IS poor THEN rating_attributes IS good;
+    RULE 23 : IF stars IS five AND rating IS average THEN rating_attributes IS good;
+    RULE 24 : IF stars IS five AND rating IS good THEN rating_attributes IS excellent;
+    RULE 25 : IF stars IS five AND rating IS excellent THEN rating_attributes IS excellent;
+
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK

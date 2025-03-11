@@ -23,6 +23,7 @@ public class TripFuzzyDTO {
     private LocalDate dateFrom;
     private LocalDate dateTo;
     private int days;
+    private double ratingAttributesScore;
     private double equipmentScore;
     private double hotelScore;
     private double locationScore;
@@ -49,6 +50,7 @@ public class TripFuzzyDTO {
         this.dateFrom = tripPureDTO.getDateFrom();
         this.dateTo = tripPureDTO.getDateTo();
         this.days = tripPureDTO.getDays();
+        this.ratingAttributesScore = tripFuzzEvaluationDTO.getRatingAttributes();
         this.equipmentScore = tripFuzzEvaluationDTO.getEquipment();
         this.hotelScore = tripFuzzEvaluationDTO.getHotel();
         this.locationScore = tripFuzzEvaluationDTO.getLocation();

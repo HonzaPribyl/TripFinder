@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class TripFuzzEvaluationDTO {
+    private double ratingAttributes;
     private double equipment;
     private double hotel;
     private double location;

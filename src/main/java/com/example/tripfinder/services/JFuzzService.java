@@ -15,6 +15,7 @@ public class JFuzzService {
     private static final String FIS_FILES_PATH = "src/main/resources/fcl/";
 
     private static final Map<String, String> FILE_PATHS = Map.of(
+            "rating_attributes", FIS_FILES_PATH + "rating_attributes.fcl",
             "hotel_equipment", FIS_FILES_PATH + "hotel_equipment.fcl",
             "hotel", FIS_FILES_PATH + "hotel.fcl",
             "location", FIS_FILES_PATH + "location.fcl",
@@ -26,7 +27,7 @@ public class JFuzzService {
 
     @Nonnull
     public TripFuzzEvaluationDTO evaluate(
-            int familyFriendly, int wifi, int swimmingPool, int stars,
+            int familyFriendly, int wifi, int swimmingPool, int stars, float rating,
             int locPref, int beachDist, int airportPreference, int foodPackagePreference,
             float price, boolean showCharts) {
 
@@ -37,12 +38,16 @@ public class JFuzzService {
             functionBlocks.values().forEach(JFuzzyChart.get()::chart);
         }
 
+        Variable ratingAttributes = evaluateSystem(fisMap.get("rating_attributes"), functionBlocks.get("rating_attributes"),
+                Map.of("stars", (double) stars, "rating", (double) rating),
+                showCharts, "rating_attributes");
+
         Variable equipment = evaluateSystem(fisMap.get("hotel_equipment"), functionBlocks.get("hotel_equipment"),
                 Map.of("family_friendly",(double) familyFriendly, "wifi", (double) wifi, "swimming_pool", (double) swimmingPool),
                 showCharts, "equipment");
 
         Variable hotel = evaluateSystem(fisMap.get("hotel"), functionBlocks.get("hotel"),
-                Map.of("stars", (double) stars, "equipment", equipment.getValue()),
+                Map.of("rating_attributes", ratingAttributes.getValue(), "equipment", equipment.getValue()),
                 showCharts, "hotel");
 
         Variable location = evaluateSystem(fisMap.get("location"), functionBlocks.get("location"),
@@ -66,9 +71,14 @@ public class JFuzzService {
                 showCharts, "trip");
 
         return new TripFuzzEvaluationDTO(
-                equipment.getValue(), hotel.getValue(), location.getValue(),
-                hotelAndLocation.getValue(), convenience.getValue(),
-                journey.getValue(), trip.getValue()
+                ratingAttributes.getValue(),
+                equipment.getValue(),
+                hotel.getValue(),
+                location.getValue(),
+                hotelAndLocation.getValue(),
+                convenience.getValue(),
+                journey.getValue(),
+                trip.getValue()
         );
     }
 
