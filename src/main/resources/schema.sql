@@ -178,11 +178,235 @@ CREATE TABLE reviews (
 );
 
 INSERT INTO reviews (hotel, rating)
-VALUES
-(1, 9), (1, 10), (1, 8),
-(2, 4), (2, 8), (2, 8),
-(3, 7), (3, 6),
-(4, 2), (4, 6), (4, 7);
+VALUES (4, 10);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (5, 10);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (6, 10);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (11, 6);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (12, 5), (12, 7);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (14, 10);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (15, 10);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (16, 2), (16, 4), (16, 7), (16, 5), (16, 10), (16, 9), (16, 7), (16, 8);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (17, 7), (17, 2), (17, 9), (17, 7), (17, 7), (17, 7), (17, 7), (17, 3);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (18, 9), (18, 6), (18, 7), (18, 7), (18, 10), (18, 9), (18, 4), (18, 7), (18, 6);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (19, 7), (19, 5), (19, 8), (19, 8), (19, 6), (19, 9), (19, 7), (19, 8);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (20, 9), (20, 10), (20, 6), (20, 6), (20, 6), (20, 4), (20, 4), (20, 7);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (21, 10);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (22, 10), (22, 10);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (23, 8), (23, 7), (23, 5), (23, 8), (23, 6), (23, 9);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (25, 8), (25, 7), (25, 7);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (27, 6);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (28, 7), (28, 6), (28, 5), (28, 9), (28, 7), (28, 6), (28, 7), (28, 7);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (29, 8), (29, 5), (29, 6), (29, 6), (29, 7), (29, 6), (29, 8);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (30, 9), (30, 7), (30, 7), (30, 8);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (31, 8), (31, 9), (31, 10), (31, 10), (31, 8), (31, 6), (31, 6);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (32, 7), (32, 7), (32, 5), (32, 5), (32, 6), (32, 8), (32, 5), (32, 7), (32, 7);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (33, 8), (33, 7), (33, 5), (33, 6);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (34, 6), (34, 8), (34, 4), (34, 9), (34, 5), (34, 4), (34, 9);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (35, 5);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (36, 10);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (37, 9);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (38, 8), (38, 7), (38, 9), (38, 8), (38, 7);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (39, 8), (39, 7), (39, 6), (39, 5);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (40, 9), (40, 6), (40, 8), (40, 7), (40, 8), (40, 7), (40, 8);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (41, 8), (41, 8);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (42, 8);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (43, 7);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (44, 6), (44, 5), (44, 7), (44, 6), (44, 7), (44, 6), (40, 7);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (45, 7), (45, 8);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (46, 8), (46, 8), (46, 7), (46, 7);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (47, 10);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (48, 7);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (49, 7);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (50, 7);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (51, 7), (51, 7);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (52, 7), (52, 10), (52, 10), (52, 7);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (53, 9), (53, 7);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (54, 10);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (55, 10);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (56, 4), (56, 7), (56, 5), (56, 6), (56, 5), (56, 6), (56, 8);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (57, 10), (57, 6), (57, 8), (57, 8), (57, 6), (57, 8), (57, 8);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (59, 7);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (60, 7), (60, 6), (60, 9);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (61, 9), (61, 8), (61, 8);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (67, 8), (67, 8), (67, 8), (67, 7), (67, 8);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (68, 10);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (69, 9), (69, 9), (69, 10), (69, 10);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (70, 7), (70, 6), (70, 7), (70, 6), (70, 8), (70, 8), (70, 6), (70, 8), (70, 9);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (72, 9), (72, 8), (72, 7), (72, 6), (72, 7), (72, 8), (72, 8);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (73, 7);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (75, 10), (75, 10), (75, 9);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (76, 10);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (77, 9);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (79, 7), (79, 8), (79, 9);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (80, 8);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (82, 8), (82, 7);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (83, 8), (83, 8);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (84, 5), (84, 4), (84, 8), (84, 8), (84, 4), (84, 9), (84, 8);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (85, 8), (85, 7), (85, 8), (85, 10), (85, 8);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (86, 6), (86, 9), (86, 9), (86, 7), (86, 7), (86, 7), (86, 8);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (87, 8), (87, 8), (87, 7), (87, 7), (87, 6), (87, 9), (87, 10);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (88, 9), (88, 9), (88, 7), (88, 10), (88, 7);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (89, 9), (89, 7), (89, 8);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (90, 9), (90, 9), (90, 9), (90, 8), (90, 9), (90, 10), (90, 9);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (91, 8), (91, 8), (91, 6);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (92, 8), (92, 7);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (93, 8);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (94, 8), (94, 8), (94, 6);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (95, 6), (95, 8), (95, 6), (95, 8), (95, 7);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (96, 5), (96, 8), (96, 7), (96, 6), (96, 8);
+
+INSERT INTO reviews (hotel, rating)
+VALUES (99, 9), (99, 9), (99, 8);
 
 INSERT INTO trips (price, hotel, food_package, airport, persons, date_from, date_to)
 VALUES
