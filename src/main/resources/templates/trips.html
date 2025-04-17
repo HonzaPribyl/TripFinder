@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Trip List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #aaa;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #eee;
+        }
+
+        .no-trips {
+            margin-top: 20px;
+            font-weight: bold;
+            color: #a00;
+        }
+
+        .score-field {
+            font-size: 0.85em;
+            color: #555;
+        }
+
+        .score-header {
+            font-size: 0.85em;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Dostupné zájezdy</h1>
+
+<div th:if="${trips.isEmpty()}" class="no-trips">
+    Mrzí nás to, ale žádné zájezdy nevyhovují vaším požadavkům.
+</div>
+
+<table th:if="${!trips.isEmpty()}">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Cena</th>
+        <th>Destinace</th>
+        <th>Hotel</th>
+        <th>Počet hvězdiček</th>
+        <th>Strava</th>
+        <th>Letiště</th>
+        <th>Vzdálenost pláže</th>
+        <th>Vhodné pro rodiny</th>
+        <th>Internet na hotelu</th>
+        <th>Bazén na hotelu</th>
+        <th>Hodnocení</th>
+        <th>Datum od</th>
+        <th>Datum do</th>
+        <th>Počet dní</th>
+        <th>Celkem bodů</th>
+        <th class="score-header">Cena body</th>
+        <th class="score-header">Destinace body</th>
+        <th class="score-header">Hvězdičky body</th>
+        <th class="score-header">Strava body</th>
+        <th class="score-header">Hodnocení body</th>
+        <th class="score-header">Letiště body</th>
+        <th class="score-header">Pláž body</th>
+        <th class="score-header">Vhodné pro rodiny body</th>
+        <th class="score-header">Internet body</th>
+        <th class="score-header">Bazén body</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="trip : ${trips}">
+        <td th:text="${trip.id}">ID</td>
+        <td th:text="${trip.price}">Cena</td>
+        <td th:text="${trip.location}">Destinace</td>
+        <td th:text="${trip.hotel}">Hotel</td>
+        <td th:text="${trip.stars}">Počet hvězdiček</td>
+        <td th:text="${trip.foodPackage}">Strava</td>
+        <td th:text="${trip.airport}">Letiště</td>
+        <td th:text="${trip.beachDist}">Vzdálenost pláže</td>
+        <td th:text="${trip.familyFriendly ? 'Ano' : 'Ne'}">Vhodné pro rodiny</td>
+        <td th:text="${trip.internet ? 'Ano' : 'Ne'}">Internet na hotelu</td>
+        <td th:text="${trip.swimmingPool ? 'Ano' : 'Ne'}">Bazén na hotelu</td>
+        <td th:text="${trip.averageRating}">Hodnocení</td>
+        <td th:text="${trip.dateFrom}">Datum od</td>
+        <td th:text="${trip.dateTo}">Datum do</td>
+        <td th:text="${trip.days}">Počet dní</td>
+        <td th:text="${trip.totalScore}">Celkem bodů</td>
+
+        <td class="score-field" th:text="${trip.priceScore}">Price Score</td>
+        <td class="score-field" th:text="${trip.locationScore}">Location Score</td>
+        <td class="score-field" th:text="${trip.starsScore}">Stars Score</td>
+        <td class="score-field" th:text="${trip.foodScore}">Food Score</td>
+        <td class="score-field" th:text="${trip.ratingScore}">Rating Score</td>
+        <td class="score-field" th:text="${trip.airportScore}">Airport Score</td>
+        <td class="score-field" th:text="${trip.beachDistScore}">Beach Score</td>
+        <td class="score-field" th:text="${trip.familyFriendlyScore}">Family Score</td>
+        <td class="score-field" th:text="${trip.internetScore}">Internet Score</td>
+        <td class="score-field" th:text="${trip.swimmingPoolScore}">Pool Score</td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

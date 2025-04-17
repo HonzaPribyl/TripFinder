@@ -1,27 +1,22 @@
 package com.example.tripfinder.controllers;
 
-import com.example.tripfinder.model.TripFuzzEvaluationDTO;
 import com.example.tripfinder.model.TripFuzzyDTO;
 import com.example.tripfinder.services.FuzzySearchService;
 import com.example.tripfinder.services.JFuzzService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequiredArgsConstructor
 public class FuzzController {
 
     private final JFuzzService jFuzzService;
     private final FuzzySearchService fuzzySearchService;
-
-//    @GetMapping("/searchFuzz")
-//    public TripFuzzEvaluationDTO searchFuzz() {
-//        return jFuzzService.evaluate(1, 1, 1, 5, 1, 1, 1, 1, 1, false);
-//    }
 
     @GetMapping("/searchFuzzByTrip")
     public TripFuzzyDTO searchFuzzByTrip(@RequestParam long trip) {
@@ -29,7 +24,7 @@ public class FuzzController {
     }
 
     @GetMapping("/searchFuzz")
-    public List<TripFuzzyDTO> searchFuzz(
+    public String searchFuzz(
             @RequestParam float maxPrice,
             @RequestParam float minPrice,
             @RequestParam String from,
@@ -50,9 +45,10 @@ public class FuzzController {
             @RequestParam Integer minBeachDist,
             @RequestParam Boolean familyFilter,
             @RequestParam Boolean wifiFilter,
-            @RequestParam Boolean poolFilter
+            @RequestParam Boolean poolFilter,
+            Model model
     ) {
-        return fuzzySearchService.searchFuzzyTrips(
+        List<TripFuzzyDTO> trips = fuzzySearchService.searchFuzzyTrips(
                 maxPrice,
                 minPrice,
                 from,
@@ -74,5 +70,7 @@ public class FuzzController {
                 familyFilter,
                 wifiFilter,
                 poolFilter);
+        model.addAttribute("trips", trips);
+        return "tripsFuzzy";
     }
 }

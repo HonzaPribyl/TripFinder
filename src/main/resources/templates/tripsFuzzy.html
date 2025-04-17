@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Fuzzy Trip List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #aaa;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #eee;
+        }
+
+        .no-trips {
+            margin-top: 20px;
+            font-weight: bold;
+            color: #a00;
+        }
+
+        .score-field {
+            font-size: 0.85em;
+            color: #555;
+        }
+
+        .score-header {
+            font-size: 0.85em;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Trips with Fuzzy Evaluation</h1>
+
+<div th:if="${trips.isEmpty()}" class="no-trips">
+    Mrzí nás to, ale žádné zájezdy nevyhovují vaším požadavkům.
+</div>
+
+<table th:if="${!trips.isEmpty()}">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Cena</th>
+        <th>Destinace</th>
+        <th>Hotel</th>
+        <th>Počet hvězdiček</th>
+        <th>Strava</th>
+        <th>Letiště</th>
+        <th>Vzdálenost pláže</th>
+        <th>Vhodné pro rodiny</th>
+        <th>Internet na hotelu</th>
+        <th>Bazén na hotelu</th>
+        <th>Hodnocení</th>
+        <th>Datum od</th>
+        <th>Datum do</th>
+        <th>Počet dní</th>
+
+        <!-- Fuzzy evaluation score headers -->
+        <th class="score-header">Rating Attributes Score</th>
+        <th class="score-header">Equipment Score</th>
+        <th class="score-header">Hotel Score</th>
+        <th class="score-header">Location Score</th>
+        <th class="score-header">Hotel & Location Score</th>
+        <th class="score-header">Convenience Score</th>
+        <th class="score-header">Journey Score</th>
+        <th class="score-header">Total Trip Score</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="trip : ${trips}">
+        <td th:text="${trip.id}">ID</td>
+        <td th:text="${trip.price}">Price</td>
+        <td th:text="${trip.location}">Location</td>
+        <td th:text="${trip.hotel}">Hotel</td>
+        <td th:text="${trip.stars}">Stars</td>
+        <td th:text="${trip.foodPackage}">Food</td>
+        <td th:text="${trip.airport}">Airport</td>
+        <td th:text="${trip.beachDist}">Beach Dist</td>
+        <td th:text="${trip.familyFriendly ? 'Yes' : 'No'}">Family</td>
+        <td th:text="${trip.internet ? 'Yes' : 'No'}">Internet</td>
+        <td th:text="${trip.swimmingPool ? 'Yes' : 'No'}">Pool</td>
+        <td th:text="${trip.averageRating}">Rating</td>
+        <td th:text="${trip.dateFrom}">From</td>
+        <td th:text="${trip.dateTo}">To</td>
+        <td th:text="${trip.days}">Days</td>
+
+        <!-- Fuzzy score values -->
+        <td class="score-field" th:text="${trip.ratingAttributesScore}">Rating Attr</td>
+        <td class="score-field" th:text="${trip.equipmentScore}">Equip</td>
+        <td class="score-field" th:text="${trip.hotelScore}">Hotel</td>
+        <td class="score-field" th:text="${trip.locationScore}">Location</td>
+        <td class="score-field" th:text="${trip.hotelAndLocationScore}">Hotel+Loc</td>
+        <td class="score-field" th:text="${trip.convenienceScore}">Convenience</td>
+        <td class="score-field" th:text="${trip.journeyScore}">Journey</td>
+        <td class="score-field" th:text="${trip.tripScore}">Total</td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

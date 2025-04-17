@@ -4,20 +4,21 @@ import com.example.tripfinder.model.TripByHotelDTO;
 import com.example.tripfinder.model.TripDTO;
 import com.example.tripfinder.services.TripService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequiredArgsConstructor
 public class TripController {
 
     private final TripService tripService;
 
     @GetMapping("/search")
-    public List<TripDTO> search(
+    public String search(
             @RequestParam float maxPrice,
             @RequestParam float minPrice,
             @RequestParam String priceImp,
@@ -49,9 +50,10 @@ public class TripController {
             @RequestParam int minDays,
             @RequestParam int maxDays,
             @RequestParam boolean filterLocs,
-            @RequestParam boolean hotelDistinct
+            @RequestParam boolean hotelDistinct,
+            Model model
             ) {
-        return tripService.search(
+        List<TripDTO> trips = tripService.search(
                 maxPrice,
                 minPrice,
                 priceImp,
@@ -84,6 +86,8 @@ public class TripController {
                 maxDays,
                 filterLocs,
                 hotelDistinct);
+        model.addAttribute("trips", trips);
+        return "trips";
     }
 
     @GetMapping("/searchByHotel")
