@@ -32,6 +32,7 @@ public class FuzzController {
             @RequestParam int minDays,
             @RequestParam int maxDays,
             @RequestParam int persons,
+            @RequestParam int limit,
             @RequestParam(required = false) final List<Long> highPrefAirports,
             @RequestParam(required = false) final List<Long> prefAirports,
             @RequestParam(required = false) final List<Long> highPrefLocs,
@@ -41,11 +42,16 @@ public class FuzzController {
             @RequestParam Integer halfBoardPref,
             @RequestParam Integer breakfastPref,
             @RequestParam Integer noFoodPref,
+            @RequestParam Integer minFoodPref,
             @RequestParam Integer minStars,
+            @RequestParam Integer minRating,
             @RequestParam Integer minBeachDist,
+            @RequestParam Boolean filterAirports,
+            @RequestParam Boolean filterLocs,
             @RequestParam Boolean familyFilter,
             @RequestParam Boolean wifiFilter,
             @RequestParam Boolean poolFilter,
+            @RequestParam Boolean hotelDistinct,
             Model model
     ) {
         List<TripFuzzyDTO> trips = fuzzySearchService.searchFuzzyTrips(
@@ -56,6 +62,7 @@ public class FuzzController {
                 minDays,
                 maxDays,
                 persons,
+                limit,
                 highPrefLocs,
                 prefLocs,
                 highPrefAirports,
@@ -65,11 +72,16 @@ public class FuzzController {
                 halfBoardPref,
                 breakfastPref,
                 noFoodPref,
+                minFoodPref,
                 minStars,
+                minRating,
                 minBeachDist,
+                filterAirports,
+                filterLocs,
                 familyFilter,
                 wifiFilter,
-                poolFilter);
+                poolFilter,
+                hotelDistinct);
         model.addAttribute("trips", trips);
         return "tripsFuzzy";
     }

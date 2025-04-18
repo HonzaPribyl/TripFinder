@@ -8,10 +8,9 @@ import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 public class FuzzySearchService {
@@ -59,6 +58,7 @@ public class FuzzySearchService {
             int minDays,
             int maxDays,
             int persons,
+            int limit,
             List<Long> highPrefLocs,
             List<Long> prefLocs,
             List<Long> highPrefAirports,
@@ -68,20 +68,42 @@ public class FuzzySearchService {
             Integer halfBoardPref,
             Integer breakfastPref,
             Integer noFoodPref,
+            Integer minFoodPref,
             Integer minStars,
+            Integer minRating,
             Integer minBeachDist,
+            Boolean airportFilter,
+            Boolean locationFilter,
             Boolean familyFilter,
             Boolean wifiFilter,
-            Boolean poolFilter
+            Boolean poolFilter,
+            Boolean hotelDistinct
     ) {
         final LocalDate dateFrom = LocalDate.parse(from, DATE_TIME_FORMATTER);
         final LocalDate dateTo = LocalDate.parse(to, DATE_TIME_FORMATTER);
-        if (highPrefLocs == null) highPrefLocs = new ArrayList<>();
-        if (prefLocs == null) prefLocs = new ArrayList<>();
-        if (highPrefAirports == null) highPrefAirports = new ArrayList<>();
-        if (prefAirports == null) prefAirports = new ArrayList<>();
-        Map<String, Integer> foodPackageMap = createFoodPackagesMap(
+
+        if (highPrefAirports == null) {
+            highPrefAirports = Collections.emptyList();
+        }
+        if (prefAirports == null) {
+            prefAirports = Collections.emptyList();
+        }
+        final String encodedPrefAirports = IdEncoder.encodeAllowedIds(
+                Stream.concat(highPrefAirports.stream(),prefAirports.stream()).toList());
+
+        if (highPrefLocs == null) {
+            highPrefLocs = Collections.emptyList();
+        }
+        if (prefLocs == null) {
+            prefLocs = Collections.emptyList();
+        }
+        final String encodedPrefLocs = IdEncoder.encodeAllowedIds(
+                Stream.concat(highPrefLocs.stream(),prefLocs.stream()).toList()
+        );
+
+        final Map<String, Integer> foodPackageMap = createFoodPackagesMap(
                 allInclusivePref, fullBoardPref, halfBoardPref, breakfastPref, noFoodPref);
+        final String allowedFoodPrefs = encodeAllowedFoodPrefs(foodPackageMap, minFoodPref);
         List<TripPureDTO> pureTrips = tripMapper.getPureTrips(
                 dateFrom,
                 dateTo,
@@ -91,10 +113,16 @@ public class FuzzySearchService {
                 minPrice,
                 persons,
                 minStars,
+                minRating,
+                allowedFoodPrefs,
                 minBeachDist,
+                airportFilter,
+                locationFilter,
                 familyFilter,
                 wifiFilter,
-                poolFilter);
+                poolFilter,
+                encodedPrefAirports,
+                encodedPrefLocs);
         List<TripFuzzyDTO> trips = new ArrayList<>();
         for (TripPureDTO pureTrip : pureTrips) {
             TripFuzzEvaluationDTO fuzzEvaluation = jFuzzService.evaluate(
@@ -112,7 +140,12 @@ public class FuzzySearchService {
             );
             trips.add(new TripFuzzyDTO(pureTrip, fuzzEvaluation));
         }
-        trips.sort(Comparator.comparingDouble(TripFuzzyDTO::getTripScore).reversed());
+        Set<String> seenHotels = new HashSet<>();
+        trips = trips.stream()
+                .sorted(Comparator.comparingDouble(TripFuzzyDTO::getTripScore).reversed())
+                .filter(trip -> !hotelDistinct || seenHotels.add(trip.getHotel()))
+                .limit(limit)
+                .collect(Collectors.toList());
         return trips;
     }
 
@@ -144,6 +177,21 @@ public class FuzzySearchService {
 
     private float calculatePriceValue(float minPrice, float maxPrice, float price) {
         return 6 * (price - minPrice) / (maxPrice - minPrice);
+    }
+
+    private String encodeAllowedFoodPrefs(
+            Map<String, Integer> foodPrefs,
+            Integer minPref
+    ) {
+        StringBuilder allowedFoodPrefs = new StringBuilder();
+        int index = 1;
+        for (Map.Entry<String, Integer> entry : foodPrefs.entrySet()) {
+            if (entry.getValue() >= minPref) {
+                allowedFoodPrefs.append(index).append(".");
+            }
+            index++;
+        }
+        return allowedFoodPrefs.toString();
     }
 
 }

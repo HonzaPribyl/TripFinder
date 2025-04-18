@@ -26,10 +26,10 @@ public interface TripMapper {
             "hot.family_friendly AS family_friendly, " +
             "hot.wifi AS wifi, " +
             "hot.swimming_pool AS swimming_pool, " +
-            "COALESCE(AVG(r.rating),0) AS averageRating, " +
+            "COALESCE(AVG(r.rating),5) AS averageRating, " +
             "t.date_from AS dateFrom, " +
             "t.date_to AS dateTo, " +
-            "t.date_to - t.date_from AS days, " +
+            "DATEDIFF('DAY', t.date_from, t.date_to) AS days, " +
             "(#{maxPrice}-t.price) * 0.005 * #{priceImportance} AS priceScore, " +
             "hot.stars * 20 * #{starsImp} AS starsScore, " +
             "CASE " +
@@ -39,15 +39,15 @@ public interface TripMapper {
                     "WHEN fp.id = 4 THEN #{breakfastValue} " +
                     "WHEN fp.id = 5 THEN #{noFoodValue} " +
             "END * CAST(#{foodImp} AS numeric) AS foodScore, " +
-            "COALESCE(AVG(r.rating),0) * 10 * CAST(#{ratingCoeff} AS numeric) AS ratingScore, " +
+            "COALESCE(AVG(r.rating),5) * 10 * CAST(#{ratingCoeff} AS numeric) AS ratingScore, " +
             "CASE " +
-                    "WHEN t.airport = ANY(SELECT airport FROM airport_prefs WHERE high_pref IS TRUE) THEN 50 " +
-                    "WHEN t.airport = ANY(SELECT airport FROM airport_prefs WHERE high_pref IS NOT TRUE) THEN 30 " +
+                    "WHEN #{highPrefAirports} LIKE '%' || t.airport || '.%' THEN 50 " +
+                    "WHEN #{prefAirports} LIKE '%' || t.airport || '.%' THEN 30 " +
                     "ELSE 0 " +
             "END * CAST(#{airportCoeff} AS numeric) AS airportScore, " +
             "CASE " +
-                    "WHEN hot.location = ANY(SELECT location FROM location_prefs WHERE high_pref IS TRUE) THEN 80 " +
-                    "WHEN hot.location = ANY(SELECT location FROM location_prefs WHERE high_pref IS NOT TRUE) THEN 50 " +
+                    "WHEN #{highPrefLocs} LIKE '%' || hot.location || '.%' THEN 80 " +
+                    "WHEN #{prefLocs} LIKE '%' || hot.location || '.%' THEN 50 " +
                     "ELSE 0 " +
             "END * CAST(#{locCoeff} AS numeric) AS locationScore, " +
             "CASE " +
@@ -120,6 +120,8 @@ public interface TripMapper {
             "WHERE days >= #{minDays} " +
             "AND days <= #{maxDays} " +
             "AND foodScore >= #{minFoodValue} " +
+            "AND averageRating >= #{minRating} " +
+            "AND (NOT #{airportFilter} OR airportScore > 0) " +
             "AND (NOT #{locFilter} OR locationScore > 0) " +
             "ORDER BY totalScore DESC " +
             "LIMIT #{limit}"
@@ -131,6 +133,7 @@ public interface TripMapper {
             float locCoeff,
             float starsImp,
             int minStars,
+            int minRating,
             float allInclusiveValue,
             float fullBoardValue,
             float halfBoardValue,
@@ -151,10 +154,15 @@ public interface TripMapper {
             LocalDate to,
             int minDays,
             int maxDays,
+            boolean airportFilter,
             boolean locFilter,
             boolean familyFilter,
             boolean wifiFilter,
             boolean poolFilter,
+            String highPrefAirports,
+            String prefAirports,
+            String highPrefLocs,
+            String prefLocs,
             boolean hotelDistinct);
 
     @Select(
@@ -289,10 +297,10 @@ public interface TripMapper {
             "hot.family_friendly AS family_friendly, " +
             "hot.wifi AS wifi, " +
             "hot.swimming_pool AS swimming_pool, " +
-            "COALESCE(AVG(r.rating),0) AS averageRating, " +
+            "COALESCE(AVG(r.rating),5) AS averageRating, " +
             "t.date_from AS dateFrom, " +
             "t.date_to AS dateTo, " +
-            "t.date_to - t.date_from AS days, " +
+            "DATEDIFF('DAY', t.date_from, t.date_to) AS days " +
             "FROM trips t " +
             "JOIN hotels hot ON t.hotel = hot.id " +
             "JOIN food_packages fp ON t.food_package = fp.id " +
@@ -300,18 +308,22 @@ public interface TripMapper {
             "JOIN locations l ON hot.location = l.id " +
             "JOIN beach_distance bd ON hot.beach_dist = bd.id " +
             "LEFT JOIN reviews r ON hot.id = r.hotel " +
-            "WHERE date_from > #{from} " +
-            "AND date_to < #{to} " +
-            "AND (date_to - date_from) BETWEEN #{minDays} AND #{maxDays} " +
-            "AND persons >= #{persons} " +
-            "AND price <= #{maxPrice} " +
-            "AND price >= #{minPrice} " +
+            "WHERE t.date_from > #{from} " +
+            "AND t.date_to < #{to} " +
+            "AND DATEDIFF('DAY', t.date_from, t.date_to) BETWEEN #{minDays} AND #{maxDays} " +
+            "AND t.persons >= #{persons} " +
+            "AND t.price <= #{maxPrice} " +
+            "AND t.price >= #{minPrice} " +
             "AND hot.stars >= #{minStars} " +
+            "AND #{allowedFoodPackages} LIKE '%' || t.food_package || '.%' " +
             "AND hot.beach_dist <= #{minBeachDist} " +
-            "AND (NOT #{familyFilter} OR family_friendly = true) " +
-            "AND (NOT #{wifiFilter} OR wifi = true) " +
-            "AND (NOT #{poolFilter} OR swimming_pool = true) " +
-            "GROUP BY t.id")
+            "AND (NOT #{airportFilter} OR #{prefAirports} LIKE '%' || t.airport || '.%') " +
+            "AND (NOT #{locFilter} OR #{prefLocs} LIKE '%' || hot.location || '.%') " +
+            "AND (NOT #{familyFilter} OR hot.family_friendly = true) " +
+            "AND (NOT #{wifiFilter} OR hot.wifi = true) " +
+            "AND (NOT #{poolFilter} OR hot.swimming_pool = true) " +
+            "GROUP BY t.id " +
+            "HAVING COALESCE(AVG(r.rating),5) >= #{minRating}")
     List<TripPureDTO> getPureTrips(
             LocalDate from,
             LocalDate to,
@@ -321,10 +333,16 @@ public interface TripMapper {
             float minPrice,
             int persons,
             int minStars,
+            int minRating,
+            String allowedFoodPackages,
             int minBeachDist,
+            boolean airportFilter,
+            boolean locFilter,
             boolean familyFilter,
             boolean wifiFilter,
-            boolean poolFilter
+            boolean poolFilter,
+            String prefAirports,
+            String prefLocs
     );
 
 }

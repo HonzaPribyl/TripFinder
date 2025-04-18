@@ -1,7 +1,6 @@
 package com.example.tripfinder.services;
 
 import com.example.tripfinder.mappers.AirportMapper;
-import com.example.tripfinder.mappers.LocationMapper;
 import com.example.tripfinder.mappers.TripMapper;
 import com.example.tripfinder.model.TripByHotelDTO;
 import com.example.tripfinder.model.TripDTO;
@@ -39,7 +38,6 @@ public class TripService {
 
     private final TripMapper tripMapper;
     private final AirportMapper airportMapper;
-    private final LocationMapper locationMapper;
 
     public List<TripDTO> search(
             float maxPrice,
@@ -47,6 +45,7 @@ public class TripService {
             @Nonnull final String priceImp,
             @Nonnull final String starsImp,
             int minStars,
+            int minRating,
             @Nonnull final String allInclusivePref,
             @Nonnull final String fullBoardPref,
             @Nonnull final String halfBoardPref,
@@ -72,6 +71,7 @@ public class TripService {
             @Nonnull final String to,
             int minDays,
             int maxDays,
+            boolean filterAirports,
             boolean filterLocs,
             boolean hotelDistinct
     ) {
@@ -112,18 +112,20 @@ public class TripService {
         if (highPrefAirports == null) {
             highPrefAirports = Collections.emptyList();
         }
+        final String encodedHighPrefAirports = IdEncoder.encodeAllowedIds(highPrefAirports);
         if (prefAirports == null) {
             prefAirports = Collections.emptyList();
         }
-        reinsertAirportPrefs(highPrefAirports, prefAirports);
+        final String encodedPrefAirports = IdEncoder.encodeAllowedIds(prefAirports);
 
         if (highPrefLocs == null) {
             highPrefLocs = Collections.emptyList();
         }
+        final String encodedHighPrefLocs = IdEncoder.encodeAllowedIds(highPrefLocs);
         if (prefLocs == null) {
             prefLocs = Collections.emptyList();
         }
-        reinsertLocationPrefs(highPrefLocs, prefLocs);
+        final String encodedPrefLocs = IdEncoder.encodeAllowedIds(prefLocs);
 
         return tripMapper.searchTrips(
                 maxPrice,
@@ -132,15 +134,16 @@ public class TripService {
                 locImpCoeff,
                 starsImpCoeff,
                 minStars,
+                minRating,
                 allInclusiveValue,
                 fullBoardValue,
                 halfBoardValue,
                 breakfastValue,
                 noFoodValue,
                 minFoodValue,
-                foodImpCoeff,
                 ratingCoeff,
                 airportCoeff,
+                foodImpCoeff,
                 beachDistImpCoeff,
                 minBeachDist,
                 familyImpCoeff,
@@ -152,10 +155,15 @@ public class TripService {
                 dateTo,
                 minDays,
                 maxDays,
+                filterAirports,
                 filterLocs,
                 familyFilter,
                 wifiFilter,
                 poolFilter,
+                encodedHighPrefAirports,
+                encodedPrefAirports,
+                encodedHighPrefLocs,
+                encodedPrefLocs,
                 hotelDistinct
         );
     }
@@ -258,12 +266,4 @@ public class TripService {
         prefAirports.forEach(l -> airportMapper.addAirportPref(l, false));
     }
 
-    private void reinsertLocationPrefs(
-            @Nonnull List<Long> highPrefLocs,
-            @Nonnull List<Long> prefLocs
-    ) {
-        locationMapper.clearLocations();
-        highPrefLocs.forEach(l -> locationMapper.addLocationPref(l, true));
-        prefLocs.forEach(l -> locationMapper.addLocationPref(l, false));
-    }
 }

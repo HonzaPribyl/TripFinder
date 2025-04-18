@@ -24,6 +24,7 @@ public class TripController {
             @RequestParam String priceImp,
             @RequestParam String starsImp,
             @RequestParam int minStars,
+            @RequestParam int minRating,
             @RequestParam String allInclusivePref,
             @RequestParam String fullBoardPref,
             @RequestParam String halfBoardPref,
@@ -49,6 +50,7 @@ public class TripController {
             @RequestParam String to,
             @RequestParam int minDays,
             @RequestParam int maxDays,
+            @RequestParam boolean filterAirports,
             @RequestParam boolean filterLocs,
             @RequestParam boolean hotelDistinct,
             Model model
@@ -59,6 +61,7 @@ public class TripController {
                 priceImp,
                 starsImp,
                 minStars,
+                minRating,
                 allInclusivePref,
                 fullBoardPref,
                 halfBoardPref,
@@ -84,6 +87,7 @@ public class TripController {
                 to,
                 minDays,
                 maxDays,
+                filterAirports,
                 filterLocs,
                 hotelDistinct);
         model.addAttribute("trips", trips);

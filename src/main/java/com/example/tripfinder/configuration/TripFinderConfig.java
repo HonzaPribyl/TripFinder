@@ -67,9 +67,8 @@ public class TripFinderConfig {
     @Bean
     public TripService tripService(
             TripMapper tripMapper,
-            AirportMapper airportMapper,
-            LocationMapper locationMapper) {
-        return new TripService(tripMapper, airportMapper, locationMapper);
+            AirportMapper airportMapper) {
+        return new TripService(tripMapper, airportMapper);
     }
 
     @Bean
