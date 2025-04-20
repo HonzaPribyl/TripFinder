@@ -95,16 +95,19 @@ public class TripController {
     }
 
     @GetMapping("/searchByHotel")
-    public List<TripByHotelDTO> searchByHotel(
+    public String searchByHotel(
             @RequestParam float maxPrice,
+            @RequestParam float minPrice,
             @RequestParam String priceImp,
             @RequestParam String allInclusivePref,
             @RequestParam String fullBoardPref,
             @RequestParam String halfBoardPref,
             @RequestParam String breakfastPref,
             @RequestParam String noFoodPref,
+            @RequestParam String minFoodPref,
             @RequestParam(required = false) final List<Long> highPrefAirports,
             @RequestParam(required = false) final List<Long> prefAirports,
+            @RequestParam boolean filterAirports,
             @RequestParam String foodImp,
             @RequestParam String airportImp,
             @RequestParam int persons,
@@ -113,18 +116,22 @@ public class TripController {
             @RequestParam String to,
             @RequestParam int minDays,
             @RequestParam int maxDays,
-            @RequestParam Long hotel
+            @RequestParam Long hotel,
+            Model model
     ) {
-        return tripService.searchByHotel(
+        final List<TripByHotelDTO> trips = tripService.searchByHotel(
                 maxPrice,
+                minPrice,
                 priceImp,
                 allInclusivePref,
                 fullBoardPref,
                 halfBoardPref,
                 breakfastPref,
                 noFoodPref,
+                minFoodPref,
                 highPrefAirports,
                 prefAirports,
+                filterAirports,
                 foodImp,
                 airportImp,
                 persons,
@@ -135,6 +142,8 @@ public class TripController {
                 maxDays,
                 hotel
         );
+        model.addAttribute("trips", trips);
+        return "tripsByHotel";
     }
 
 }

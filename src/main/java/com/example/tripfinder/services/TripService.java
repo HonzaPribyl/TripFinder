@@ -170,14 +170,17 @@ public class TripService {
 
     public List<TripByHotelDTO> searchByHotel(
             float maxPrice,
+            float minPrice,
             @Nonnull final String priceImp,
             @Nonnull final String allInclusivePref,
             @Nonnull final String fullBoardPref,
             @Nonnull final String halfBoardPref,
             @Nonnull final String breakfastPref,
             @Nonnull final String noFoodPref,
+            @Nonnull final String minFoodPref,
             @Nullable List<Long> highPrefAirports,
             @Nullable List<Long> prefAirports,
+            boolean filterAirports,
             @Nonnull final String foodImp,
             @Nonnull final String airportImp,
             int persons,
@@ -195,6 +198,7 @@ public class TripService {
         float halfBoardValue = foodImp(halfBoardPref);
         float breakfastValue = foodImp(breakfastPref);
         float noFoodValue = foodImp(noFoodPref);
+        float minFoodValue = foodImp(minFoodPref);
 
         float foodImpCoeff = impCoeff(foodImp);
 
@@ -213,12 +217,14 @@ public class TripService {
 
         return tripMapper.searchTripsByHotel(
                 maxPrice,
+                minPrice,
                 priceImpCoeff,
                 allInclusiveValue,
                 fullBoardValue,
                 halfBoardValue,
                 breakfastValue,
                 noFoodValue,
+                minFoodValue,
                 airportCoeff,
                 foodImpCoeff,
                 persons,
@@ -227,6 +233,7 @@ public class TripService {
                 dateTo,
                 minDays,
                 maxDays,
+                filterAirports,
                 hotel
         );
     }

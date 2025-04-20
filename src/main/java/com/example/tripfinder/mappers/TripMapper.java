@@ -204,6 +204,7 @@ public interface TripMapper {
                     "JOIN beach_distance bd ON hot.beach_dist = bd.id " +
                     "LEFT JOIN reviews r ON hot.id = r.hotel " +
                     "WHERE price <= #{maxPrice} " +
+                    "AND price >= #{minPrice} " +
                     "AND persons >= #{persons} " +
                     "AND date_from > #{from} " +
                     "AND date_to < #{to} " +
@@ -233,17 +234,21 @@ public interface TripMapper {
                     "FROM cte " +
                     "WHERE days >= #{minDays} " +
                     "AND days <= #{maxDays} " +
+                    "AND foodScore >= #{minFoodValue} " +
+                    "AND (NOT #{airportFilter} OR airportScore > 0) " +
                     "ORDER BY totalScore DESC " +
                     "LIMIT #{limit}"
     )
     List<TripByHotelDTO> searchTripsByHotel(
             float maxPrice,
+            float minPrice,
             float priceImportance,
             float allInclusiveValue,
             float fullBoardValue,
             float halfBoardValue,
             float breakfastValue,
             float noFoodValue,
+            float minFoodValue,
             float airportCoeff,
             float foodImp,
             int persons,
@@ -252,6 +257,7 @@ public interface TripMapper {
             LocalDate to,
             int minDays,
             int maxDays,
+            boolean airportFilter,
             Long hotel);
 
     @Select("SELECT " +

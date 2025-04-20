@@ -21,12 +21,56 @@
             value="40000"
             required/>
     <br>
-    <label>Důležitost cena:</label>
-    <select th:name="priceImp">
-        <option value="il">Nízká</option>
-        <option selected="selected" value="im">Střední</option>
-        <option value="ih">Vysoká</option>
-        <option value="in">Nerozhoduje</option>
+    <label>Nejnižší cena:</label>
+    <input
+            type="text"
+            th:name="minPrice"
+            value="0"
+            required/>
+    <br><br>
+    <label>Nejzazší datum:</label>
+    <input type="date" th:name="from" value="2025-06-01"/>
+    <br><br>
+    <label>Nejpozdější datum:</label>
+    <input type="date" th:name="to" value="2025-09-30"/>
+    <br><br>
+    <label>Počet osob:</label>
+    <input
+            type="text"
+            th:name="persons"
+            value="2"
+            required/>
+    <br><br>
+    <label>Minimum dní:</label>
+    <input
+            type="text"
+            th:name="minDays"
+            value="4"
+            required/>
+    <br><br>
+    <label>Maximum dní:</label>
+    <input
+            type="text"
+            th:name="maxDays"
+            value="16"
+            required/>
+    <br>
+    <label>Letiště vysoká preference</label>
+    <div th:each="airport : ${airports}">
+        <input type="checkbox" th:name="highPrefAirports" th:value="${airport.id}" th:id="${'airport-' + airport.id}">
+        <label th:for="${'airport-' + airport.id}" th:text="${airport.name}"></label>
+    </div>
+    <br>
+    <label>Letiště mírná preference</label>
+    <div th:each="airport : ${airports}">
+        <input type="checkbox" th:name="prefAirports" th:value="${airport.id}" th:id="${'airport-' + airport.id}">
+        <label th:for="${'airport-' + airport.id}" th:text="${airport.name}"></label>
+    </div>
+    <br><br>
+    <label>Pouze vybrané letiště:</label>
+    <select th:name="filterAirports">
+        <option value="true">Ano</option>
+        <option selected="selected" value="false">Ne</option>
     </select>
     <br><br>
     <label>Preference stravy</label>
@@ -66,20 +110,15 @@
         <option value="hp">Vysoká</option>
     </select>
     <br>
-    <label>Letiště vysoká preference</label>
-    <div th:each="airport : ${airports}">
-        <input type="checkbox" th:name="highPrefAirports" th:value="${airport.id}" th:id="${'airport-' + airport.id}">
-        <label th:for="${'airport-' + airport.id}" th:text="${airport.name}"></label>
-    </div>
+    <label>Minimální preference stravy</label>
+    <select th:name="minFoodPref">
+        <option value="1">Nízká</option>
+        <option selected="selected" value="2">Střední</option>
+        <option value="3">Vysoká</option>
+    </select>
     <br>
-    <label>Letiště mírná preference</label>
-    <div th:each="airport : ${airports}">
-        <input type="checkbox" th:name="prefAirports" th:value="${airport.id}" th:id="${'airport-' + airport.id}">
-        <label th:for="${'airport-' + airport.id}" th:text="${airport.name}"></label>
-    </div>
-    <br><br>
-    <label>Důležitost strava:</label>
-    <select th:name="foodImp">
+    <label>Důležitost cena:</label>
+    <select th:name="priceImp">
         <option value="il">Nízká</option>
         <option selected="selected" value="im">Střední</option>
         <option value="ih">Vysoká</option>
@@ -94,38 +133,19 @@
         <option value="in">Nerozhoduje</option>
     </select>
     <br><br>
-    <label>Počet osob:</label>
-    <input
-            type="text"
-            th:name="persons"
-            value="2"
-            required/>
+    <label>Důležitost strava:</label>
+    <select th:name="foodImp">
+        <option value="il">Nízká</option>
+        <option selected="selected" value="im">Střední</option>
+        <option value="ih">Vysoká</option>
+        <option value="in">Nerozhoduje</option>
+    </select>
     <br><br>
     <label>Počet výsledků:</label>
     <input
             type="text"
             th:name="limit"
             value="5"
-            required/>
-    <br><br>
-    <label>Nejzazší datum:</label>
-    <input type="date" th:name="from" value="2025-06-01"/>
-    <br><br>
-    <label>Nejpozdější datum:</label>
-    <input type="date" th:name="to" value="2025-09-30"/>
-    <br><br>
-    <label>Minimum dní:</label>
-    <input
-            type="text"
-            th:name="minDays"
-            value="4"
-            required/>
-    <br><br>
-    <label>Maximum dní:</label>
-    <input
-            type="text"
-            th:name="maxDays"
-            value="16"
             required/>
     <br><br>
     <button type="submit">Hledat</button>
