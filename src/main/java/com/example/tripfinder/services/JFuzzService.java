@@ -71,14 +71,14 @@ public class JFuzzService {
                 showCharts, "trip");
 
         return new TripFuzzEvaluationDTO(
-                ratingAttributes.getValue(),
-                equipment.getValue(),
-                hotel.getValue(),
-                location.getValue(),
-                hotelAndLocation.getValue(),
-                convenience.getValue(),
-                journey.getValue(),
-                trip.getValue()
+                round(ratingAttributes.getValue(),100.0),
+                round(equipment.getValue(),100.0),
+                round(hotel.getValue(),100.0),
+                round(location.getValue(),100.0),
+                round(hotelAndLocation.getValue(),100.0),
+                round(convenience.getValue(),100.0),
+                round(journey.getValue(),100.0),
+                round(trip.getValue(),100.0)
         );
     }
 
@@ -105,5 +105,9 @@ public class JFuzzService {
             JFuzzyChart.get().chart(result, result.getDefuzzifier(), true);
         }
         return result;
+    }
+
+    private double round(double value, double places) {
+        return Math.round(value * places) / places;
     }
 }
