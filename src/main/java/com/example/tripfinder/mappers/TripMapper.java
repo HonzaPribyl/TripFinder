@@ -31,7 +31,7 @@ public interface TripMapper {
             "t.date_to AS dateTo, " +
             "DATEDIFF('DAY', t.date_from, t.date_to) AS days, " +
             "(#{maxPrice}-t.price) * 0.005 * #{priceImportance} AS priceScore, " +
-            "hot.stars * 20 * #{starsImp} AS starsScore, " +
+            "hot.stars * 20 * CAST(#{starsImp} AS numeric) AS starsScore, " +
             "CASE " +
                     "WHEN fp.id = 1 THEN #{allInclusiveValue} " +
                     "WHEN fp.id = 2 THEN #{fullBoardValue} " +
