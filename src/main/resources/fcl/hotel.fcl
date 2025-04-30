@@ -18,10 +18,10 @@ FUZZIFY rating_attributes
 END_FUZZIFY
 
 FUZZIFY equipment
-	TERM no := (5,0) (5,1) (10,0);
+	TERM no := (5,1) (10,0);
 	TERM small := (10,0) (15,1) (20,0);
 	TERM great := (20,0) (25,1) (30,0);
-	TERM excellent := (30,0) (35,1) (40,1);
+	TERM excellent := (30,0) (35,1) ;
 END_FUZZIFY
 
 DEFUZZIFY hotel

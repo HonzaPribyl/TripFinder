@@ -176,7 +176,7 @@ public class FuzzySearchService {
     }
 
     private float calculatePriceValue(float minPrice, float maxPrice, float price) {
-        return 6 * (price - minPrice) / (maxPrice - minPrice);
+        return 4 * (price - minPrice) / (maxPrice - minPrice) + 1;
     }
 
     private String encodeAllowedFoodPrefs(

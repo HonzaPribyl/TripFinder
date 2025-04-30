@@ -18,11 +18,11 @@ FUZZIFY convenience
 END_FUZZIFY
 
 FUZZIFY price
-	TERM very_cheap := (0, 1) (1, 1) (2, 0);
+	TERM very_cheap := (1, 1) (2, 0);
 	TERM cheap := (1, 0) (2, 1) (3, 0);
 	TERM average := (2, 0) (3, 1) (4, 0);
 	TERM expensive := (3, 0) (4, 1) (5, 0);
-	TERM very_expensive := (4, 0) (5, 1) (6, 1);
+	TERM very_expensive := (4, 0) (5, 1);
 END_FUZZIFY
 
 DEFUZZIFY journey

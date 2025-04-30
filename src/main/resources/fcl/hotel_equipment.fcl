@@ -11,18 +11,18 @@ VAR_OUTPUT
 END_VAR
 
 FUZZIFY family_friendly
-	TERM yes := (0, 1) (1, 1) (2, 0);
-	TERM no := (2, 0) (3, 1) (4, 1);
+	TERM yes := (1, 1) (2, 0);
+	TERM no := (2, 0) (3, 1) ;
 END_FUZZIFY
 
 FUZZIFY wifi
-	TERM yes := (0, 1) (1, 1) (2, 0);
-	TERM no := (2, 0) (3, 1) (4, 1);
+	TERM yes := (1, 1) (2, 0);
+	TERM no := (2, 0) (3, 1);
 END_FUZZIFY
 
 FUZZIFY swimming_pool
-	TERM yes := (0, 1) (1, 1) (2, 0);
-	TERM no := (2, 0) (3, 1) (4, 1);
+	TERM yes := (1, 1) (2, 0);
+	TERM no := (2, 0) (3, 1);
 END_FUZZIFY
 
 DEFUZZIFY equipment

@@ -10,11 +10,11 @@ VAR_OUTPUT
 END_VAR
 
 FUZZIFY stars
-	TERM one := (0, 0) (1, 1) (2, 0);
+	TERM one := (1, 1) (2, 0);
 	TERM two := (1, 0) (2, 1) (3, 0);
 	TERM three := (2, 0) (3, 1) (4, 0);
 	TERM four := (3, 0) (4, 1) (5, 0);
-	TERM five := (4, 0) (5, 1) (6, 0);
+	TERM five := (4, 0) (5, 1);
 END_FUZZIFY
 
 FUZZIFY rating

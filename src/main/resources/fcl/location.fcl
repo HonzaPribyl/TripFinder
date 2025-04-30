@@ -10,16 +10,16 @@ VAR_OUTPUT
 END_VAR
 
 FUZZIFY location_preference
-	TERM highly_preferred := (0, 0) (1, 1) (2, 0);
+	TERM highly_preferred := (1, 1) (2, 0);
 	TERM preferred := (1, 0) (2, 1) (3, 0);
-	TERM no_preference := (2, 0) (3, 1) (4, 0);
+	TERM no_preference := (2, 0) (3, 1);
 END_FUZZIFY
 
 FUZZIFY beach_distance
-	TERM right_by_beach := (0,0) (5,1) (10,0);
+	TERM right_by_beach := (5,1) (10,0);
 	TERM less_than_five_minutes := (10,0) (15,1) (20,0);
 	TERM less_than_fifteen_minutes := (20,0) (25,1) (30,0);
-	TERM more_than_fifteen_minutes := (30,0) (35,1) (40,0);
+	TERM more_than_fifteen_minutes := (30,0) (35,1);
 END_FUZZIFY
 
 DEFUZZIFY location_attributes
