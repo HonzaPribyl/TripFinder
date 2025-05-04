@@ -11,6 +11,7 @@ public class TripDTO {
     private Long id;
     private float price;
     private String location;
+    private Long hotelId;
     private String hotel;
     private int stars;
     private String foodPackage;

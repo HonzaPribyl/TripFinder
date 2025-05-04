@@ -18,6 +18,7 @@ public interface TripMapper {
             "t.id AS id, " +
             "t.price AS price, " +
             "l.name AS location, " +
+            "hot.id AS hotel_id, " +
             "hot.name AS hotel, " +
             "hot.stars AS stars, " +
             "a.name || ' (' || a.iata || ')' AS airport, " +
@@ -91,6 +92,7 @@ public interface TripMapper {
             "id, " +
             "price, " +
             "location, " +
+            "hotel_id, " +
             "hotel, " +
             "stars, " +
             "foodPackage, " +

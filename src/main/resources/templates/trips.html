@@ -121,9 +121,32 @@
                 <td class="score-field" th:text="${trip.internetScore}">Internet body</td>
                 <td class="score-field" th:text="${trip.swimmingPoolScore}">Bazén body</td>
                 <td class="score-field" th:text="${trip.ratingScore}">Hodnocení body</td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td colspan="3">
+                    <a th:href="@{/searchByHotel(
+                        hotel=${trip.hotelId},
+                        maxPrice=${maxPrice},
+                        minPrice=${minPrice},
+                        priceImp=${priceImp},
+                        allInclusivePref=${allInclusivePref},
+                        fullBoardPref=${fullBoardPref},
+                        halfBoardPref=${halfBoardPref},
+                        breakfastPref=${breakfastPref},
+                        noFoodPref=${noFoodPref},
+                        minFoodPref=${minFoodPref},
+                        highPrefAirports=${highPrefAirports},
+                        prefAirports=${prefAirports},
+                        foodImp=${foodImp},
+                        airportImp=${airportImp},
+                        persons=${persons},
+                        limit=${limit},
+                        from=${from},
+                        to=${to},
+                        minDays=${minDays},
+                        maxDays=${maxDays},
+                        filterAirports=${filterAirports})}">
+                        Vyhledat zájezdy pouze pro tento hotel
+                    </a>
+                </td>
             </tr>
             </tbody>
         </table>
