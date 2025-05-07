@@ -305,7 +305,7 @@ public interface TripMapper {
             "hot.family_friendly AS family_friendly, " +
             "hot.wifi AS wifi, " +
             "hot.swimming_pool AS swimming_pool, " +
-            "COALESCE(AVG(r.rating),5) AS averageRating, " +
+            "COALESCE(AVG(r.rating),5) * 10 AS averageRating, " +
             "t.date_from AS dateFrom, " +
             "t.date_to AS dateTo, " +
             "DATEDIFF('DAY', t.date_from, t.date_to) AS days " +
