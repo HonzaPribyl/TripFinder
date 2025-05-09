@@ -22,14 +22,14 @@ public class FuzzySearchService {
 
     private static final Map<Boolean, Integer> EQUIPMENT_MAP = Map.of(
             true, 1,
-            false, 3
+            false, 2
     );
 
     private static final Map<String, Integer> BEACH_DIST_MAP = Map.of(
             "Přímo u pláže", 5,
-            "Do 5 min", 15,
-            "Do 15 min", 25,
-            "Více, než 15 min", 35
+            "Do 5 min", 10,
+            "Do 15 min", 15,
+            "Více, než 15 min", 20
     );
 
     public TripFuzzyDTO getFuzzyTripById(Long tripId) {

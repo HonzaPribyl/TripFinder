@@ -17,9 +17,9 @@ END_FUZZIFY
 
 FUZZIFY beach_distance
 	TERM right_by_beach := (5,1) (10,0);
-	TERM less_than_five_minutes := (10,0) (15,1) (20,0);
-	TERM less_than_fifteen_minutes := (20,0) (25,1) (30,0);
-	TERM more_than_fifteen_minutes := (30,0) (35,1);
+	TERM less_than_five_minutes := (5,0) (10,1) (15,0);
+	TERM less_than_fifteen_minutes := (10,0) (15,1) (20,0);
+	TERM more_than_fifteen_minutes := (15,0) (20,1);
 END_FUZZIFY
 
 DEFUZZIFY location_attributes
