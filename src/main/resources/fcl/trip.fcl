@@ -10,23 +10,23 @@ VAR_OUTPUT
 END_VAR
 
 FUZZIFY hotel_and_location
-    TERM very_unsatisfying := (0,1) (40,1) (45,0);
-	TERM unsatisfying := (40,0) (45,1) (50,1) (55,0);
-	TERM rather_unsatisfying := (50,0) (55,1) (60,1) (65,0);
-	TERM average := (60,0) (65,1) (70,1) (75,0);
-	TERM rather_satisfying := (70,0) (75,1) (80,1) (85,0);
-	TERM satisfying := (80,0) (85,1) (90,1) (95,0);
-	TERM very_satisfying := (90,0) (95,1) (100,1);
+    TERM very_unsatisfying := (0,1) (40,1) (47.5,0);
+    TERM unsatisfying := (35,0) (45,1) (50,1) (57.5,0);
+    TERM rather_unsatisfying := (47.5,0) (55,1) (60,1) (67.5,0);
+    TERM average := (57.5,0) (65,1) (70,1) (77.5,0);
+    TERM rather_satisfying := (67.5,0) (75,1) (80,1) (87.5,0);
+    TERM satisfying := (72.5,0) (85,1) (90,1) (97.5,0);
+    TERM very_satisfying := (87.5,0) (95,1) (100,1);
 END_FUZZIFY
 
 FUZZIFY journey
-    TERM very_unsatisfying := (0,1) (40,1) (45,0);
-	TERM unsatisfying := (40,0) (45,1) (50,1) (55,0);
-	TERM rather_unsatisfying := (50,0) (55,1) (60,1) (65,0);
-	TERM average := (60,0) (65,1) (70,1) (75,0);
-	TERM rather_satisfying := (70,0) (75,1) (80,1) (85,0);
-	TERM satisfying := (80,0) (85,1) (90,1) (95,0);
-	TERM very_satisfying := (90,0) (95,1) (100,1);
+    TERM very_unsatisfying := (0,1) (40,1) (47.5,0);
+    TERM unsatisfying := (35,0) (45,1) (50,1) (57.5,0);
+    TERM rather_unsatisfying := (47.5,0) (55,1) (60,1) (67.5,0);
+    TERM average := (57.5,0) (65,1) (70,1) (77.5,0);
+    TERM rather_satisfying := (67.5,0) (75,1) (80,1) (87.5,0);
+    TERM satisfying := (77.5,0) (85,1) (90,1) (97.5,0);
+    TERM very_satisfying := (87.5,0) (95,1) (100,1);
 END_FUZZIFY
 
 DEFUZZIFY trip
