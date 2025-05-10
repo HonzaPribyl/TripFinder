@@ -20,24 +20,6 @@ public class FuzzySearchService {
     private final JFuzzService jFuzzService;
     private final TripMapper tripMapper;
 
-    public TripFuzzyDTO getFuzzyTripById(Long tripId) {
-        TripPureDTO pureTrip = tripMapper.getPureTripById(tripId);
-        TripFuzzEvaluationDTO fuzzEvaluation = jFuzzService.evaluate(
-                MappingHelper.EQUIPMENT_MAP.get(pureTrip.isFamilyFriendly()),
-                MappingHelper.EQUIPMENT_MAP.get(pureTrip.isInternet()),
-                MappingHelper.EQUIPMENT_MAP.get(pureTrip.isSwimmingPool()),
-                pureTrip.getStars(),
-                pureTrip.getAverageRating(),
-                1,
-                MappingHelper.BEACH_DIST_MAP.get(pureTrip.getBeachDist()),
-                1,
-                1,
-                1,
-                false
-        );
-        return new TripFuzzyDTO(pureTrip, fuzzEvaluation);
-    }
-
     public List<TripFuzzyDTO> searchFuzzyTrips(
             float maxPrice,
             float minPrice,
@@ -244,9 +226,7 @@ public class FuzzySearchService {
                 "Bez stravy", noFoodPref
         );
     }
-
-
-
+    
     private String encodeAllowedFoodPrefs(
             Map<String, Integer> foodPrefs,
             Integer minPref

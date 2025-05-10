@@ -2,7 +2,6 @@ package cz.sa.tripfinder.controllers;
 
 import cz.sa.tripfinder.model.TripFuzzyDTO;
 import cz.sa.tripfinder.services.FuzzySearchService;
-import cz.sa.tripfinder.services.JFuzzService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,13 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FuzzController {
 
-    private final JFuzzService jFuzzService;
     private final FuzzySearchService fuzzySearchService;
-
-    @GetMapping("/searchFuzzByTrip")
-    public TripFuzzyDTO searchFuzzByTrip(@RequestParam long trip) {
-        return fuzzySearchService.getFuzzyTripById(trip);
-    }
 
     @GetMapping("/searchFuzz")
     public String searchFuzz(
