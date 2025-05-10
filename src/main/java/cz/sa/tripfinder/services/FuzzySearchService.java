@@ -122,7 +122,9 @@ public class FuzzySearchService {
                 wifiFilter,
                 poolFilter,
                 encodedPrefAirports,
-                encodedPrefLocs);
+                encodedPrefLocs,
+                false,
+                null);
         List<TripFuzzyDTO> trips = new ArrayList<>();
         for (TripPureDTO pureTrip : pureTrips) {
             TripFuzzEvaluationDTO fuzzEvaluation = jFuzzService.evaluate(
@@ -144,6 +146,86 @@ public class FuzzySearchService {
         trips = trips.stream()
                 .sorted(Comparator.comparingDouble(TripFuzzyDTO::getTripScore).reversed())
                 .filter(trip -> !hotelDistinct || seenHotels.add(trip.getHotel()))
+                .limit(limit)
+                .collect(Collectors.toList());
+        return trips;
+    }
+
+    public List<TripFuzzyDTO> searchFuzzyTripsByHotel(
+            float maxPrice,
+            float minPrice,
+            String from,
+            String to,
+            int minDays,
+            int maxDays,
+            int persons,
+            int limit,
+            List<Long> highPrefAirports,
+            List<Long> prefAirports,
+            Integer allInclusivePref,
+            Integer fullBoardPref,
+            Integer halfBoardPref,
+            Integer breakfastPref,
+            Integer noFoodPref,
+            Integer minFoodPref,
+            Boolean airportFilter,
+            Long hotel
+    ) {
+        final LocalDate dateFrom = LocalDate.parse(from, DATE_TIME_FORMATTER);
+        final LocalDate dateTo = LocalDate.parse(to, DATE_TIME_FORMATTER);
+
+        if (highPrefAirports == null) {
+            highPrefAirports = Collections.emptyList();
+        }
+        if (prefAirports == null) {
+            prefAirports = Collections.emptyList();
+        }
+        final String encodedPrefAirports = IdEncoder.encodeAllowedIds(
+                Stream.concat(highPrefAirports.stream(),prefAirports.stream()).toList());
+
+        final Map<String, Integer> foodPackageMap = createFoodPackagesMap(
+                allInclusivePref, fullBoardPref, halfBoardPref, breakfastPref, noFoodPref);
+        final String allowedFoodPrefs = encodeAllowedFoodPrefs(foodPackageMap, minFoodPref);
+        List<TripPureDTO> pureTrips = tripMapper.getPureTrips(
+                dateFrom,
+                dateTo,
+                minDays,
+                maxDays,
+                maxPrice,
+                minPrice,
+                persons,
+                0,
+                0,
+                allowedFoodPrefs,
+                4,
+                airportFilter,
+                false,
+                false,
+                false,
+                false,
+                encodedPrefAirports,
+                "",
+                true,
+                hotel);
+        List<TripFuzzyDTO> trips = new ArrayList<>();
+        for (TripPureDTO pureTrip : pureTrips) {
+            TripFuzzEvaluationDTO fuzzEvaluation = jFuzzService.evaluate(
+                    EQUIPMENT_MAP.get(pureTrip.isFamilyFriendly()),
+                    EQUIPMENT_MAP.get(pureTrip.isInternet()),
+                    EQUIPMENT_MAP.get(pureTrip.isSwimmingPool()),
+                    pureTrip.getStars(),
+                    pureTrip.getAverageRating(),
+                    3,
+                    BEACH_DIST_MAP.get(pureTrip.getBeachDist()),
+                    determinePref(pureTrip.getAirportId(), highPrefAirports, prefAirports),
+                    foodPackageMap.get(pureTrip.getFoodPackage()),
+                    calculatePriceValue(minPrice, maxPrice, pureTrip.getPrice()),
+                    false
+            );
+            trips.add(new TripFuzzyDTO(pureTrip, fuzzEvaluation));
+        }
+        trips = trips.stream()
+                .sorted(Comparator.comparingDouble(TripFuzzyDTO::getTripScore).reversed())
                 .limit(limit)
                 .collect(Collectors.toList());
         return trips;

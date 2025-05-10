@@ -12,6 +12,7 @@ public class TripPureDTO {
     private float price;
     private String location;
     private Long locationId;
+    private Long hotelId;
     private String hotel;
     private int stars;
     private String foodPackage;

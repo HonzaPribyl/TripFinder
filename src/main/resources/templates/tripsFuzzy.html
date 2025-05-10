@@ -98,7 +98,29 @@
                 <th>Hotel</th>
                 <th>Hotel a lokace</th>
                 <th>Cesta</th>
-                <th colspan="7"></th>
+                <th colspan="7">
+                    <a th:href="@{/searchFuzzByHotel(
+                        hotel=${trip.hotelId},
+                        maxPrice=${maxPrice},
+                        minPrice=${minPrice},
+                        allInclusivePref=${allInclusivePref},
+                        fullBoardPref=${fullBoardPref},
+                        halfBoardPref=${halfBoardPref},
+                        breakfastPref=${breakfastPref},
+                        noFoodPref=${noFoodPref},
+                        minFoodPref=${minFoodPref},
+                        highPrefAirports=${highPrefAirports},
+                        prefAirports=${prefAirports},
+                        persons=${persons},
+                        limit=${limit},
+                        from=${from},
+                        to=${to},
+                        minDays=${minDays},
+                        maxDays=${maxDays},
+                        filterAirports=${filterAirports})}">
+                        Vyhledat zájezdy pouze pro tento hotel
+                    </a>
+                </th>
             </tr>
             <tr>
                 <td th:text="${trip.tripScore}">Celkové hodnocení</td>

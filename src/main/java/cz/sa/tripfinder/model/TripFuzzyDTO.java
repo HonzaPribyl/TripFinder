@@ -11,6 +11,7 @@ public class TripFuzzyDTO {
     private Long id;
     private float price;
     private String location;
+    private Long hotelId;
     private String hotel;
     private int stars;
     private String foodPackage;
@@ -38,6 +39,7 @@ public class TripFuzzyDTO {
         this.id = tripPureDTO.getId();
         this.price = tripPureDTO.getPrice();
         this.location = tripPureDTO.getLocation();
+        this.hotelId = tripPureDTO.getHotelId();
         this.hotel = tripPureDTO.getHotel();
         this.stars = tripPureDTO.getStars();
         this.foodPackage = tripPureDTO.getFoodPackage();

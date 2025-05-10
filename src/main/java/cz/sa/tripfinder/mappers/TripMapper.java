@@ -296,6 +296,7 @@ public interface TripMapper {
             "t.price AS price, " +
             "l.name AS location, " +
             "l.id AS locationId, " +
+            "hot.id AS hotelId, " +
             "hot.name AS hotel, " +
             "hot.stars AS stars, " +
             "fp.name AS foodPackage, " +
@@ -330,8 +331,9 @@ public interface TripMapper {
             "AND (NOT #{familyFilter} OR hot.family_friendly = true) " +
             "AND (NOT #{wifiFilter} OR hot.wifi = true) " +
             "AND (NOT #{poolFilter} OR hot.swimming_pool = true) " +
+            "AND (NOT #{hotelSpecific} OR t.hotel = #{hotel}) " +
             "GROUP BY t.id " +
-            "HAVING COALESCE(AVG(r.rating),5) >= #{minRating}")
+            "HAVING COALESCE(AVG(r.rating),5) * 10 >= #{minRating}")
     List<TripPureDTO> getPureTrips(
             LocalDate from,
             LocalDate to,
@@ -350,7 +352,9 @@ public interface TripMapper {
             boolean wifiFilter,
             boolean poolFilter,
             String prefAirports,
-            String prefLocs
+            String prefLocs,
+            boolean hotelSpecific,
+            Long hotel
     );
 
 }

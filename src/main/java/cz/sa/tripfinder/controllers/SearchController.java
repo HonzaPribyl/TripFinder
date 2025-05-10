@@ -48,4 +48,11 @@ public class SearchController {
         model.addAttribute("airports", airportService.getAirports());
         return "searchFormHotelSpecific";
     }
+
+    @GetMapping("/searchFuzzyHotelSpecificForm")
+    public String searchFuzzHotSpecForm(Model model) {
+        model.addAttribute("hotels", hotelService.getHotels());
+        model.addAttribute("airports", airportService.getAirports());
+        return "searchFormFuzzyHotelSpecific";
+    }
 }

@@ -83,6 +83,68 @@ public class FuzzController {
                 poolFilter,
                 hotelDistinct);
         model.addAttribute("trips", trips);
+        model.addAttribute("maxPrice", maxPrice);
+        model.addAttribute("minPrice", minPrice);
+        model.addAttribute("allInclusivePref", allInclusivePref);
+        model.addAttribute("fullBoardPref", fullBoardPref);
+        model.addAttribute("halfBoardPref", halfBoardPref);
+        model.addAttribute("breakfastPref", breakfastPref);
+        model.addAttribute("noFoodPref", noFoodPref);
+        model.addAttribute("minFoodPref", minFoodPref);
+        model.addAttribute("highPrefAirports", highPrefAirports);
+        model.addAttribute("prefAirports", prefAirports);
+        model.addAttribute("persons", persons);
+        model.addAttribute("limit", limit);
+        model.addAttribute("from", from);
+        model.addAttribute("to", to);
+        model.addAttribute("minDays", minDays);
+        model.addAttribute("maxDays", maxDays);
+        model.addAttribute("filterAirports", filterAirports);
+        return "tripsFuzzy";
+    }
+
+    @GetMapping("/searchFuzzByHotel")
+    public String searchFuzzByHotel(
+            @RequestParam float maxPrice,
+            @RequestParam float minPrice,
+            @RequestParam String from,
+            @RequestParam String to,
+            @RequestParam int minDays,
+            @RequestParam int maxDays,
+            @RequestParam int persons,
+            @RequestParam int limit,
+            @RequestParam(required = false) final List<Long> highPrefAirports,
+            @RequestParam(required = false) final List<Long> prefAirports,
+            @RequestParam Integer allInclusivePref,
+            @RequestParam Integer fullBoardPref,
+            @RequestParam Integer halfBoardPref,
+            @RequestParam Integer breakfastPref,
+            @RequestParam Integer noFoodPref,
+            @RequestParam Integer minFoodPref,
+            @RequestParam Boolean filterAirports,
+            @RequestParam long hotel,
+            Model model
+    ) {
+        List<TripFuzzyDTO> trips = fuzzySearchService.searchFuzzyTripsByHotel(
+                maxPrice,
+                minPrice,
+                from,
+                to,
+                minDays,
+                maxDays,
+                persons,
+                limit,
+                highPrefAirports,
+                prefAirports,
+                allInclusivePref,
+                fullBoardPref,
+                halfBoardPref,
+                breakfastPref,
+                noFoodPref,
+                minFoodPref,
+                filterAirports,
+                hotel);
+        model.addAttribute("trips", trips);
         return "tripsFuzzy";
     }
 }
