@@ -267,6 +267,7 @@ public interface TripMapper {
             "t.price AS price, " +
             "l.name AS location, " +
             "l.id AS locationId, " +
+            "hot.id AS hotelId, " +
             "hot.name AS hotel, " +
             "hot.stars AS stars, " +
             "fp.name AS foodPackage, " +
@@ -276,7 +277,7 @@ public interface TripMapper {
             "hot.family_friendly AS family_friendly, " +
             "hot.wifi AS wifi, " +
             "hot.swimming_pool AS swimming_pool, " +
-            "COALESCE(AVG(r.rating),0) AS averageRating, " +
+            "COALESCE(AVG(r.rating),5) * 10 AS averageRating, " +
             "t.date_from AS dateFrom, " +
             "t.date_to AS dateTo, " +
             "t.date_to - t.date_from AS days, " +

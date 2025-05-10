@@ -20,28 +20,16 @@ public class FuzzySearchService {
     private final JFuzzService jFuzzService;
     private final TripMapper tripMapper;
 
-    private static final Map<Boolean, Integer> EQUIPMENT_MAP = Map.of(
-            true, 1,
-            false, 2
-    );
-
-    private static final Map<String, Integer> BEACH_DIST_MAP = Map.of(
-            "Přímo u pláže", 5,
-            "Do 5 min", 10,
-            "Do 15 min", 15,
-            "Více, než 15 min", 20
-    );
-
     public TripFuzzyDTO getFuzzyTripById(Long tripId) {
         TripPureDTO pureTrip = tripMapper.getPureTripById(tripId);
         TripFuzzEvaluationDTO fuzzEvaluation = jFuzzService.evaluate(
-                EQUIPMENT_MAP.get(pureTrip.isFamilyFriendly()),
-                EQUIPMENT_MAP.get(pureTrip.isInternet()),
-                EQUIPMENT_MAP.get(pureTrip.isSwimmingPool()),
+                MappingHelper.EQUIPMENT_MAP.get(pureTrip.isFamilyFriendly()),
+                MappingHelper.EQUIPMENT_MAP.get(pureTrip.isInternet()),
+                MappingHelper.EQUIPMENT_MAP.get(pureTrip.isSwimmingPool()),
                 pureTrip.getStars(),
                 pureTrip.getAverageRating(),
                 1,
-                BEACH_DIST_MAP.get(pureTrip.getBeachDist()),
+                MappingHelper.BEACH_DIST_MAP.get(pureTrip.getBeachDist()),
                 1,
                 1,
                 1,
@@ -88,7 +76,7 @@ public class FuzzySearchService {
         if (prefAirports == null) {
             prefAirports = Collections.emptyList();
         }
-        final String encodedPrefAirports = IdEncoder.encodeAllowedIds(
+        final String encodedPrefAirports = MappingHelper.encodeAllowedIds(
                 Stream.concat(highPrefAirports.stream(),prefAirports.stream()).toList());
 
         if (highPrefLocs == null) {
@@ -97,7 +85,7 @@ public class FuzzySearchService {
         if (prefLocs == null) {
             prefLocs = Collections.emptyList();
         }
-        final String encodedPrefLocs = IdEncoder.encodeAllowedIds(
+        final String encodedPrefLocs = MappingHelper.encodeAllowedIds(
                 Stream.concat(highPrefLocs.stream(),prefLocs.stream()).toList()
         );
 
@@ -128,16 +116,16 @@ public class FuzzySearchService {
         List<TripFuzzyDTO> trips = new ArrayList<>();
         for (TripPureDTO pureTrip : pureTrips) {
             TripFuzzEvaluationDTO fuzzEvaluation = jFuzzService.evaluate(
-                    EQUIPMENT_MAP.get(pureTrip.isFamilyFriendly()),
-                    EQUIPMENT_MAP.get(pureTrip.isInternet()),
-                    EQUIPMENT_MAP.get(pureTrip.isSwimmingPool()),
+                    MappingHelper.EQUIPMENT_MAP.get(pureTrip.isFamilyFriendly()),
+                    MappingHelper.EQUIPMENT_MAP.get(pureTrip.isInternet()),
+                    MappingHelper.EQUIPMENT_MAP.get(pureTrip.isSwimmingPool()),
                     pureTrip.getStars(),
                     pureTrip.getAverageRating(),
                     determinePref(pureTrip.getLocationId(), highPrefLocs, prefLocs),
-                    BEACH_DIST_MAP.get(pureTrip.getBeachDist()),
+                    MappingHelper.BEACH_DIST_MAP.get(pureTrip.getBeachDist()),
                     determinePref(pureTrip.getAirportId(), highPrefAirports, prefAirports),
                     foodPackageMap.get(pureTrip.getFoodPackage()),
-                    calculatePriceValue(minPrice, maxPrice, pureTrip.getPrice()),
+                    MappingHelper.calculatePriceValue(minPrice, maxPrice, pureTrip.getPrice()),
                     false
             );
             trips.add(new TripFuzzyDTO(pureTrip, fuzzEvaluation));
@@ -180,7 +168,7 @@ public class FuzzySearchService {
         if (prefAirports == null) {
             prefAirports = Collections.emptyList();
         }
-        final String encodedPrefAirports = IdEncoder.encodeAllowedIds(
+        final String encodedPrefAirports = MappingHelper.encodeAllowedIds(
                 Stream.concat(highPrefAirports.stream(),prefAirports.stream()).toList());
 
         final Map<String, Integer> foodPackageMap = createFoodPackagesMap(
@@ -210,16 +198,16 @@ public class FuzzySearchService {
         List<TripFuzzyDTO> trips = new ArrayList<>();
         for (TripPureDTO pureTrip : pureTrips) {
             TripFuzzEvaluationDTO fuzzEvaluation = jFuzzService.evaluate(
-                    EQUIPMENT_MAP.get(pureTrip.isFamilyFriendly()),
-                    EQUIPMENT_MAP.get(pureTrip.isInternet()),
-                    EQUIPMENT_MAP.get(pureTrip.isSwimmingPool()),
+                    MappingHelper.EQUIPMENT_MAP.get(pureTrip.isFamilyFriendly()),
+                    MappingHelper.EQUIPMENT_MAP.get(pureTrip.isInternet()),
+                    MappingHelper.EQUIPMENT_MAP.get(pureTrip.isSwimmingPool()),
                     pureTrip.getStars(),
                     pureTrip.getAverageRating(),
                     3,
-                    BEACH_DIST_MAP.get(pureTrip.getBeachDist()),
+                    MappingHelper.BEACH_DIST_MAP.get(pureTrip.getBeachDist()),
                     determinePref(pureTrip.getAirportId(), highPrefAirports, prefAirports),
                     foodPackageMap.get(pureTrip.getFoodPackage()),
-                    calculatePriceValue(minPrice, maxPrice, pureTrip.getPrice()),
+                    MappingHelper.calculatePriceValue(minPrice, maxPrice, pureTrip.getPrice()),
                     false
             );
             trips.add(new TripFuzzyDTO(pureTrip, fuzzEvaluation));
@@ -257,9 +245,7 @@ public class FuzzySearchService {
         );
     }
 
-    private float calculatePriceValue(float minPrice, float maxPrice, float price) {
-        return 4 * (price - minPrice) / (maxPrice - minPrice) + 1;
-    }
+
 
     private String encodeAllowedFoodPrefs(
             Map<String, Integer> foodPrefs,

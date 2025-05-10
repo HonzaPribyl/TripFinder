@@ -112,20 +112,20 @@ public class TripService {
         if (highPrefAirports == null) {
             highPrefAirports = Collections.emptyList();
         }
-        final String encodedHighPrefAirports = IdEncoder.encodeAllowedIds(highPrefAirports);
+        final String encodedHighPrefAirports = MappingHelper.encodeAllowedIds(highPrefAirports);
         if (prefAirports == null) {
             prefAirports = Collections.emptyList();
         }
-        final String encodedPrefAirports = IdEncoder.encodeAllowedIds(prefAirports);
+        final String encodedPrefAirports = MappingHelper.encodeAllowedIds(prefAirports);
 
         if (highPrefLocs == null) {
             highPrefLocs = Collections.emptyList();
         }
-        final String encodedHighPrefLocs = IdEncoder.encodeAllowedIds(highPrefLocs);
+        final String encodedHighPrefLocs = MappingHelper.encodeAllowedIds(highPrefLocs);
         if (prefLocs == null) {
             prefLocs = Collections.emptyList();
         }
-        final String encodedPrefLocs = IdEncoder.encodeAllowedIds(prefLocs);
+        final String encodedPrefLocs = MappingHelper.encodeAllowedIds(prefLocs);
 
         return tripMapper.searchTrips(
                 maxPrice,

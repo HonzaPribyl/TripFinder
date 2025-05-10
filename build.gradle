@@ -50,3 +50,9 @@ sourceSets {
 test {
     useJUnitPlatform()
 }
+
+task runFuzz(type: JavaExec) {
+    mainClass = 'cz.sa.tripfinder.FuzzyTripEvaluation' // Replace with actual package
+    classpath = sourceSets.main.runtimeClasspath
+    standardInput = System.in
+}
