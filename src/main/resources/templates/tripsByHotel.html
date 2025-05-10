@@ -50,53 +50,68 @@
 </div>
 
 <table th:if="${!trips.isEmpty()}">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Cena</th>
-        <th>Destinace</th>
-        <th>Hotel</th>
-        <th>Počet hvězdiček</th>
-        <th>Strava</th>
-        <th>Letiště</th>
-        <th>Vzdálenost pláže</th>
-        <th>Vhodné pro rodiny</th>
-        <th>Internet na hotelu</th>
-        <th>Bazén na hotelu</th>
-        <th>Hodnocení</th>
-        <th>Datum od</th>
-        <th>Datum do</th>
-        <th>Počet dní</th>
-        <th>Celkem bodů</th>
-        <th class="score-header">Cena body</th>
-        <th class="score-header">Strava body</th>
-        <th class="score-header">Letiště body</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="trip : ${trips}">
-        <td th:text="${trip.id}">ID</td>
-        <td th:text="${trip.price}">Cena</td>
-        <td th:text="${trip.location}">Destinace</td>
-        <td th:text="${trip.hotel}">Hotel</td>
-        <td th:text="${trip.stars}">Počet hvězdiček</td>
-        <td th:text="${trip.foodPackage}">Strava</td>
-        <td th:text="${trip.airport}">Letiště</td>
-        <td th:text="${trip.beachDist}">Vzdálenost pláže</td>
-        <td th:text="${trip.familyFriendly ? 'Ano' : 'Ne'}">Vhodné pro rodiny</td>
-        <td th:text="${trip.internet ? 'Ano' : 'Ne'}">Internet na hotelu</td>
-        <td th:text="${trip.swimmingPool ? 'Ano' : 'Ne'}">Bazén na hotelu</td>
-        <td th:text="${trip.averageRating}">Hodnocení</td>
-        <td th:text="${trip.dateFrom}">Datum od</td>
-        <td th:text="${trip.dateTo}">Datum do</td>
-        <td th:text="${trip.days}">Počet dní</td>
-        <td th:text="${trip.totalScore}">Celkem bodů</td>
+    <div th:each="trip : ${trips}" style="margin-bottom: 20px;">
+        <table style="width: 1500px; table-layout: fixed; border-collapse: collapse;">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Cena</th>
+                <th>Destinace</th>
+                <th>Hotel</th>
+                <th>Počet hvězdiček</th>
+                <th>Strava</th>
+                <th>Letiště</th>
+                <th>Vzdálenost pláže</th>
+                <th>Vhodné pro rodiny</th>
+                <th>Internet na hotelu</th>
+                <th>Bazén na hotelu</th>
+                <th>Hodnocení</th>
+                <th>Datum od</th>
+                <th>Datum do</th>
+                <th>Počet dní</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td th:text="${trip.id}">ID</td>
+                <td th:text="${trip.price}">Cena</td>
+                <td th:text="${trip.location}">Destinace</td>
+                <td th:text="${trip.hotel}">Hotel</td>
+                <td th:text="${trip.stars}">Počet hvězdiček</td>
+                <td th:text="${trip.foodPackage}">Strava</td>
+                <td th:text="${trip.airport}">Letiště</td>
+                <td th:text="${trip.beachDist}">Vzdálenost pláže</td>
+                <td th:text="${trip.familyFriendly ? 'Ano' : 'Ne'}">Vhodné pro rodiny</td>
+                <td th:text="${trip.internet ? 'Ano' : 'Ne'}">Internet na hotelu</td>
+                <td th:text="${trip.swimmingPool ? 'Ano' : 'Ne'}">Bazén na hotelu</td>
+                <td th:text="${trip.averageRating}">Hodnocení</td>
+                <td th:text="${trip.dateFrom}">Datum od</td>
+                <td th:text="${trip.dateTo}">Datum do</td>
+                <td th:text="${trip.days}">Počet dní</td>
+            </tr>
 
-        <td class="score-field" th:text="${trip.priceScore}">Price Score</td>
-        <td class="score-field" th:text="${trip.foodScore}">Food Score</td>
-        <td class="score-field" th:text="${trip.airportScore}">Airport Score</td>
-    </tr>
-    </tbody>
+            <tr style="width: 1500px;">
+                <th>Celkem bodů</th>
+                <th>Cena body</th>
+                <td colspan="3"></td>
+                <th>Strava body</th>
+                <th>Letiště body</th>
+                <td colspan="8"></td>
+            </tr>
+
+            <tr style="width: 1500px;">
+                <td th:text="${trip.totalScore}">Celkem bodů</td>
+                <td class="score-field" th:text="${trip.priceScore}">Cena body</td>
+                <td colspan="3"></td>
+                <td class="score-field" th:text="${trip.foodScore}">Strava body</td>
+                <td class="score-field" th:text="${trip.airportScore}">Letiště body</td>
+                <td colspan="8"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</table>
+</div>
 </table>
 
 </body>
