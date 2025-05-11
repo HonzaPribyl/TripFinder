@@ -3,259 +3,292 @@
 <head>
     <meta charset="UTF-8">
     <title>Trip Finder</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+        }
+
+        fieldset {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ccc;
+        }
+
+        legend {
+            font-weight: bold;
+        }
+
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .two-columns {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .two-columns > div {
+            flex: 1;
+        }
+
+        label {
+            display: inline-block;
+            min-width: 160px;
+            margin-bottom: 6px;
+        }
+
+        input[type="text"], select, input[type="date"] {
+            margin-bottom: 8px;
+        }
+    </style>
 </head>
 <body>
-<h1>Trip Finder</h1>
-<form
-        th:action="@{/search}"
-        method="get">
-    <label>Nejvyšší cena:</label>
-    <input
-            type="text"
-            th:name="maxPrice"
-            value="40000"
-            required/>
-    <br>
-    <label>Nejnižší cena:</label>
-    <input
-            type="text"
-            th:name="minPrice"
-            value="0"
-            required/>
-    <br>
-    <label>Nejzazší datum:</label>
-    <input type="date" th:name="from" value="2025-06-01"/>
-    <br><br>
-    <label>Nejpozdější datum:</label>
-    <input type="date" th:name="to" value="2025-09-30"/>
-    <br><br>
-    <label>Počet osob:</label>
-    <input
-            type="text"
-            th:name="persons"
-            value="2"
-            required/>
-    <br><br>
-    <label>Minimum dní:</label>
-    <input
-            type="text"
-            th:name="minDays"
-            value="4"
-            required/>
-    <br><br>
-    <label>Maximum dní:</label>
-    <input
-            type="text"
-            th:name="maxDays"
-            value="16"
-            required/>
-    <br>
-    <label>Letiště vysoká preference</label>
-    <div th:each="airport : ${airports}">
-        <input type="checkbox" th:name="highPrefAirports" th:value="${airport.id}" th:id="${'airport-' + airport.id}">
-        <label th:for="${'airport-' + airport.id}" th:text="${airport.name}"></label>
-    </div>
-    <br>
-    <label>Letiště mírná preference</label>
-    <div th:each="airport : ${airports}">
-        <input type="checkbox" th:name="prefAirports" th:value="${airport.id}" th:id="${'airport-' + airport.id}">
-        <label th:for="${'airport-' + airport.id}" th:text="${airport.name}"></label>
-    </div>
-    <br><br>
-    <label>Pouze vybrané letiště:</label>
-    <select th:name="filterAirports">
-        <option value="true">Ano</option>
-        <option selected="selected" value="false">Ne</option>
-    </select>
-    <br>
-    <label>Lokace vysoká preference</label>
-    <div th:each="location : ${locations}">
-        <input type="checkbox" th:name="highPrefLocs" th:value="${location.id}" th:id="${'location-' + location.id}">
-        <label th:for="${'location-' + location.id}" th:text="${location.name}"></label>
-    </div>
-    <br>
-    <label>Lokace mírná preference</label>
-    <div th:each="location : ${locations}">
-        <input type="checkbox" th:name="prefLocs" th:value="${location.id}" th:id="${'location-' + location.id}">
-        <label th:for="${'location-' + location.id}" th:text="${location.name}"></label>
-    </div>
-    <br><br>
-    <label>Pouze vybrané lokace:</label>
-    <select th:name="filterLocs">
-        <option value="true">Ano</option>
-        <option selected="selected" value="false">Ne</option>
-    </select>
-    <br><br>
-    <label>Preference stravy</label>
-    <br>
-    <label>Preference All inclusive</label>
-    <select th:name="allInclusivePref">
-        <option value="lp">Nízká</option>
-        <option selected="selected" value="mp">Střední</option>
-        <option value="hp">Vysoká</option>
-    </select>
-    <br>
-    <label>Preference Plná penze</label>
-    <select th:name="fullBoardPref">
-        <option value="lp">Nízká</option>
-        <option selected="selected" value="mp">Střední</option>
-        <option value="hp">Vysoká</option>
-    </select>
-    <br>
-    <label>Preference Polopenze</label>
-    <select th:name="halfBoardPref">
-        <option value="lp">Nízká</option>
-        <option selected="selected" value="mp">Střední</option>
-        <option value="hp">Vysoká</option>
-    </select>
-    <br>
-    <label>Preference Snídaně</label>
-    <select th:name="breakfastPref">
-        <option value="lp">Nízká</option>
-        <option selected="selected" value="mp">Střední</option>
-        <option value="hp">Vysoká</option>
-    </select>
-    <br>
-    <label>Preference Bez stravy</label>
-    <select th:name="noFoodPref">
-        <option value="lp">Nízká</option>
-        <option selected="selected" value="mp">Střední</option>
-        <option value="hp">Vysoká</option>
-    </select>
-    <br>
-    <label>Minimální preference stravy:</label>
-    <select th:name="minFoodPref">
-        <option value="lp">Nízká</option>
-        <option selected="selected" value="mp">Střední</option>
-        <option value="hp">Vysoká</option>
-    </select>
-    <br>
-    <label>Minimální počet hvězdiček:</label>
-    <select th:name="minStars">
-        <option selected="selected" value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-    </select>
-    <br><br>
-    <label>Minimální hodnocení:</label>
-    <select th:name="minRating">
-        <option selected="selected" value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-        <option value="6">6</option>
-        <option value="7">7</option>
-        <option value="8">8</option>
-        <option value="9">9</option>
-        <option value="10">10</option>
-    </select>
-    <br><br>
-    <label>Maximální vzdálenost pláže:</label>
-    <select th:name="minBeachDist">
-        <option th:each="beach_dist:${beach_dists}" th:value="${beach_dist.id}" th:text="${beach_dist.name}"></option>
-    </select>
-    <br><br>
-    <label>Důležitost cena:</label>
-    <select th:name="priceImp">
-        <option value="il">Nízká</option>
-        <option selected="selected" value="im">Střední</option>
-        <option value="ih">Vysoká</option>
-        <option value="in">Nerozhoduje</option>
-    </select>
-    <br><br>
-    <label>Důležitost letiště:</label>
-    <select th:name="airportImp">
-        <option value="il">Nízká</option>
-        <option selected="selected" value="im">Střední</option>
-        <option value="ih">Vysoká</option>
-        <option value="in">Nerozhoduje</option>
-    </select>
-    <br><br>
-    <label>Důležitost destinace:</label>
-    <select th:name="locImp">
-        <option value="il">Nízká</option>
-        <option selected="selected" value="im">Střední</option>
-        <option value="ih">Vysoká</option>
-        <option value="in">Nerozhoduje</option>
-    </select>
-    <br><br>
-    <label>Důležitost strava:</label>
-    <select th:name="foodImp">
-        <option value="il">Nízká</option>
-        <option selected="selected" value="im">Střední</option>
-        <option value="ih">Vysoká</option>
-        <option value="in">Nerozhoduje</option>
-    </select>
-    <br><br>
-    <label>Důležitost počet hvězdiček:</label>
-    <select th:name="starsImp">
-        <option value="il">Nízká</option>
-        <option selected="selected" value="im">Střední</option>
-        <option value="ih">Vysoká</option>
-        <option value="in">Nerozhoduje</option>
-    </select>
-    <br><br>
-    <label>Důležitost hodnocení:</label>
-    <select th:name="ratingImp">
-        <option value="il">Nízká</option>
-        <option selected="selected" value="im">Střední</option>
-        <option value="ih">Vysoká</option>
-        <option value="in">Nerozhoduje</option>
-    </select>
-    <br><br>
-    <label>Důležitost vzdálenost pláže:</label>
-    <select th:name="beachDistImp">
-        <option value="il">Nízká</option>
-        <option selected="selected" value="im">Střední</option>
-        <option value="ih">Vysoká</option>
-        <option value="in">Nerozhoduje</option>
-    </select>
-    <br><br>
-    <label>Důležitost vhodné pro rodiny:</label>
-    <select th:name="familyImp">
-        <option value="il">Nízká</option>
-        <option selected="selected" value="im">Střední</option>
-        <option value="ih">Vysoká</option>
-        <option value="inc">Nutná</option>
-        <option value="in">Nerozhoduje</option>
-    </select>
-    <br>
-    <label>Důležitost internet:</label>
-    <select th:name="wifiImp">
-        <option value="il">Nízká</option>
-        <option selected="selected" value="im">Střední</option>
-        <option value="ih">Vysoká</option>
-        <option value="inc">Nutná</option>
-        <option value="in">Nerozhoduje</option>
-    </select>
-    <br>
-    <label>Důležitost bazén:</label>
-    <select th:name="poolImp">
-        <option value="il">Nízká</option>
-        <option selected="selected" value="im">Střední</option>
-        <option value="ih">Vysoká</option>
-        <option value="inc">Nutná</option>
-        <option value="in">Nerozhoduje</option>
-    </select>
-    <br><br>
-    <label>Počet výsledků:</label>
-    <input
-            type="text"
-            th:name="limit"
-            value="5"
-            required/>
-    <br><br>
-    <label>Pouze jeden výsledek pro hotel:</label>
-    <select th:name="hotelDistinct">
-        <option selected="selected" value="true">Ano</option>
-        <option value="false">Ne</option>
-    </select>
-    <br><br>
-    <button type="submit">Hledat</button>
-</form>
+<div class="form-container">
+    <h1>Trip Finder</h1>
+    <form th:action="@{/search}" method="get">
 
+        <fieldset>
+            <legend>Cena, datum a osoby</legend>
+            <label>Nejvyšší cena:</label>
+            <input type="text" th:name="maxPrice" value="40000" required/><br>
+            <label>Nejnižší cena:</label>
+            <input type="text" th:name="minPrice" value="0" required/><br>
+            <label>Nejzazší datum:</label>
+            <input type="date" th:name="from" value="2025-06-01"/><br>
+            <label>Nejpozdější datum:</label>
+            <input type="date" th:name="to" value="2025-09-30"/><br>
+            <label>Počet osob:</label>
+            <input type="text" th:name="persons" value="2" required/><br>
+            <label>Minimum dní:</label>
+            <input type="text" th:name="minDays" value="4" required/><br>
+            <label>Maximum dní:</label>
+            <input type="text" th:name="maxDays" value="16" required/>
+        </fieldset>
+
+        <fieldset>
+            <legend>Letiště</legend>
+            <div class="two-columns">
+                <div>
+                    <label>Vysoká preference:</label><br>
+                    <div th:each="airport : ${airports}">
+                        <input type="checkbox" th:name="highPrefAirports" th:value="${airport.id}"
+                               th:id="${'airport-high-' + airport.id}">
+                        <label th:for="${'airport-high-' + airport.id}" th:text="${airport.name}"></label><br>
+                    </div>
+                </div>
+                <div>
+                    <label>Mírná preference:</label><br>
+                    <div th:each="airport : ${airports}">
+                        <input type="checkbox" th:name="prefAirports" th:value="${airport.id}"
+                               th:id="${'airport-norm-' + airport.id}">
+                        <label th:for="${'airport-norm-' + airport.id}" th:text="${airport.name}"></label><br>
+                    </div>
+                </div>
+            </div>
+            <label>Pouze vybrané letiště:</label>
+            <select th:name="filterAirports">
+                <option value="true">Ano</option>
+                <option selected="selected" value="false">Ne</option>
+            </select>
+        </fieldset>
+
+        <fieldset>
+            <legend>Destinace</legend>
+            <div class="two-columns">
+                <div>
+                    <label>Vysoká preference:</label><br>
+                    <div th:each="location : ${locations}">
+                        <input type="checkbox" th:name="highPrefLocs" th:value="${location.id}"
+                               th:id="${'location-high-' + location.id}">
+                        <label th:for="${'location-high-' + location.id}" th:text="${location.name}"></label><br>
+                    </div>
+                </div>
+                <div>
+                    <label>Mírná preference:</label><br>
+                    <div th:each="location : ${locations}">
+                        <input type="checkbox" th:name="prefLocs" th:value="${location.id}"
+                               th:id="${'location-norm-' + location.id}">
+                        <label th:for="${'location-norm-' + location.id}" th:text="${location.name}"></label><br>
+                    </div>
+                </div>
+            </div>
+            <label>Pouze vybrané destinace:</label>
+            <select th:name="filterLocs">
+                <option value="true">Ano</option>
+                <option selected="selected" value="false">Ne</option>
+            </select>
+        </fieldset>
+
+        <fieldset>
+            <legend>Stravování</legend>
+            <label>All inclusive:</label>
+            <select th:name="allInclusivePref">
+                <option value="lp">Nízká</option>
+                <option selected="selected" value="mp">Střední</option>
+                <option value="hp">Vysoká</option>
+            </select><br>
+            <label>Plná penze:</label>
+            <select th:name="fullBoardPref">
+                <option value="lp">Nízká</option>
+                <option selected="selected" value="mp">Střední</option>
+                <option value="hp">Vysoká</option>
+            </select><br>
+            <label>Polopenze:</label>
+            <select th:name="halfBoardPref">
+                <option value="lp">Nízká</option>
+                <option selected="selected" value="mp">Střední</option>
+                <option value="hp">Vysoká</option>
+            </select><br>
+            <label>Snídaně:</label>
+            <select th:name="breakfastPref">
+                <option value="lp">Nízká</option>
+                <option selected="selected" value="mp">Střední</option>
+                <option value="hp">Vysoká</option>
+            </select><br>
+            <label>Bez stravy:</label>
+            <select th:name="noFoodPref">
+                <option value="lp">Nízká</option>
+                <option selected="selected" value="mp">Střední</option>
+                <option value="hp">Vysoká</option>
+            </select><br><br>
+            <label>Minimální preference stravy:</label>
+            <select th:name="minFoodPref">
+                <option selected="selected" value="lp">Nízká</option>
+                <option value="mp">Střední</option>
+                <option value="hp">Vysoká</option>
+            </select>
+        </fieldset>
+
+        <fieldset>
+            <legend>Hodnocení a vzdálenost</legend>
+            <label>Minimální počet hvězdiček:</label>
+            <select th:name="minStars">
+                <option selected="selected" value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select><br>
+            <label>Minimální hodnocení:</label>
+            <select th:name="minRating">
+                <option selected="selected" value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+            </select><br>
+            <label>Maximální vzdálenost pláže:</label>
+            <select th:name="minBeachDist">
+                <option th:each="beach_dist:${beach_dists}" th:value="${beach_dist.id}"
+                        th:text="${beach_dist.name}"></option>
+            </select>
+        </fieldset>
+
+        <fieldset>
+            <legend>Důležitost kritérií</legend>
+            <label>Cena:</label>
+            <select th:name="priceImp">
+                <option value="il">Nízká</option>
+                <option selected="selected" value="im">Střední</option>
+                <option value="ih">Vysoká</option>
+                <option value="in">Nerozhoduje</option>
+            </select><br>
+            <label>Letiště:</label>
+            <select th:name="airportImp">
+                <option value="il">Nízká</option>
+                <option selected="selected" value="im">Střední</option>
+                <option value="ih">Vysoká</option>
+                <option value="in">Nerozhoduje</option>
+            </select><br>
+            <label>Destinace:</label>
+            <select th:name="locImp">
+                <option value="il">Nízká</option>
+                <option selected="selected" value="im">Střední</option>
+                <option value="ih">Vysoká</option>
+                <option value="in">Nerozhoduje</option>
+            </select><br>
+            <label>Strava:</label>
+            <select th:name="foodImp">
+                <option value="il">Nízká</option>
+                <option selected="selected" value="im">Střední</option>
+                <option value="ih">Vysoká</option>
+                <option value="in">Nerozhoduje</option>
+            </select><br>
+            <label>Hvězdičky:</label>
+            <select th:name="starsImp">
+                <option value="il">Nízká</option>
+                <option selected="selected" value="im">Střední</option>
+                <option value="ih">Vysoká</option>
+                <option value="in">Nerozhoduje</option>
+            </select><br>
+            <label>Hodnocení:</label>
+            <select th:name="ratingImp">
+                <option value="il">Nízká</option>
+                <option selected="selected" value="im">Střední</option>
+                <option value="ih">Vysoká</option>
+                <option value="in">Nerozhoduje</option>
+            </select><br>
+            <label>Důležitost vzdálenost pláže:</label>
+            <select th:name="beachDistImp">
+                <option value="il">Nízká</option>
+                <option selected="selected" value="im">Střední</option>
+                <option value="ih">Vysoká</option>
+                <option value="in">Nerozhoduje</option>
+            </select><br>
+            <label>Důležitost vhodné pro rodiny:</label>
+            <select th:name="familyImp">
+                <option value="il">Nízká</option>
+                <option selected="selected" value="im">Střední</option>
+                <option value="ih">Vysoká</option>
+                <option value="inc">Nutná</option>
+                <option value="in">Nerozhoduje</option>
+            </select><br>
+            <label>Důležitost internet:</label>
+            <select th:name="wifiImp">
+                <option value="il">Nízká</option>
+                <option selected="selected" value="im">Střední</option>
+                <option value="ih">Vysoká</option>
+                <option value="inc">Nutná</option>
+                <option value="in">Nerozhoduje</option>
+            </select><br>
+            <label>Důležitost bazén:</label>
+            <select th:name="poolImp">
+                <option value="il">Nízká</option>
+                <option selected="selected" value="im">Střední</option>
+                <option value="ih">Vysoká</option>
+                <option value="inc">Nutná</option>
+                <option value="in">Nerozhoduje</option>
+            </select>
+        </fieldset>
+
+        <fieldset>
+            <legend>Hodnocení a hledání</legend>
+            <label>Počet výsledků:</label>
+            <input
+                    type="text"
+                    th:name="limit"
+                    value="5"
+                    required/>
+            <br>
+            <label>Pouze jeden zájezd pro hotel:</label>
+            <select th:name="hotelDistinct">
+                <option selected="selected" value="true">Ano</option>
+                <option value="false">Ne</option>
+            </select>
+            <br><br>
+            <button type="submit">Vyhledat zájezdy</button>
+        </fieldset>
+
+    </form>
+</div>
 </body>
 </html>
