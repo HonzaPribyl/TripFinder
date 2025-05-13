@@ -3,48 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Trip Finder</title>
-    <style>
-        body {
-            font-family: sans-serif;
-            margin: 20px;
-        }
-
-        fieldset {
-            margin-bottom: 20px;
-            padding: 15px;
-            border: 1px solid #ccc;
-        }
-
-        legend {
-            font-weight: bold;
-        }
-
-        .form-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .two-columns {
-            display: flex;
-            gap: 30px;
-            flex-wrap: wrap;
-        }
-
-        .two-columns > div {
-            flex: 1;
-        }
-
-        label {
-            display: inline-block;
-            min-width: 160px;
-            margin-bottom: 6px;
-        }
-
-        input[type="text"], select, input[type="date"] {
-            margin-bottom: 8px;
-        }
-    </style>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
 </head>
 <body>
 <div class="form-container">

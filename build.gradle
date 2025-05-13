@@ -41,8 +41,7 @@ sourceSets {
     main {
         resources {
             srcDirs = ["src/main/resources"]
-            includes = ["**/*.xml"]
-            includes = ["**/*.html"]
+            includes = ["**/*.html", "**/*.xml", "**/*.css"]
         }
     }
 }

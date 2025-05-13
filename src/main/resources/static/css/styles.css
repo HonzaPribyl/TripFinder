@@ -1,0 +1,72 @@
+body {
+    font-family: sans-serif;
+    margin: 20px;
+}
+
+fieldset {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #ccc;
+}
+
+legend {
+    font-weight: bold;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #aaa;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #eee;
+}
+
+.form-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.two-columns {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.two-columns > div {
+    flex: 1;
+}
+
+label {
+    display: inline-block;
+    min-width: 160px;
+    margin-bottom: 6px;
+}
+
+input[type="text"], select, input[type="date"] {
+    margin-bottom: 8px;
+}
+
+.no-trips {
+    margin-top: 20px;
+    font-weight: bold;
+    color: #a00;
+}
+
+.score-field {
+    font-size: 0.85em;
+    color: #555;
+}
+
+.score-header {
+    font-size: 0.85em;
+    color: #333;
+}
