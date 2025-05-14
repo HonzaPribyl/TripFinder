@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="menu">
+    <div style="background-color: #FABB00; padding: 20px; text-align: center; font-family: 'Arial Rounded MT Bold', 'Segoe UI', sans-serif;">
+        <h1 style="margin: 0; font-size: 36px; font-weight: bold; color: #000;">TRIPFINDER</h1>
+        <div style="margin-top: 15px;">
+            <a href="/searchForm" style="margin: 0 10px; padding: 10px 20px; background-color: white; border: none; border-radius: 5px; text-decoration: none; color: black; font-weight: bold;">Vyhledávání SQL</a>
+            <a href="/searchFuzzyForm" style="margin: 0 10px; padding: 10px 20px; background-color: white; border: none; border-radius: 5px; text-decoration: none; color: black; font-weight: bold;">Vyhledávání JFuzzyLogic</a>
+            <a href="/searchHotelSpecificForm" style="margin: 0 10px; padding: 10px 20px; background-color: white; border: none; border-radius: 5px; text-decoration: none; color: black; font-weight: bold;">Vyhledávání SQL pro hotel</a>
+            <a href="/searchFuzzyHotelSpecificForm" style="margin: 0 10px; padding: 10px 20px; background-color: white; border: none; border-radius: 5px; text-decoration: none; color: black; font-weight: bold;">Vyhledávání JFuzzyLogic pro hotel</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -6,6 +6,7 @@
     <link rel="stylesheet" th:href="@{/css/styles.css}" />
 </head>
 <body>
+<div th:insert="~{fragments/menu :: menu}"></div>
 <div class="form-container">
     <h1>Trip Finder</h1>
     <form th:action="@{/search}" method="get">
