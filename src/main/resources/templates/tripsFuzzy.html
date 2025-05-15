@@ -61,9 +61,8 @@
                 <th>Atributy lokace</th>
                 <th>Pohodlnost</th>
                 <th>Hotel</th>
-                <th>Hotel a lokace</th>
                 <th>Cesta</th>
-                <th colspan="7">
+                <th colspan="8">
                     <a th:href="@{/searchFuzzByHotel(
                         hotel=${trip.hotelId},
                         maxPrice=${maxPrice},
@@ -94,7 +93,6 @@
                 <td class="score-field" th:text="${trip.locationScore}">Atributy lokace</td>
                 <td class="score-field" th:text="${trip.convenienceScore}">Pohodlnost</td>
                 <td class="score-field" th:text="${trip.hotelScore}">Hotel</td>
-                <td class="score-field" th:text="${trip.hotelAndLocationScore}">Hotel a lokace</td>
                 <td class="score-field" th:text="${trip.journeyScore}">Cesta</td>
                 <td colspan="7"></td>
             </tr>

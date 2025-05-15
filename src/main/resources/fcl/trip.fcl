@@ -1,7 +1,8 @@
 FUNCTION_BLOCK trip
 
 VAR_INPUT
-	hotel_and_location : REAL;
+	hotel : REAL;
+	location_attributes : REAL;
 	journey : REAL;
 END_VAR
 
@@ -9,14 +10,20 @@ VAR_OUTPUT
     trip : REAL;
 END_VAR
 
-FUZZIFY hotel_and_location
-    TERM very_unsatisfying := (0,1) (40,1) (47.5,0);
-    TERM unsatisfying := (35,0) (45,1) (50,1) (57.5,0);
-    TERM rather_unsatisfying := (47.5,0) (55,1) (60,1) (67.5,0);
-    TERM average := (57.5,0) (65,1) (70,1) (77.5,0);
-    TERM rather_satisfying := (67.5,0) (75,1) (80,1) (87.5,0);
-    TERM satisfying := (77.5,0) (85,1) (90,1) (97.5,0);
-    TERM very_satisfying := (87.5,0) (95,1) (100,1);
+FUZZIFY hotel
+    TERM bad := (0,1) (10,1) (20,0);
+	TERM poor := (5,0) (15,1) (25,1) (35,0);
+	TERM average := (20,0) (30,1) (40,1) (50,0);
+	TERM good := (35,0) (45,1) (55,1) (65,0);
+	TERM excellent := (50,0) (60,1) (70,1);
+END_FUZZIFY
+
+FUZZIFY location_attributes
+    TERM very_unsatisfying := (0,1) (10,1) (20,0);
+    TERM unsatisfying := (5,0) (15,1) (25,1) (35,0);
+    TERM average := (20,0) (30,1) (40,1) (50,0);
+    TERM satisfying := (35,0) (45,1) (55,1) (65,0);
+    TERM very_satisfying := (50,0) (60,1) (70,1);
 END_FUZZIFY
 
 FUZZIFY journey
@@ -47,61 +54,209 @@ RULEBLOCK No1
     ACT : MIN;
     ACCU : MAX;
 
-    RULE 1  : IF hotel_and_location IS very_satisfying AND journey IS very_satisfying THEN trip IS extremely_satisfying;
-    RULE 2  : IF hotel_and_location IS very_satisfying AND journey IS satisfying THEN trip IS very_satisfying;
-    RULE 3  : IF hotel_and_location IS very_satisfying AND journey IS rather_satisfying THEN trip IS satisfying;
-    RULE 4  : IF hotel_and_location IS very_satisfying AND journey IS average THEN trip IS rather_satisfying;
-    RULE 5  : IF hotel_and_location IS very_satisfying AND journey IS rather_unsatisfying THEN trip IS average;
-    RULE 6  : IF hotel_and_location IS very_satisfying AND journey IS unsatisfying THEN trip IS rather_unsatisfying;
-    RULE 7  : IF hotel_and_location IS very_satisfying AND journey IS very_unsatisfying THEN trip IS unsatisfying;
+    RULE 1 : IF hotel IS bad AND location_attributes IS average AND journey IS unsatisfying THEN trip IS unsatisfying;
+    RULE 2 : IF hotel IS bad AND location_attributes IS average AND journey IS satisfying THEN trip IS average;
+    RULE 3 : IF hotel IS bad AND location_attributes IS average AND journey IS rather_satisfying THEN trip IS average;
+    RULE 4 : IF hotel IS bad AND location_attributes IS average AND journey IS rather_unsatisfying THEN trip IS rather_unsatisfying;
+    RULE 5 : IF hotel IS bad AND location_attributes IS average AND journey IS very_unsatisfying THEN trip IS unsatisfying;
+    RULE 6 : IF hotel IS bad AND location_attributes IS average AND journey IS average THEN trip IS rather_unsatisfying;
+    RULE 7 : IF hotel IS bad AND location_attributes IS average AND journey IS very_satisfying THEN trip IS average;
 
-    RULE 8  : IF hotel_and_location IS satisfying AND journey IS very_satisfying THEN trip IS very_satisfying;
-    RULE 9  : IF hotel_and_location IS satisfying AND journey IS satisfying THEN trip IS very_satisfying;
-    RULE 10 : IF hotel_and_location IS satisfying AND journey IS rather_satisfying THEN trip IS satisfying;
-    RULE 11 : IF hotel_and_location IS satisfying AND journey IS average THEN trip IS rather_satisfying;
-    RULE 12 : IF hotel_and_location IS satisfying AND journey IS rather_unsatisfying THEN trip IS average;
-    RULE 13 : IF hotel_and_location IS satisfying AND journey IS unsatisfying THEN trip IS rather_unsatisfying;
-    RULE 14 : IF hotel_and_location IS satisfying AND journey IS very_unsatisfying THEN trip IS unsatisfying;
+    RULE 8 : IF hotel IS bad AND location_attributes IS very_satisfying AND journey IS unsatisfying THEN trip IS average;
+    RULE 9 : IF hotel IS bad AND location_attributes IS very_satisfying AND journey IS satisfying THEN trip IS rather_satisfying;
+    RULE 10 : IF hotel IS bad AND location_attributes IS very_satisfying AND journey IS rather_satisfying THEN trip IS rather_satisfying;
+    RULE 11 : IF hotel IS bad AND location_attributes IS very_satisfying AND journey IS rather_unsatisfying THEN trip IS average;
+    RULE 12 : IF hotel IS bad AND location_attributes IS very_satisfying AND journey IS very_unsatisfying THEN trip IS rather_unsatisfying;
+    RULE 13 : IF hotel IS bad AND location_attributes IS very_satisfying AND journey IS average THEN trip IS average;
+    RULE 14 : IF hotel IS bad AND location_attributes IS very_satisfying AND journey IS very_satisfying THEN trip IS satisfying;
 
-    RULE 15 : IF hotel_and_location IS rather_satisfying AND journey IS very_satisfying THEN trip IS satisfying;
-    RULE 16 : IF hotel_and_location IS rather_satisfying AND journey IS satisfying THEN trip IS satisfying;
-    RULE 17 : IF hotel_and_location IS rather_satisfying AND journey IS rather_satisfying THEN trip IS rather_satisfying;
-    RULE 18 : IF hotel_and_location IS rather_satisfying AND journey IS average THEN trip IS average;
-    RULE 19 : IF hotel_and_location IS rather_satisfying AND journey IS rather_unsatisfying THEN trip IS rather_unsatisfying;
-    RULE 20 : IF hotel_and_location IS rather_satisfying AND journey IS unsatisfying THEN trip IS unsatisfying;
-    RULE 21 : IF hotel_and_location IS rather_satisfying AND journey IS very_unsatisfying THEN trip IS very_unsatisfying;
+    RULE 15 : IF hotel IS bad AND location_attributes IS very_unsatisfying AND journey IS unsatisfying THEN trip IS very_unsatisfying;
+    RULE 16 : IF hotel IS bad AND location_attributes IS very_unsatisfying AND journey IS satisfying THEN trip IS rather_unsatisfying;
+    RULE 17 : IF hotel IS bad AND location_attributes IS very_unsatisfying AND journey IS rather_satisfying THEN trip IS rather_unsatisfying;
+    RULE 18 : IF hotel IS bad AND location_attributes IS very_unsatisfying AND journey IS rather_unsatisfying THEN trip IS very_unsatisfying;
+    RULE 19 : IF hotel IS bad AND location_attributes IS very_unsatisfying AND journey IS very_unsatisfying THEN trip IS very_unsatisfying;
+    RULE 20 : IF hotel IS bad AND location_attributes IS very_unsatisfying AND journey IS average THEN trip IS unsatisfying;
+    RULE 21 : IF hotel IS bad AND location_attributes IS very_unsatisfying AND journey IS very_satisfying THEN trip IS rather_unsatisfying;
 
-    RULE 22 : IF hotel_and_location IS average AND journey IS very_satisfying THEN trip IS rather_satisfying;
-    RULE 23 : IF hotel_and_location IS average AND journey IS satisfying THEN trip IS rather_satisfying;
-    RULE 24 : IF hotel_and_location IS average AND journey IS rather_satisfying THEN trip IS average;
-    RULE 25 : IF hotel_and_location IS average AND journey IS average THEN trip IS average;
-    RULE 26 : IF hotel_and_location IS average AND journey IS rather_unsatisfying THEN trip IS rather_unsatisfying;
-    RULE 27 : IF hotel_and_location IS average AND journey IS unsatisfying THEN trip IS unsatisfying;
-    RULE 28 : IF hotel_and_location IS average AND journey IS very_unsatisfying THEN trip IS very_unsatisfying;
+    RULE 22 : IF hotel IS bad AND location_attributes IS unsatisfying AND journey IS unsatisfying THEN trip IS unsatisfying;
+    RULE 23 : IF hotel IS bad AND location_attributes IS unsatisfying AND journey IS satisfying THEN trip IS rather_unsatisfying;
+    RULE 24 : IF hotel IS bad AND location_attributes IS unsatisfying AND journey IS rather_satisfying THEN trip IS rather_unsatisfying;
+    RULE 25 : IF hotel IS bad AND location_attributes IS unsatisfying AND journey IS rather_unsatisfying THEN trip IS unsatisfying;
+    RULE 26 : IF hotel IS bad AND location_attributes IS unsatisfying AND journey IS very_unsatisfying THEN trip IS very_unsatisfying;
+    RULE 27 : IF hotel IS bad AND location_attributes IS unsatisfying AND journey IS average THEN trip IS rather_unsatisfying;
+    RULE 28 : IF hotel IS bad AND location_attributes IS unsatisfying AND journey IS very_satisfying THEN trip IS average;
 
-    RULE 29 : IF hotel_and_location IS rather_unsatisfying AND journey IS very_satisfying THEN trip IS rather_satisfying;
-    RULE 30 : IF hotel_and_location IS rather_unsatisfying AND journey IS satisfying THEN trip IS average;
-    RULE 31 : IF hotel_and_location IS rather_unsatisfying AND journey IS rather_satisfying THEN trip IS average;
-    RULE 32 : IF hotel_and_location IS rather_unsatisfying AND journey IS average THEN trip IS rather_unsatisfying;
-    RULE 33 : IF hotel_and_location IS rather_unsatisfying AND journey IS rather_unsatisfying THEN trip IS unsatisfying;
-    RULE 34 : IF hotel_and_location IS rather_unsatisfying AND journey IS unsatisfying THEN trip IS very_unsatisfying;
-    RULE 35 : IF hotel_and_location IS rather_unsatisfying AND journey IS very_unsatisfying THEN trip IS very_unsatisfying;
+    RULE 29 : IF hotel IS bad AND location_attributes IS satisfying AND journey IS unsatisfying THEN trip IS rather_unsatisfying;
+    RULE 30 : IF hotel IS bad AND location_attributes IS satisfying AND journey IS satisfying THEN trip IS rather_satisfying;
+    RULE 31 : IF hotel IS bad AND location_attributes IS satisfying AND journey IS rather_satisfying THEN trip IS average;
+    RULE 32 : IF hotel IS bad AND location_attributes IS satisfying AND journey IS rather_unsatisfying THEN trip IS rather_unsatisfying;
+    RULE 33 : IF hotel IS bad AND location_attributes IS satisfying AND journey IS very_unsatisfying THEN trip IS rather_unsatisfying;
+    RULE 34 : IF hotel IS bad AND location_attributes IS satisfying AND journey IS average THEN trip IS average;
+    RULE 35 : IF hotel IS bad AND location_attributes IS satisfying AND journey IS very_satisfying THEN trip IS rather_satisfying;
 
-    RULE 36 : IF hotel_and_location IS unsatisfying AND journey IS very_satisfying THEN trip IS average;
-    RULE 37 : IF hotel_and_location IS unsatisfying AND journey IS satisfying THEN trip IS rather_unsatisfying;
-    RULE 38 : IF hotel_and_location IS unsatisfying AND journey IS rather_satisfying THEN trip IS unsatisfying;
-    RULE 39 : IF hotel_and_location IS unsatisfying AND journey IS average THEN trip IS unsatisfying;
-    RULE 40 : IF hotel_and_location IS unsatisfying AND journey IS rather_unsatisfying THEN trip IS very_unsatisfying;
-    RULE 41 : IF hotel_and_location IS unsatisfying AND journey IS unsatisfying THEN trip IS very_unsatisfying;
-    RULE 42 : IF hotel_and_location IS unsatisfying AND journey IS very_unsatisfying THEN trip IS very_unsatisfying;
 
-    RULE 43 : IF hotel_and_location IS very_unsatisfying AND journey IS very_satisfying THEN trip IS rather_unsatisfying;
-    RULE 44 : IF hotel_and_location IS very_unsatisfying AND journey IS satisfying THEN trip IS unsatisfying;
-    RULE 45 : IF hotel_and_location IS very_unsatisfying AND journey IS rather_satisfying THEN trip IS unsatisfying;
-    RULE 46 : IF hotel_and_location IS very_unsatisfying AND journey IS average THEN trip IS very_unsatisfying;
-    RULE 47 : IF hotel_and_location IS very_unsatisfying AND journey IS rather_unsatisfying THEN trip IS very_unsatisfying;
-    RULE 48 : IF hotel_and_location IS very_unsatisfying AND journey IS unsatisfying THEN trip IS very_unsatisfying;
-    RULE 49 : IF hotel_and_location IS very_unsatisfying AND journey IS very_unsatisfying THEN trip IS very_unsatisfying;
+    RULE 36 : IF hotel IS excellent AND location_attributes IS average AND journey IS unsatisfying THEN trip IS rather_satisfying;
+    RULE 37 : IF hotel IS excellent AND location_attributes IS average AND journey IS satisfying THEN trip IS very_satisfying;
+    RULE 38 : IF hotel IS excellent AND location_attributes IS average AND journey IS rather_satisfying THEN trip IS satisfying;
+    RULE 39 : IF hotel IS excellent AND location_attributes IS average AND journey IS rather_unsatisfying THEN trip IS rather_satisfying;
+    RULE 40 : IF hotel IS excellent AND location_attributes IS average AND journey IS very_unsatisfying THEN trip IS average;
+    RULE 41 : IF hotel IS excellent AND location_attributes IS average AND journey IS average THEN trip IS satisfying;
+    RULE 42 : IF hotel IS excellent AND location_attributes IS average AND journey IS very_satisfying THEN trip IS very_satisfying;
+
+    RULE 43 : IF hotel IS excellent AND location_attributes IS very_satisfying AND journey IS unsatisfying THEN trip IS satisfying;
+    RULE 44 : IF hotel IS excellent AND location_attributes IS very_satisfying AND journey IS satisfying THEN trip IS extremely_satisfying;
+    RULE 45 : IF hotel IS excellent AND location_attributes IS very_satisfying AND journey IS rather_satisfying THEN trip IS extremely_satisfying;
+    RULE 46 : IF hotel IS excellent AND location_attributes IS very_satisfying AND journey IS rather_unsatisfying THEN trip IS satisfying;
+    RULE 47 : IF hotel IS excellent AND location_attributes IS very_satisfying AND journey IS very_unsatisfying THEN trip IS satisfying;
+    RULE 48 : IF hotel IS excellent AND location_attributes IS very_satisfying AND journey IS average THEN trip IS very_satisfying;
+    RULE 49 : IF hotel IS excellent AND location_attributes IS very_satisfying AND journey IS very_satisfying THEN trip IS extremely_satisfying;
+
+    RULE 50 : IF hotel IS excellent AND location_attributes IS very_unsatisfying AND journey IS unsatisfying THEN trip IS average;
+    RULE 51 : IF hotel IS excellent AND location_attributes IS very_unsatisfying AND journey IS satisfying THEN trip IS rather_satisfying;
+    RULE 52 : IF hotel IS excellent AND location_attributes IS very_unsatisfying AND journey IS rather_satisfying THEN trip IS rather_satisfying;
+    RULE 53 : IF hotel IS excellent AND location_attributes IS very_unsatisfying AND journey IS rather_unsatisfying THEN trip IS average;
+    RULE 54 : IF hotel IS excellent AND location_attributes IS very_unsatisfying AND journey IS very_unsatisfying THEN trip IS rather_unsatisfying;
+    RULE 55 : IF hotel IS excellent AND location_attributes IS very_unsatisfying AND journey IS average THEN trip IS average;
+    RULE 56 : IF hotel IS excellent AND location_attributes IS very_unsatisfying AND journey IS very_satisfying THEN trip IS satisfying;
+
+    RULE 57 : IF hotel IS excellent AND location_attributes IS unsatisfying AND journey IS unsatisfying THEN trip IS average;
+    RULE 58 : IF hotel IS excellent AND location_attributes IS unsatisfying AND journey IS satisfying THEN trip IS satisfying;
+    RULE 59 : IF hotel IS excellent AND location_attributes IS unsatisfying AND journey IS rather_satisfying THEN trip IS satisfying;
+    RULE 60 : IF hotel IS excellent AND location_attributes IS unsatisfying AND journey IS rather_unsatisfying THEN trip IS average;
+    RULE 61 : IF hotel IS excellent AND location_attributes IS unsatisfying AND journey IS very_unsatisfying THEN trip IS average;
+    RULE 62 : IF hotel IS excellent AND location_attributes IS unsatisfying AND journey IS average THEN trip IS rather_satisfying;
+    RULE 63 : IF hotel IS excellent AND location_attributes IS unsatisfying AND journey IS very_satisfying THEN trip IS satisfying;
+
+    RULE 64 : IF hotel IS excellent AND location_attributes IS satisfying AND journey IS unsatisfying THEN trip IS satisfying;
+    RULE 65 : IF hotel IS excellent AND location_attributes IS satisfying AND journey IS satisfying THEN trip IS very_satisfying;
+    RULE 66 : IF hotel IS excellent AND location_attributes IS satisfying AND journey IS rather_satisfying THEN trip IS very_satisfying;
+    RULE 67 : IF hotel IS excellent AND location_attributes IS satisfying AND journey IS rather_unsatisfying THEN trip IS satisfying;
+    RULE 68 : IF hotel IS excellent AND location_attributes IS satisfying AND journey IS very_unsatisfying THEN trip IS rather_satisfying;
+    RULE 69 : IF hotel IS excellent AND location_attributes IS satisfying AND journey IS average THEN trip IS satisfying;
+    RULE 70 : IF hotel IS excellent AND location_attributes IS satisfying AND journey IS very_satisfying THEN trip IS extremely_satisfying;
+
+
+    RULE 71 : IF hotel IS poor AND location_attributes IS average AND journey IS unsatisfying THEN trip IS rather_unsatisfying;
+    RULE 72 : IF hotel IS poor AND location_attributes IS average AND journey IS satisfying THEN trip IS rather_satisfying;
+    RULE 73 : IF hotel IS poor AND location_attributes IS average AND journey IS rather_satisfying THEN trip IS average;
+    RULE 74 : IF hotel IS poor AND location_attributes IS average AND journey IS rather_unsatisfying THEN trip IS rather_unsatisfying;
+    RULE 75 : IF hotel IS poor AND location_attributes IS average AND journey IS very_unsatisfying THEN trip IS rather_unsatisfying;
+    RULE 76 : IF hotel IS poor AND location_attributes IS average AND journey IS average THEN trip IS average;
+    RULE 77 : IF hotel IS poor AND location_attributes IS average AND journey IS very_satisfying THEN trip IS rather_satisfying;
+
+    RULE 78 : IF hotel IS poor AND location_attributes IS very_satisfying AND journey IS unsatisfying THEN trip IS average;
+    RULE 79 : IF hotel IS poor AND location_attributes IS very_satisfying AND journey IS satisfying THEN trip IS satisfying;
+    RULE 80 : IF hotel IS poor AND location_attributes IS very_satisfying AND journey IS rather_satisfying THEN trip IS satisfying;
+    RULE 81 : IF hotel IS poor AND location_attributes IS very_satisfying AND journey IS rather_unsatisfying THEN trip IS average;
+    RULE 82 : IF hotel IS poor AND location_attributes IS very_satisfying AND journey IS very_unsatisfying THEN trip IS average;
+    RULE 83 : IF hotel IS poor AND location_attributes IS very_satisfying AND journey IS average THEN trip IS rather_satisfying;
+    RULE 84 : IF hotel IS poor AND location_attributes IS very_satisfying AND journey IS very_satisfying THEN trip IS satisfying;
+
+    RULE 85 : IF hotel IS poor AND location_attributes IS very_unsatisfying AND journey IS unsatisfying THEN trip IS unsatisfying;
+    RULE 86 : IF hotel IS poor AND location_attributes IS very_unsatisfying AND journey IS satisfying THEN trip IS rather_unsatisfying;
+    RULE 87 : IF hotel IS poor AND location_attributes IS very_unsatisfying AND journey IS rather_satisfying THEN trip IS rather_unsatisfying;
+    RULE 88 : IF hotel IS poor AND location_attributes IS very_unsatisfying AND journey IS rather_unsatisfying THEN trip IS unsatisfying;
+    RULE 89 : IF hotel IS poor AND location_attributes IS very_unsatisfying AND journey IS very_unsatisfying THEN trip IS very_unsatisfying;
+    RULE 90 : IF hotel IS poor AND location_attributes IS very_unsatisfying AND journey IS average THEN trip IS rather_unsatisfying;
+    RULE 91 : IF hotel IS poor AND location_attributes IS very_unsatisfying AND journey IS very_satisfying THEN trip IS average;
+
+    RULE 92 : IF hotel IS poor AND location_attributes IS unsatisfying AND journey IS unsatisfying THEN trip IS unsatisfying;
+    RULE 93 : IF hotel IS poor AND location_attributes IS unsatisfying AND journey IS satisfying THEN trip IS average;
+    RULE 94 : IF hotel IS poor AND location_attributes IS unsatisfying AND journey IS rather_satisfying THEN trip IS average;
+    RULE 95 : IF hotel IS poor AND location_attributes IS unsatisfying AND journey IS rather_unsatisfying THEN trip IS rather_unsatisfying;
+    RULE 96 : IF hotel IS poor AND location_attributes IS unsatisfying AND journey IS very_unsatisfying THEN trip IS unsatisfying;
+    RULE 97 : IF hotel IS poor AND location_attributes IS unsatisfying AND journey IS average THEN trip IS rather_unsatisfying;
+    RULE 98 : IF hotel IS poor AND location_attributes IS unsatisfying AND journey IS very_satisfying THEN trip IS average;
+
+    RULE 99 : IF hotel IS poor AND location_attributes IS satisfying AND journey IS unsatisfying THEN trip IS average;
+    RULE 100 : IF hotel IS poor AND location_attributes IS satisfying AND journey IS satisfying THEN trip IS rather_satisfying;
+    RULE 101 : IF hotel IS poor AND location_attributes IS satisfying AND journey IS rather_satisfying THEN trip IS rather_satisfying;
+    RULE 102 : IF hotel IS poor AND location_attributes IS satisfying AND journey IS rather_unsatisfying THEN trip IS average;
+    RULE 103 : IF hotel IS poor AND location_attributes IS satisfying AND journey IS very_unsatisfying THEN trip IS rather_unsatisfying;
+    RULE 104 : IF hotel IS poor AND location_attributes IS satisfying AND journey IS average THEN trip IS average;
+    RULE 105 : IF hotel IS poor AND location_attributes IS satisfying AND journey IS very_satisfying THEN trip IS satisfying;
+
+
+    RULE 106 : IF hotel IS good AND location_attributes IS average AND journey IS unsatisfying THEN trip IS average;
+    RULE 107 : IF hotel IS good AND location_attributes IS average AND journey IS satisfying THEN trip IS satisfying;
+    RULE 108 : IF hotel IS good AND location_attributes IS average AND journey IS rather_satisfying THEN trip IS satisfying;
+    RULE 109 : IF hotel IS good AND location_attributes IS average AND journey IS rather_unsatisfying THEN trip IS average;
+    RULE 110 : IF hotel IS good AND location_attributes IS average AND journey IS very_unsatisfying THEN trip IS average;
+    RULE 111 : IF hotel IS good AND location_attributes IS average AND journey IS average THEN trip IS rather_satisfying;
+    RULE 112 : IF hotel IS good AND location_attributes IS average AND journey IS very_satisfying THEN trip IS satisfying;
+
+    RULE 113 : IF hotel IS good AND location_attributes IS very_satisfying AND journey IS unsatisfying THEN trip IS satisfying;
+    RULE 114 : IF hotel IS good AND location_attributes IS very_satisfying AND journey IS satisfying THEN trip IS very_satisfying;
+    RULE 115 : IF hotel IS good AND location_attributes IS very_satisfying AND journey IS rather_satisfying THEN trip IS very_satisfying;
+    RULE 116 : IF hotel IS good AND location_attributes IS very_satisfying AND journey IS rather_unsatisfying THEN trip IS satisfying;
+    RULE 117 : IF hotel IS good AND location_attributes IS very_satisfying AND journey IS very_unsatisfying THEN trip IS rather_satisfying;
+    RULE 118 : IF hotel IS good AND location_attributes IS very_satisfying AND journey IS average THEN trip IS satisfying;
+    RULE 119 : IF hotel IS good AND location_attributes IS very_satisfying AND journey IS very_satisfying THEN trip IS extremely_satisfying;
+
+    RULE 120 : IF hotel IS good AND location_attributes IS very_unsatisfying AND journey IS unsatisfying THEN trip IS rather_unsatisfying;
+    RULE 121 : IF hotel IS good AND location_attributes IS very_unsatisfying AND journey IS satisfying THEN trip IS rather_satisfying;
+    RULE 122 : IF hotel IS good AND location_attributes IS very_unsatisfying AND journey IS rather_satisfying THEN trip IS average;
+    RULE 123 : IF hotel IS good AND location_attributes IS very_unsatisfying AND journey IS rather_unsatisfying THEN trip IS rather_unsatisfying;
+    RULE 124 : IF hotel IS good AND location_attributes IS very_unsatisfying AND journey IS very_unsatisfying THEN trip IS rather_unsatisfying;
+    RULE 125 : IF hotel IS good AND location_attributes IS very_unsatisfying AND journey IS average THEN trip IS average;
+    RULE 126 : IF hotel IS good AND location_attributes IS very_unsatisfying AND journey IS very_satisfying THEN trip IS rather_satisfying;
+
+    RULE 127 : IF hotel IS good AND location_attributes IS unsatisfying AND journey IS unsatisfying THEN trip IS average;
+    RULE 128 : IF hotel IS good AND location_attributes IS unsatisfying AND journey IS satisfying THEN trip IS rather_satisfying;
+    RULE 129 : IF hotel IS good AND location_attributes IS unsatisfying AND journey IS rather_satisfying THEN trip IS rather_satisfying;
+    RULE 130 : IF hotel IS good AND location_attributes IS unsatisfying AND journey IS rather_unsatisfying THEN trip IS average;
+    RULE 131 : IF hotel IS good AND location_attributes IS unsatisfying AND journey IS very_unsatisfying THEN trip IS rather_unsatisfying;
+    RULE 132 : IF hotel IS good AND location_attributes IS unsatisfying AND journey IS average THEN trip IS average;
+    RULE 133 : IF hotel IS good AND location_attributes IS unsatisfying AND journey IS very_satisfying THEN trip IS satisfying;
+
+    RULE 134 : IF hotel IS good AND location_attributes IS satisfying AND journey IS unsatisfying THEN trip IS rather_satisfying;
+    RULE 135 : IF hotel IS good AND location_attributes IS satisfying AND journey IS satisfying THEN trip IS very_satisfying;
+    RULE 136 : IF hotel IS good AND location_attributes IS satisfying AND journey IS rather_satisfying THEN trip IS satisfying;
+    RULE 137 : IF hotel IS good AND location_attributes IS satisfying AND journey IS rather_unsatisfying THEN trip IS rather_satisfying;
+    RULE 138 : IF hotel IS good AND location_attributes IS satisfying AND journey IS very_unsatisfying THEN trip IS average;
+    RULE 139 : IF hotel IS good AND location_attributes IS satisfying AND journey IS average THEN trip IS satisfying;
+    RULE 140 : IF hotel IS good AND location_attributes IS satisfying AND journey IS very_satisfying THEN trip IS very_satisfying;
+
+
+    RULE 141 : IF hotel IS average AND location_attributes IS average AND journey IS unsatisfying THEN trip IS average;
+    RULE 142 : IF hotel IS average AND location_attributes IS average AND journey IS satisfying THEN trip IS rather_satisfying;
+    RULE 143 : IF hotel IS average AND location_attributes IS average AND journey IS rather_satisfying THEN trip IS rather_satisfying;
+    RULE 144 : IF hotel IS average AND location_attributes IS average AND journey IS rather_unsatisfying THEN trip IS average;
+    RULE 145 : IF hotel IS average AND location_attributes IS average AND journey IS very_unsatisfying THEN trip IS rather_unsatisfying;
+    RULE 146 : IF hotel IS average AND location_attributes IS average AND journey IS average THEN trip IS average;
+    RULE 147 : IF hotel IS average AND location_attributes IS average AND journey IS very_satisfying THEN trip IS satisfying;
+
+    RULE 148 : IF hotel IS average AND location_attributes IS very_satisfying AND journey IS unsatisfying THEN trip IS rather_satisfying;
+    RULE 149 : IF hotel IS average AND location_attributes IS very_satisfying AND journey IS satisfying THEN trip IS very_satisfying;
+    RULE 150 : IF hotel IS average AND location_attributes IS very_satisfying AND journey IS rather_satisfying THEN trip IS satisfying;
+    RULE 151 : IF hotel IS average AND location_attributes IS very_satisfying AND journey IS rather_unsatisfying THEN trip IS rather_satisfying;
+    RULE 152 : IF hotel IS average AND location_attributes IS very_satisfying AND journey IS very_unsatisfying THEN trip IS average;
+    RULE 153 : IF hotel IS average AND location_attributes IS very_satisfying AND journey IS average THEN trip IS satisfying;
+    RULE 154 : IF hotel IS average AND location_attributes IS very_satisfying AND journey IS very_satisfying THEN trip IS very_satisfying;
+
+    RULE 155 : IF hotel IS average AND location_attributes IS very_unsatisfying AND journey IS unsatisfying THEN trip IS unsatisfying;
+    RULE 156 : IF hotel IS average AND location_attributes IS very_unsatisfying AND journey IS satisfying THEN trip IS average;
+    RULE 157 : IF hotel IS average AND location_attributes IS very_unsatisfying AND journey IS rather_satisfying THEN trip IS average;
+    RULE 158 : IF hotel IS average AND location_attributes IS very_unsatisfying AND journey IS rather_unsatisfying THEN trip IS rather_unsatisfying;
+    RULE 159 : IF hotel IS average AND location_attributes IS very_unsatisfying AND journey IS very_unsatisfying THEN trip IS unsatisfying;
+    RULE 160 : IF hotel IS average AND location_attributes IS very_unsatisfying AND journey IS average THEN trip IS rather_unsatisfying;
+    RULE 161 : IF hotel IS average AND location_attributes IS very_unsatisfying AND journey IS very_satisfying THEN trip IS average;
+
+    RULE 162 : IF hotel IS average AND location_attributes IS unsatisfying AND journey IS unsatisfying THEN trip IS rather_unsatisfying;
+    RULE 163 : IF hotel IS average AND location_attributes IS unsatisfying AND journey IS satisfying THEN trip IS rather_satisfying;
+    RULE 164 : IF hotel IS average AND location_attributes IS unsatisfying AND journey IS rather_satisfying THEN trip IS average;
+    RULE 165 : IF hotel IS average AND location_attributes IS unsatisfying AND journey IS rather_unsatisfying THEN trip IS rather_unsatisfying;
+    RULE 166 : IF hotel IS average AND location_attributes IS unsatisfying AND journey IS very_unsatisfying THEN trip IS rather_unsatisfying;
+    RULE 167 : IF hotel IS average AND location_attributes IS unsatisfying AND journey IS average THEN trip IS average;
+    RULE 168 : IF hotel IS average AND location_attributes IS unsatisfying AND journey IS very_satisfying THEN trip IS rather_satisfying;
+
+    RULE 169 : IF hotel IS average AND location_attributes IS satisfying AND journey IS unsatisfying THEN trip IS average;
+    RULE 170 : IF hotel IS average AND location_attributes IS satisfying AND journey IS satisfying THEN trip IS satisfying;
+    RULE 171 : IF hotel IS average AND location_attributes IS satisfying AND journey IS rather_satisfying THEN trip IS satisfying;
+    RULE 172 : IF hotel IS average AND location_attributes IS satisfying AND journey IS rather_unsatisfying THEN trip IS average;
+    RULE 173 : IF hotel IS average AND location_attributes IS satisfying AND journey IS very_unsatisfying THEN trip IS average;
+    RULE 174 : IF hotel IS average AND location_attributes IS satisfying AND journey IS average THEN trip IS rather_satisfying;
+    RULE 175 : IF hotel IS average AND location_attributes IS satisfying AND journey IS very_satisfying THEN trip IS satisfying;
 
 END_RULEBLOCK
 

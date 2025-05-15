@@ -10,7 +10,6 @@ public class TripFuzzEvaluationDTO {
     private double equipment;
     private double hotel;
     private double location;
-    private double hotelAndLocation;
     private double convenience;
     private double journey;
     private double trip;

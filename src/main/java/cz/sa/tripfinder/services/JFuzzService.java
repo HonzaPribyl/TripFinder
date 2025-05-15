@@ -19,7 +19,6 @@ public class JFuzzService {
             "hotel_equipment", FIS_FILES_PATH + "hotel_equipment.fcl",
             "hotel", FIS_FILES_PATH + "hotel.fcl",
             "location", FIS_FILES_PATH + "location.fcl",
-            "hotel_and_location", FIS_FILES_PATH + "hotel_and_location.fcl",
             "convenience", FIS_FILES_PATH + "convenience.fcl",
             "journey", FIS_FILES_PATH + "journey.fcl",
             "trip", FIS_FILES_PATH + "trip.fcl"
@@ -54,10 +53,6 @@ public class JFuzzService {
                 Map.of("location_preference", (double) locPref, "beach_distance", (double) beachDist),
                 showCharts, "location_attributes");
 
-        Variable hotelAndLocation = evaluateSystem(fisMap.get("hotel_and_location"), functionBlocks.get("hotel_and_location"),
-                Map.of("hotel", hotel.getValue(), "location_attributes", location.getValue()),
-                showCharts, "hotel_and_location");
-
         Variable convenience = evaluateSystem(fisMap.get("convenience"), functionBlocks.get("convenience"),
                 Map.of("airport_preference", (double) airportPreference, "food_package_preference", (double) foodPackagePreference),
                 showCharts, "convenience");
@@ -67,7 +62,7 @@ public class JFuzzService {
                 showCharts, "journey");
 
         Variable trip = evaluateSystem(fisMap.get("trip"), functionBlocks.get("trip"),
-                Map.of("journey", journey.getValue(), "hotel_and_location", hotelAndLocation.getValue()),
+                Map.of("journey", journey.getValue(), "hotel", hotel.getValue(), "location_attributes", location.getValue()),
                 showCharts, "trip");
 
         return new TripFuzzEvaluationDTO(
@@ -75,7 +70,6 @@ public class JFuzzService {
                 round(equipment.getValue(),100.0),
                 round(hotel.getValue(),100.0),
                 round(location.getValue(),100.0),
-                round(hotelAndLocation.getValue(),100.0),
                 round(convenience.getValue(),100.0),
                 round(journey.getValue(),100.0),
                 round(trip.getValue(),100.0)

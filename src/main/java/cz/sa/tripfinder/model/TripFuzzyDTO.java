@@ -28,7 +28,6 @@ public class TripFuzzyDTO {
     private double equipmentScore;
     private double hotelScore;
     private double locationScore;
-    private double hotelAndLocationScore;
     private double convenienceScore;
     private double journeyScore;
     private double tripScore;
@@ -56,7 +55,6 @@ public class TripFuzzyDTO {
         this.equipmentScore = tripFuzzEvaluationDTO.getEquipment();
         this.hotelScore = tripFuzzEvaluationDTO.getHotel();
         this.locationScore = tripFuzzEvaluationDTO.getLocation();
-        this.hotelAndLocationScore = tripFuzzEvaluationDTO.getHotelAndLocation();
         this.convenienceScore = tripFuzzEvaluationDTO.getConvenience();
         this.journeyScore = tripFuzzEvaluationDTO.getJourney();
         this.tripScore = tripFuzzEvaluationDTO.getTrip();
