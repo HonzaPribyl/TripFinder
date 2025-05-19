@@ -20,6 +20,14 @@ public class FuzzySearchService {
     private final JFuzzService jFuzzService;
     private final TripMapper tripMapper;
 
+    Map<String, String> foodCodeMap = Map.of(
+            "All inclusive", "1.",
+            "Plná penze", "2.",
+            "Polopenze", "3.",
+            "Snídaně", "4.",
+            "Bez stravy", "5."
+    );
+
     public List<TripFuzzyDTO> searchFuzzyTrips(
             float maxPrice,
             float minPrice,
@@ -232,13 +240,12 @@ public class FuzzySearchService {
             Integer minPref
     ) {
         StringBuilder allowedFoodPrefs = new StringBuilder();
-        int index = 1;
-        for (Map.Entry<String, Integer> entry : foodPrefs.entrySet()) {
-            if (entry.getValue() >= minPref) {
-                allowedFoodPrefs.append(index).append(".");
+        for (Map.Entry<String, String> entry : foodCodeMap.entrySet()) {
+            if (foodPrefs.getOrDefault(entry.getKey(), 0) >= minPref) {
+                allowedFoodPrefs.append(entry.getValue());
             }
-            index++;
         }
+
         return allowedFoodPrefs.toString();
     }
 

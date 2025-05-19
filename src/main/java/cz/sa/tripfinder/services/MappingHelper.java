@@ -22,12 +22,13 @@ public class MappingHelper {
     @Nonnull
     public static String encodeAllowedIds(
             @Nonnull final List<Long> allowedIds) {
-        StringBuilder allowedFoodPrefs = new StringBuilder();
+        StringBuilder allowedPrefs = new StringBuilder();
         for (Long id : allowedIds) {
-            allowedFoodPrefs.append(id);
-            allowedFoodPrefs.append(".");
+            allowedPrefs.append("a");
+            allowedPrefs.append(id);
+            allowedPrefs.append(".");
         }
-        return allowedFoodPrefs.toString();
+        return allowedPrefs.toString();
     }
 
     public static float calculatePriceValue(float minPrice, float maxPrice, float price) {

@@ -8,7 +8,7 @@ INSERT INTO locations (name) VALUES
     ('Tunisko'), ('Chorvatsko'), ('Itálie'), ('Bulharsko'),
     ('Kypr'), ('Spojené Arabské Empiráty'), ('Kapverdské ostrovy'),
     ('Dominikánská republika'), ('Maledivy'), ('Zanzibar a Tanzánie'),
-    ('Kuba'), ('Kypr'), ('Thajsko');
+    ('Kuba'), ('Thajsko');
 
 CREATE TABLE location_prefs (
                                 location INT NOT NULL REFERENCES locations(id),
@@ -6517,14 +6517,3 @@ VALUES
     (39650, 100, 1, 8, 5, '2025-09-13', '2025-09-22'),
     (37200, 100, 1, 1, 3, '2025-09-17', '2025-09-26'),
     (37550, 100, 1, 7, 4, '2025-09-21', '2025-09-30');
-
-
--- INSERT INTO trips (price, hotel, food_package, airport, persons, date_from, date_to)
--- VALUES
---     (18000.0, 1, 3, 7, 5, '2025-6-6', '2025-6-16'),
---     (20000.0, 2, 4, 1, 4, '2025-6-17', '2025-6-27'),
---     (20000.0, 2, 4, 1, 4, '2025-6-17', '2025-6-27'),
---     (35000.0, 4, 2, 2, 4, '2025-7-9', '2025-7-19'),
---     (26000.0, 2, 3, 7, 3, '2025-7-20', '2025-7-30'),
---     (29000.0, 3, 2, 3, 5, '2025-7-31', '2025-8-10');
-

@@ -42,13 +42,13 @@ public interface TripMapper {
             "END * CAST(#{foodImp} AS numeric) AS foodScore, " +
             "COALESCE(AVG(r.rating),5) * 10 * CAST(#{ratingCoeff} AS numeric) AS ratingScore, " +
             "CASE " +
-                    "WHEN #{highPrefAirports} LIKE '%' || t.airport || '.%' THEN 50 " +
-                    "WHEN #{prefAirports} LIKE '%' || t.airport || '.%' THEN 30 " +
+                    "WHEN #{highPrefAirports} LIKE '%' || 'a' || t.airport || '.%' THEN 50 " +
+                    "WHEN #{prefAirports} LIKE '%' || 'a' || t.airport || '.%' THEN 30 " +
                     "ELSE 0 " +
             "END * CAST(#{airportCoeff} AS numeric) AS airportScore, " +
             "CASE " +
-                    "WHEN #{highPrefLocs} LIKE '%' || hot.location || '.%' THEN 80 " +
-                    "WHEN #{prefLocs} LIKE '%' || hot.location || '.%' THEN 50 " +
+                    "WHEN #{highPrefLocs} LIKE '%' || 'a' || hot.location || '.%' THEN 80 " +
+                    "WHEN #{prefLocs} LIKE '%' || 'a' || hot.location || '.%' THEN 50 " +
                     "ELSE 0 " +
             "END * CAST(#{locCoeff} AS numeric) AS locationScore, " +
             "CASE " +
@@ -327,14 +327,14 @@ public interface TripMapper {
             "AND hot.stars >= #{minStars} " +
             "AND #{allowedFoodPackages} LIKE '%' || t.food_package || '.%' " +
             "AND hot.beach_dist <= #{minBeachDist} " +
-            "AND (NOT #{airportFilter} OR #{prefAirports} LIKE '%' || t.airport || '.%') " +
-            "AND (NOT #{locFilter} OR #{prefLocs} LIKE '%' || hot.location || '.%') " +
+            "AND (NOT #{airportFilter} OR #{prefAirports} LIKE '%' || 'a' || t.airport || '.%') " +
+            "AND (NOT #{locFilter} OR #{prefLocs} LIKE '%' || 'a' || hot.location || '.%') " +
             "AND (NOT #{familyFilter} OR hot.family_friendly = true) " +
             "AND (NOT #{wifiFilter} OR hot.wifi = true) " +
             "AND (NOT #{poolFilter} OR hot.swimming_pool = true) " +
             "AND (NOT #{hotelSpecific} OR t.hotel = #{hotel}) " +
             "GROUP BY t.id " +
-            "HAVING COALESCE(AVG(r.rating),5) * 10 >= #{minRating}")
+            "HAVING COALESCE(AVG(r.rating),5) >= #{minRating}")
     List<TripPureDTO> getPureTrips(
             LocalDate from,
             LocalDate to,

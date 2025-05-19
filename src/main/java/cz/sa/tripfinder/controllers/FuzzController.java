@@ -138,6 +138,24 @@ public class FuzzController {
                 filterAirports,
                 hotel);
         model.addAttribute("trips", trips);
+        model.addAttribute("trips", trips);
+        model.addAttribute("maxPrice", maxPrice);
+        model.addAttribute("minPrice", minPrice);
+        model.addAttribute("allInclusivePref", allInclusivePref);
+        model.addAttribute("fullBoardPref", fullBoardPref);
+        model.addAttribute("halfBoardPref", halfBoardPref);
+        model.addAttribute("breakfastPref", breakfastPref);
+        model.addAttribute("noFoodPref", noFoodPref);
+        model.addAttribute("minFoodPref", minFoodPref);
+        model.addAttribute("highPrefAirports", highPrefAirports);
+        model.addAttribute("prefAirports", prefAirports);
+        model.addAttribute("persons", persons);
+        model.addAttribute("limit", limit);
+        model.addAttribute("from", from);
+        model.addAttribute("to", to);
+        model.addAttribute("minDays", minDays);
+        model.addAttribute("maxDays", maxDays);
+        model.addAttribute("filterAirports", filterAirports);
         return "tripsFuzzy";
     }
 }
